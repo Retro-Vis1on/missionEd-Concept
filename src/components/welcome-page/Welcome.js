@@ -3,6 +3,7 @@ import './Welcome.css'
 import {Button,TextField} from '@material-ui/core'
 import Modal from 'react-modal'
 import MissionEd_logo from './../../assets/MissionEd_logo.svg'
+import {Form} from 'react-bootstrap'
 const Welcome = () =>{
      const[loginModal,setLoginModal] = useState(false);
      const[signUpModal, setSignupModal] = useState(false);
@@ -37,8 +38,29 @@ const Welcome = () =>{
                                 transform             : 'translate(-50%, -50%)',
                                 backgroundColor:  'white',
                               },
-                          }}>
-                       <div style={{textAlign:'center'}}>
+                           }}>
+                            <Form>
+                            <div style={{textAlign:'center'}}>
+                            <img src={MissionEd_logo} width={'70px'}/>
+                            <h3>Welcome Back to forum!</h3>
+                            </div>
+                              <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" />
+                              </Form.Group>
+                              <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Password" />
+                              </Form.Group>
+                              <div className='form-buttons'>
+                              <Button variant="outlined" color="primary" onClick={()=>onCancelLogIn()}>Cancel</Button>
+                              <Button onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
+                                Submit
+                              </Button>
+                              </div>
+                            </Form>
+
+                       {/* <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
                             <h3>Welcome Back to forum!</h3>
                             </div>
@@ -49,7 +71,7 @@ const Welcome = () =>{
                         <div className='form-buttons'>
                         <Button variant="outlined" color="primary" onClick={()=>onCancelLogIn()}>Cancel</Button>
                         <Button variant="contained" color="primary" onClick={()=>setLoginModal(true)}>LogIn</Button>
-                        </div>
+                        </div> */}
             </Modal>
             <Modal isOpen={signUpModal} onRequestClose={()=>onCancelSignup()} 
                            style={{
@@ -64,7 +86,31 @@ const Welcome = () =>{
                                 backgroundColor:  'white',
                               },
                           }}>
-                       <div style={{textAlign:'center'}}>
+                         <Form>
+                            <div style={{textAlign:'center'}}>
+                            <img src={MissionEd_logo} width={'70px'}/>
+                            <h3>Welcome To MissionEd-Forum</h3>
+                            </div>
+                              <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" />
+                              </Form.Group>
+                              <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Password" />
+                              </Form.Group>
+                              <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Confirm Password</Form.Label>
+                                <Form.Control type="password" placeholder="Password" />
+                              </Form.Group>
+                              <div className='form-buttons'>
+                              <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>Cancel</Button>
+                              <Button onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
+                                Singup
+                              </Button>
+                              </div>
+                            </Form>
+                       {/* <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
                             <h3>Welcome To MissionEd-Forum</h3>
                             </div>
@@ -78,7 +124,7 @@ const Welcome = () =>{
                         <div className='form-buttons'>
                         <Button variant="outlined" color="primary" onClick={()=>onCancelSignup()}>Cancel</Button>
                         <Button variant="contained" color="primary" onClick={()=>console.log('sdklk')}>Signup</Button>
-                        </div>
+                        </div> */}
     
             </Modal>
             <div>
