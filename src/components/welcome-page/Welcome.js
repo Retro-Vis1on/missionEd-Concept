@@ -5,9 +5,10 @@ import Modal from 'react-modal'
 import MissionEd_logo from './../../assets/MissionEd_logo.svg'
 import {Form, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
+import {useHistory,Redirect} from 'react-router-dom'
 const Welcome = () =>{
-    const {signup, currentUser} = useAuth()   
-  
+    const {signup,login,currentUser} = useAuth()   
+    const history = useHistory();
     const loginEmailRef = useRef();
     const loginPasswordRef = useRef();
     const regEmailRef = useRef();
@@ -27,23 +28,44 @@ const Welcome = () =>{
        try{
         setError('')
         setLoading(true)
-       let response =  await signup(regEmailRef.current.value, regPasswordRef.current.value)
-       console.log(response);
+        await signup(regEmailRef.current.value, regPasswordRef.current.value);
        } catch{
          setError('Failed to Create an accont')
+         setLoading(false)
        } 
        setLoading(false)
      }
 
+     async function handleLogin(e){
+       e.preventDefault()
+       setError('')
+       if(loginEmailRef.current.value === '' || loginPasswordRef.current.value ==''){
+         return setError('please fill required field')
+       }
+       try{
+        setError('')
+        setLoading(true)
+         await login(loginEmailRef.current.value,loginPasswordRef.current.value);
+       } catch{
+         setError('Invalid Email or password')
+       }
+     }
+
      const onCancelLogIn=(props)=>{
+         setError('')
          setLoginModal(false);
+         setLoading(false);
      }
      const onCancelSignup=(props)=>{
+        setError('')
         setSignupModal(false);
+        setLoading(false);
     }
 
      return(
          <div>
+           {console.log(currentUser)}
+           {currentUser && <Redirect to='/'/>}
             <div className='navbar'>
                 <div className={'mission-ed-logo'}>
                      <img className='log-image' src={MissionEd_logo} width={'40px'}/>
@@ -83,7 +105,7 @@ const Welcome = () =>{
                               </Form.Group>
                               <div className='form-buttons'>
                               <Button variant="outlined" color="primary" onClick={()=>onCancelLogIn()}>Cancel</Button>
-                              <Button disabled={loading} onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
+                              <Button disabled={loading} onClick={(e)=>handleLogin(e)} variant="contained" color="primary" type="submit">
                                 Login
                               </Button>
                               </div>
@@ -119,7 +141,6 @@ const Welcome = () =>{
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
                             <h3>Welcome To MissionEd-Forum</h3>
-                            {JSON.stringify(currentUser)}
                             {error && <Alert variant="danger">{error}</Alert>}
                             </div>
                               <Form.Group controlId="formBasicEmail">
@@ -159,7 +180,7 @@ const Welcome = () =>{
     
             </Modal>
             <div>
-
+                 
             </div>
          </div>
      );
