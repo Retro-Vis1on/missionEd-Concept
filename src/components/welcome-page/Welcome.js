@@ -1,12 +1,40 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import './Welcome.css'
 import {Button,TextField} from '@material-ui/core'
 import Modal from 'react-modal'
 import MissionEd_logo from './../../assets/MissionEd_logo.svg'
-import {Form} from 'react-bootstrap'
+import {Form, Alert} from 'react-bootstrap'
+import {useAuth} from '../../contexts/AuthContext'
 const Welcome = () =>{
+    const {signup, currentUser} = useAuth()   
+  
+    const loginEmailRef = useRef();
+    const loginPasswordRef = useRef();
+    const regEmailRef = useRef();
+    const regPasswordRef = useRef();
+    const regConfirmPasswordRef = useRef();
+    const [error,setError] = useState('');
+    const [loading, setLoading] = useState(false)
      const[loginModal,setLoginModal] = useState(false);
      const[signUpModal, setSignupModal] = useState(false);
+
+    async function handleSignUp(e){
+      e.preventDefault()
+      setError('')
+       if(regPasswordRef.current.value !== regConfirmPasswordRef.current.value){
+         return setError('password do not match')
+       }
+       try{
+        setError('')
+        setLoading(true)
+       let response =  await signup(regEmailRef.current.value, regPasswordRef.current.value)
+       console.log(response);
+       } catch{
+         setError('Failed to Create an accont')
+       } 
+       setLoading(false)
+     }
+
      const onCancelLogIn=(props)=>{
          setLoginModal(false);
      }
@@ -44,18 +72,19 @@ const Welcome = () =>{
                             <img src={MissionEd_logo} width={'70px'}/>
                             <h3>Welcome Back to forum!</h3>
                             </div>
+                            {error && <Alert variant="danger">{error}</Alert>}
                               <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Control type="email" placeholder="Enter email" ref={loginEmailRef}/>
                               </Form.Group>
                               <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Password" ref={loginPasswordRef}/>
                               </Form.Group>
                               <div className='form-buttons'>
                               <Button variant="outlined" color="primary" onClick={()=>onCancelLogIn()}>Cancel</Button>
-                              <Button onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
-                                Submit
+                              <Button disabled={loading} onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
+                                Login
                               </Button>
                               </div>
                             </Form>
@@ -86,26 +115,28 @@ const Welcome = () =>{
                                 backgroundColor:  'white',
                               },
                           }}>
-                         <Form>
+                         <Form  onSubmit={handleSignUp}>
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
                             <h3>Welcome To MissionEd-Forum</h3>
+                            {JSON.stringify(currentUser)}
+                            {error && <Alert variant="danger">{error}</Alert>}
                             </div>
                               <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Control type="email" placeholder="Enter email" ref={regEmailRef}/>
                               </Form.Group>
                               <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Password" ref={regPasswordRef}/>
                               </Form.Group>
-                              <Form.Group controlId="formBasicPassword">
+                              <Form.Group controlId="formBasicConfirmPassword">
                                 <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Confirm Password" ref={regConfirmPasswordRef}/>
                               </Form.Group>
                               <div className='form-buttons'>
                               <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>Cancel</Button>
-                              <Button onClick={()=>console.log('skdlfj')} variant="contained" color="primary" type="submit">
+                              <Button disabled={loading} variant="contained" color="primary" type="submit">
                                 Singup
                               </Button>
                               </div>
