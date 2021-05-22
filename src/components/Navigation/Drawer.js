@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -63,30 +64,42 @@ export default function MenuDrawer() {
       </List>
       <Divider />
       <List>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/'>
           <ListItem button >
             <ListItemIcon><HomeIcon /></ListItemIcon>
             <ListItemText primary={'Home'} />
           </ListItem>
+          </Link>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/network'>
           <ListItem button >
             <ListItemIcon><PeopleIcon /></ListItemIcon>
             <ListItemText primary={'Friends'} />
           </ListItem>
+          </Link>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/messages'>
           <ListItem button >
             <ListItemIcon><MessageIcon /></ListItemIcon>
             <ListItemText primary={'Messages'} />
           </ListItem>
+          </Link>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/saved-post'>
           <ListItem button >
             <ListItemIcon><TurnedInIcon /></ListItemIcon>
             <ListItemText primary={'Saved Post'} />
           </ListItem>
+          </Link>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/my-post'>
           <ListItem button >
             <ListItemIcon><BookIcon dir="rtl"/></ListItemIcon>
             <ListItemText primary={'My Posts'} />
           </ListItem>
+          </Link>
+          <Link style={{textDecorationLine:'none',color:'black'}} to='/profile'>
           <ListItem button >
             <ListItemIcon><AccountCircleIcon /></ListItemIcon>
             <ListItemText primary={'Profile'} />
           </ListItem>
+          </Link>
       </List>
       <Divider />
       <div onClick={()=>handleLogout()}>
