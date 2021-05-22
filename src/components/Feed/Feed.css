@@ -1,0 +1,121 @@
+.feed-page {
+  border: solid;
+}
+.feed-section {
+  background-color: rgb(192, 192, 192);
+  padding-top: 15px;
+  padding-bottom: 50px;
+  min-height: 80vh;
+}
+.feed {
+  margin-inline: 10%;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.topic-item-box {
+  padding-left: 20px;
+  padding-block: 20px;
+}
+.topic-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.topic-item:hover {
+  background-color: rgba(0, 0, 0, 0.301);
+}
+.topic-text {
+  padding-left: 2%;
+  width: 65%;
+  cursor: pointer;
+  color: rgb(58, 58, 58);
+}
+.nav-link {
+  text-decoration: none;
+}
+.topic-tag {
+  width: 20%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+.topic-tag h3 {
+  color: rgb(121, 236, 13);
+  align-self: center;
+  font-weight: bold;
+}
+.loading-box {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+.loader {
+  border: 5px solid rgb(155, 155, 155); /* Light grey */
+  border-top: 5px solid rgb(121, 236, 13); /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.save-icon-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.save-icon {
+  border-radius: 50%;
+  padding: 2px;
+}
+.save-icon:hover {
+  background-color: rgba(97, 97, 97, 0.568);
+  opacity: 0.8;
+}
+
+.midle-field {
+  display: flex;
+  flex-direction: row;
+}
+.feed-list-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+}
+.feed-list-icon img {
+  width: 40px;
+  border-radius: 50%;
+}
+.saved-topics-header {
+  padding-top: 100px;
+  background-color: rgb(192, 192, 192);
+  text-align: center;
+}
+.saved-topics-header text {
+  /* color: white; */
+  text-decoration: underline;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 760px) {
+  .feed {
+    margin-inline: 0.5%;
+  }
+  .midle-field {
+    display: none;
+  }
+}

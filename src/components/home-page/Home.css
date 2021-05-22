@@ -1,3 +1,6 @@
+.nav-bar {
+  position: fixed;
+}
 .navbar-icons {
   border-radius: 5px;
 }
