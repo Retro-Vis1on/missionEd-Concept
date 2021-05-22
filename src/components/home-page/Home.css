@@ -1,0 +1,6 @@
+.navbar-icons {
+  border-radius: 5px;
+}
+.navbar-icons:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}

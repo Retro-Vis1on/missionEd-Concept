@@ -180,7 +180,6 @@ const Welcome = () =>{
     
             </Modal>
             <div>
-                 
             </div>
          </div>
      );
