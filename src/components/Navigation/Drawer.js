@@ -19,6 +19,7 @@ import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import BookIcon from '@material-ui/icons/Book';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import PeopleIcon from '@material-ui/icons/People';
 import {useAuth} from './../../contexts/AuthContext'
 const useStyles = makeStyles({
   list: {
@@ -65,6 +66,10 @@ export default function MenuDrawer() {
           <ListItem button >
             <ListItemIcon><HomeIcon /></ListItemIcon>
             <ListItemText primary={'Home'} />
+          </ListItem>
+          <ListItem button >
+            <ListItemIcon><PeopleIcon /></ListItemIcon>
+            <ListItemText primary={'Friends'} />
           </ListItem>
           <ListItem button >
             <ListItemIcon><MessageIcon /></ListItemIcon>
