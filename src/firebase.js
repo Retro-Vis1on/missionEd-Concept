@@ -11,8 +11,9 @@ const firebaseConfig = {
   };
 
 const app = firebase.initializeApp(firebaseConfig);
-
+const db = firebase.firestore();
+const userdb = firebase.firestore().collection('users');
 const auth = firebase.auth();
-const provider = new firebase.auth.EmailAuthProvider;
-export {auth,provider}
+
+export {auth,userdb,db}
 export default app;

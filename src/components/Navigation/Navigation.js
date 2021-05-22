@@ -7,6 +7,7 @@ import {Form, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect} from 'react-router-dom'
 import DrawerMenu from './Drawer'
+import {userdb, db} from './../../firebase'
 const Navigation = () =>{
     const {signup,login,currentUser} = useAuth()   
     const history = useHistory();
@@ -15,25 +16,53 @@ const Navigation = () =>{
     const regEmailRef = useRef();
     const regPasswordRef = useRef();
     const regConfirmPasswordRef = useRef();
+    const regUsernameRef = useRef();
     const [error,setError] = useState('');
     const [loading, setLoading] = useState(false)
-     const[loginModal,setLoginModal] = useState(false);
-     const[signUpModal, setSignupModal] = useState(false);
-
+    const[loginModal,setLoginModal] = useState(false);
+    const[signUpModal, setSignupModal] = useState(false);
+     
     async function handleSignUp(e){
       e.preventDefault()
       setError('')
-       if(regPasswordRef.current.value !== regConfirmPasswordRef.current.value){
+      if(regUsernameRef.current.value == '' || regEmailRef.current.value == '' || regPasswordRef.current.value == ''){
+        return setError('please fill all required field!')
+      }
+      if(regPasswordRef.current.value.length<8){
+        return setError('Password must be atleast 8 character!')
+      }
+      
+      if(regPasswordRef.current.value !== regConfirmPasswordRef.current.value){
          return setError('password do not match')
        }
+      let response = await userdb.where("username","==",regUsernameRef.current.value).onSnapshot(snap=>{
+        if(snap.docs.length){
+          return setError('Username already exist!')
+        }
+        else{
+          console.log('chala')
+          SignUp();
+        }
+      })
+
+     }
+
+     async function SignUp(){
+      
        try{
         setError('')
         setLoading(true)
-        await signup(regEmailRef.current.value, regPasswordRef.current.value);
+        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value);
+          db.doc(`users/${respo.user.uid}`).set({
+          email:regEmailRef.current.value,
+          username:regUsernameRef.current.value,
+         })
        } catch{
-         setError('Failed to Create an accont')
+         setError('Email alredy taken! please sign In')
          setLoading(false)
        } 
+       console.log(currentUser);
+      
        setLoading(false)
        onCancelSignup();
      }
@@ -43,6 +72,9 @@ const Navigation = () =>{
        setError('')
        if(loginEmailRef.current.value === '' || loginPasswordRef.current.value ==''){
          return setError('please fill required field')
+       }
+       if(loginPasswordRef.current.value.length<8){
+         return setError('Password must be atleast 8 character!');
        }
        try{
         setError('')
@@ -137,6 +169,10 @@ const Navigation = () =>{
                             <h3>Welcome To MissionEd-Forum</h3>
                             {error && <Alert variant="danger">{error}</Alert>}
                             </div>
+                            <Form.Group controlId="formBasicUsername">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control type="username" placeholder="create username" ref={regUsernameRef}/>
+                              </Form.Group>
                               <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email" placeholder="Enter email" ref={regEmailRef}/>

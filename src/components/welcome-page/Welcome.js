@@ -4,7 +4,7 @@ import {useAuth} from '../../contexts/AuthContext'
 import {Redirect} from 'react-router-dom'
 
 const Welcome = () =>{
-    const {signup,login,currentUser} = useAuth()   
+     const {currentUser} = useAuth()
      return(
          <div>
             {console.log(currentUser)}
