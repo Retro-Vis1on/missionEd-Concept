@@ -73,7 +73,7 @@ export default function MenuDrawer() {
           <Link style={{textDecorationLine:'none',color:'black'}} to='/network'>
           <ListItem button >
             <ListItemIcon><PeopleIcon /></ListItemIcon>
-            <ListItemText primary={'Friends'} />
+            <ListItemText primary={'Network'} />
           </ListItem>
           </Link>
           <Link style={{textDecorationLine:'none',color:'black'}} to='/messages'>

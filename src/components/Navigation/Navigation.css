@@ -1,4 +1,7 @@
 .navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 999;
   padding-block: 10px;
   display: flex;
   background-color: #f8f9fa;

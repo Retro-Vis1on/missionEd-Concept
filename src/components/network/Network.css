@@ -1,0 +1,78 @@
+.network-page {
+  padding-top: 100px;
+  background-color: rgb(192, 192, 192);
+  padding-inline: 20%;
+  min-height: 90vh;
+}
+.profiles-section {
+  margin-top: 20px;
+  background-color: white;
+  /* height: 80vh; */
+  border-radius: 20px;
+  padding: 10px;
+}
+.profile-box {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+.profile-icon-box {
+  width: 90px;
+  margin-right: 5px;
+}
+.profile-text {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+}
+.profile-button-box {
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profile-username {
+  font-size: 14px;
+  font-weight: bold;
+}
+.profile-name {
+  font-size: 20px;
+  font-weight: bold;
+  border: solid;
+  border-width: 0px;
+  border-bottom-width: 1.5px;
+}
+.profile-company {
+  font-size: 14px;
+}
+.profile-about {
+  font-size: 14px;
+}
+.profile-location {
+  font-size: 14px;
+  font-weight: bold;
+}
+.profile-message-button {
+  cursor: pointer;
+  /* background-color: rgb(110, 110, 110); */
+  color: rgb(110, 110, 110);
+  border: solid 2px;
+  border-color: rgb(110, 110, 110);
+  padding: 2px;
+  padding-inline: 5px;
+  border-radius: 5px;
+}
+.profile-message-button:hover {
+  background-color: rgb(110, 110, 110);
+  color: white;
+}
+@media screen and (max-width: 760px) {
+  .network-page {
+    padding-inline: 1%;
+  }
+}
+.profile-icon-box img {
+  width: 90px;
+  border-radius: 50%;
+}

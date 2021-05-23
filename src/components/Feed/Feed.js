@@ -8,8 +8,8 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import FeedItem from './Feed-item'
-const BootstrapInput = withStyles((theme) => ({
-    root: {
+const BootstrapInput = withStyles((theme) => ({  
+  root: {
       'label + &': {
         marginTop: theme.spacing(3),
       },

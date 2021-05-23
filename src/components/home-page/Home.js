@@ -13,10 +13,10 @@ export default function Home() {
     const {currentUser} = useAuth()
 
     return (
-        <div>
+        <div className={'feed-page'}>
                   {console.log(currentUser)}
                   {currentUser==null ? <Redirect to='/welcome'/>: null}
-        
+           
             <Feed/>
         </div>
     )
