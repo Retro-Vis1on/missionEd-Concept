@@ -1,36 +1,42 @@
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { Link} from 'react-router-dom'
 import Default from './../../assets/default.jpg'
+import {userdb} from './../../firebase'
 // import GetProfile from './../../../config/getProfile'
 export default function FeedItem(props) {
     const[profile_img,setProfile_img] = useState(Default);
+    const[username, setUsername] = useState('');
+
+    useEffect(()=>{
+       GetUser();
+    },[])
     
-    // async function ProfileImage(){
-    //     let response =  await GetProfile(props.data.username);
-    //      if(response!==null){ 
-    //          setProfile_img(response.pop().profile_img);
-    //      }
-    //      else{
-    //          setProfile_img(Default);
-    //      }
-    //  }
+    async function GetUser(){
+        try{
+          userdb.doc(props.data.user).onSnapshot(snap=>{
+              setUsername(snap.data().username)
+          })
+        }catch{
+            alert('something went wrong!')
+        }
+    }
     return(
         
         <div>
            <div className={'topic-item'}>
-            <Link to='/post' className={'topic-text'}>
+            <Link  to='/post' className={'topic-text'}>
                         <div >
-                          <h3 style={{textDecorationLine:'none'}} onClick={()=>console.log('he e')}>here is the title of post</h3>
+                          <h3 style={{textDecorationLine:'none'}} onClick={()=>console.log('he e')}>{props.data.title}</h3>
                          </div>
                              </Link>
                              <div className={'midle-field'}>
                                 <div className={'feed-list-icon'}>
                                     <img src={profile_img}/>
                                 </div>
-                                <h4>amarpsp10</h4> 
+                                <h4>{username}</h4> 
                              </div>
                          <div className={'topic-tag'}>
-                        <h3>General</h3>
+                        <h3>{props.data.tag}</h3>
                          </div>
             </div>
             <hr/>

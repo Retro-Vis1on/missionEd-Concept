@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import './Feed.css'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import FeedItem from './Feed-item'
+import {db} from './../../firebase'
 const BootstrapInput = withStyles((theme) => ({  
   root: {
       'label + &': {
@@ -55,15 +56,32 @@ const BootstrapInput = withStyles((theme) => ({
     },
   }));
   
-  export default function Feed() {
+export default function Feed() {
+    const [loading, setLoading] = useState(true);
+    const [Posts, setPosts] = useState(null);
     const classes = useStyles();
     const [age, setAge] = React.useState('');
+
+    useEffect(() => {
+      GetPosts();
+    }, [])
+
+    async function GetPosts(){
+      try{
+        await db.collection('posts').onSnapshot(snap=>{
+          setPosts(snap.docs.map(doc=>{return doc.data()}))
+        })
+      }catch{
+        alert('something went wrong')
+      }
+       setLoading(false);
+    }
+
     const handleChange = (event) => {
       setAge(event.target.value);
     };
     return (
       <div>
-
       <div>
         <FormControl className={classes.margin}>
           {/* <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel> */}
@@ -86,13 +104,32 @@ const BootstrapInput = withStyles((theme) => ({
       </div>
       <div>
       <div className={'feed-section'}>
-            <div style={{backgroundColor:true? 'white':'#5A5A5A'}} className={'feed'}>   
+            <div style={{backgroundColor: 'white'}} className={'feed'}>   
                       <div className={'topic-item-box'}>
                           <h2>Posts</h2>
                       <hr style={{height:'3px',backgroundColor:'#414141'}}/>
-                         <FeedItem/>
-                         <FeedItem/>
-                         <FeedItem/>
+                      {loading ? 
+                        <div className='loading-box'>
+                        <div className='loader'></div>
+                      </div>
+                      :
+                      <div>
+                      {Posts==null ?
+                           <div className='loading-box'>
+                             <div className='loader'></div>
+                           </div>
+                           :
+                           <div>
+                           {
+                             Posts.map(data=>{
+                               return <FeedItem data={data}/>
+                              })
+                            }
+                            </div>
+                           }
+                        </div> 
+                      }
+                         
                       </div>
                  </div>
         </div>
