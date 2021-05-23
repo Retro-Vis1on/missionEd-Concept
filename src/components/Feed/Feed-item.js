@@ -33,7 +33,9 @@ export default function FeedItem(props) {
                                 <div className={'feed-list-icon'}>
                                     <img src={profile_img}/>
                                 </div>
+                             <Link to={`/user/${props.data.user}`}>
                                 <h4>{username}</h4> 
+                             </Link>
                              </div>
                          <div className={'topic-tag'}>
                         <h3>{props.data.tag}</h3>

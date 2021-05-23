@@ -8,6 +8,7 @@ import Network from './components/network/Network'
 import Profile from './components/profile-page/Profile'
 import Messages from './components/chat-page/Messages'
 import Post from './components/post-view/Post'
+import User from './components/user-view/User'
 function App() {
   return (
     <Router>
@@ -15,13 +16,14 @@ function App() {
           <Navigation/>
         <Switch>
           <Route path='/'  component={Home} exact/>
-          <Route path='/welcome' exact component={Welcome}/>
-          <Route path='/network' component={Network}/>
-          <Route path='/messages' component={Messages}/>
-          <Route path='/saved-post' component={Home}/>
-          <Route path='/my-post' component={Home} />
-          <Route path='/profile' component={Profile}/>
-          <Route path='/post' component={Post}/>
+          <Route path='/welcome' exact component={Welcome} exact/>
+          <Route path='/network' component={Network} exact/>
+          <Route path='/messages' component={Messages} exact/>
+          <Route path='/saved-post' component={Home} exact/>
+          <Route path='/my-post' component={Home}/>
+          <Route path='/profile' component={Profile} exact/>
+          <Route path='/post' component={Post} exact/>
+          <Route path='/user' component={User} />
         </Switch>
       </AuthProvider>
     </Router>

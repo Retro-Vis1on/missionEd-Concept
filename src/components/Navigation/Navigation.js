@@ -5,7 +5,7 @@ import Modal from 'react-modal'
 import MissionEd_logo from './../../assets/MissionEd_logo.svg'
 import {Form, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
-import {useHistory,Redirect} from 'react-router-dom'
+import {useHistory,Redirect, Link} from 'react-router-dom'
 import DrawerMenu from './Drawer'
 import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
@@ -101,12 +101,14 @@ const Navigation = () =>{
      return(
          <div>
            {console.log(currentUser)}
-           {currentUser && <Redirect to='/'/>}
+           {/* {currentUser && <Redirect to='/'/>} */}
             <div className='navbar'>
+           <Link to='/'>
                 <div className={'mission-ed-logo'}>
                      <img className='log-image' src={MissionEd_logo} width={'40px'}/>
                      <text  className='logo-text'>MissionEd-Forum</text>
                 </div>
+           </Link>
                 <div className='nav-items'> 
                 {currentUser ?
                 <div style={{display:'flex',flexDirection:'row'}}>
