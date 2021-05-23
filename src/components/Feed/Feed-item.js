@@ -18,7 +18,7 @@ export default function FeedItem(props) {
         
         <div>
            <div className={'topic-item'}>
-            <Link  className={'topic-text'}>
+            <Link to='/post' className={'topic-text'}>
                         <div >
                           <h3 style={{textDecorationLine:'none'}} onClick={()=>console.log('he e')}>here is the title of post</h3>
                          </div>

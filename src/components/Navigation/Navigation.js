@@ -7,6 +7,7 @@ import {Form, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect} from 'react-router-dom'
 import DrawerMenu from './Drawer'
+import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
 const Navigation = () =>{
     const {signup,login,currentUser} = useAuth()   
@@ -107,7 +108,12 @@ const Navigation = () =>{
                      <text  className='logo-text'>MissionEd-Forum</text>
                 </div>
                 <div className='nav-items'> 
-                {currentUser ? <DrawerMenu/>:
+                {currentUser ?
+                <div style={{display:'flex',flexDirection:'row'}}>
+                  <CreateTopic/>
+                  <DrawerMenu/>
+                </div> 
+                :
                 <div>
                 <Button variant="contained" color="primary" onClick={()=>setLoginModal(true)}>Login</Button>
                 <Button variant="outlined" color="primary" onClick={()=>setSignupModal(true)}>Join Now</Button>

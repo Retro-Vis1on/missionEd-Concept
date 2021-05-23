@@ -1,9 +1,11 @@
 import React from 'react'
-
+import Tabs from './Profile-tab'
 export default function Profile() {
     return (
-        <div>
-            <h3>hi, here is your profile</h3>
+        <div style={{paddingTop:'100px'}}>
+            <div className={'feed'}>
+            <Tabs/>
+            </div>
         </div>
     )
 }

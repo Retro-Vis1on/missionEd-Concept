@@ -7,6 +7,7 @@ import Navigation from './components/Navigation/Navigation'
 import Network from './components/network/Network'
 import Profile from './components/profile-page/Profile'
 import Messages from './components/chat-page/Messages'
+import Post from './components/post-view/Post'
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
           <Route path='/saved-post' component={Home}/>
           <Route path='/my-post' component={Home} />
           <Route path='/profile' component={Profile}/>
+          <Route path='/post' component={Post}/>
         </Switch>
       </AuthProvider>
     </Router>
