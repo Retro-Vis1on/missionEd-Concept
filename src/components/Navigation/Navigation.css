@@ -40,12 +40,6 @@
 .form-buttons Button {
   margin-inline: 10px;
 }
-@media screen and (max-width: 760px) {
-  .form-inputs {
-    width: 300px;
-  }
-}
-
 .header-section {
   padding-top: 100px;
   background-color: rgb(192, 192, 192);
@@ -192,4 +186,15 @@
 }
 .create-post-button:hover {
   opacity: 0.8;
+}
+.create-post-modal {
+  width: 800px;
+}
+.textarea-post-modal {
+  resize: none;
+}
+@media screen and (max-width: 760px) {
+  .create-post-modal {
+    width: 300px;
+  }
 }
