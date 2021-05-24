@@ -1,0 +1,95 @@
+.message-page {
+  padding-top: 100px;
+  background-color: rgb(238, 238, 238);
+  padding-inline: 5%;
+  padding-bottom: 40px;
+  height: 100vh;
+}
+.message-card {
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.chat-users-section {
+  flex: 0.35;
+  border-right: solid 1px;
+  border-color: rgb(165, 165, 165);
+  flex-wrap: wrap;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.chat-usercards {
+  padding-top: 60px;
+}
+.message-section {
+  flex: 1;
+}
+.chat-user-heading {
+  position: fixed;
+  width: 22.1%;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color: thistle;
+  /* justify-content: space-evenly; */
+}
+.chat-user-heading img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.chat-user-heading input {
+  width: 100%;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  padding-left: 20px;
+  margin-left: 10px;
+}
+.chat-user-card {
+  border-bottom: solid 1px rgb(211, 211, 211);
+  padding: 5px;
+  font-size: 20px;
+  flex-wrap: wrap;
+}
+.chat-user-card:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.chat-user-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.chat-user-card text {
+  padding-left: 5px;
+}
+.message-section-heading {
+  background-color: rgb(212, 212, 212);
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  padding: 5px;
+}
+.message-section-heading img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-inline: 1%;
+}
+.message-section-chat-input {
+  background-color: rgb(212, 212, 212);
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+  position: fixed;
+  bottom: 40px;
+  width: 66.5%;
+}
+.message-section-chat-input input {
+  height: 40px;
+  outline: none;
+  margin-right: 8px;
+  border: none;
+  border-radius: 20px;
+  width: 85%;
+}
