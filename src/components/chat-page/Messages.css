@@ -92,4 +92,40 @@
   border: none;
   border-radius: 20px;
   width: 85%;
+  padding-left: 20px;
+}
+.chat-box {
+  background-color: rgb(235, 233, 159);
+  height: 580px;
+  display: flex;
+  padding-bottom: 100px;
+  padding-top: 10px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.sender-message {
+  color: white;
+  align-self: flex-end;
+  background-color: cornflowerblue;
+  width: fit-content;
+  padding: 5px;
+  padding-inline: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-top: 10px;
+  clip-path: polygon(0 20%, 80% 20%, 100% 0%, 100% 100%, 0% 100%, 0% 20%);
+  border-radius: 5px;
+}
+.receiver-message {
+  color: white;
+  align-self: flex-start;
+  background-color: cornflowerblue;
+  width: fit-content;
+  padding: 5px;
+  padding-inline: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-top: 10px;
+  clip-path: polygon(0 0, 10% 20%, 100% 20%, 100% 100%, 100% 100%, 0 100%);
+  border-radius: 5px;
 }
