@@ -8,11 +8,13 @@ import {Button} from '@material-ui/core'
 import {Form} from 'react-bootstrap'
 import {userdb,db} from './../../firebase'
 import firebase from 'firebase'
+import { Redirect } from 'react-router'
 export default function Messages() {
     const{currentUser} = useAuth();
     const[chatUsers,setChatUsers] = useState(null);
     const[chatMessages, setChatMessages] = useState(null);
     const messageInputRef = useRef();
+    const[activeUser,setActiveUser] = useState(null);
     const[chatId, setChatId] = useState(null);
     const CreateMessage = (props) =>{
         if(props.data.sender===currentUser.uid)
@@ -38,17 +40,18 @@ export default function Messages() {
         })
     }
 
-    const [Chat, setChat] = useState(null);
     async function SetChatBox(data){
-        console.log(data)
-        let id = currentUser.id === data.users[0] ? data.users[1] : data.users[0];
+        // console.log(data)
+        let id = currentUser.uid === data.users[0] ? data.users[1] : data.users[0];
         console.log(id)
         
         try{
-            await db.collection('chats').where('users','array-contains-any',[id,currentUser.uid]).onSnapshot(snap=>{
+            await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
                 snap.docs.map(data=>{
-                    ChatMessages(data.id);
-                    setChatId(data.id)
+                    if(data.data().users.includes(id))
+                    {
+                        ChatMessages(data.id);
+                    }
                 })
             })
         } catch{
@@ -56,6 +59,7 @@ export default function Messages() {
         }
     }
     async function ChatMessages(chatId){
+        setChatId(chatId)
         try{
             await db.collection(`chats/${chatId}/messages`).orderBy('timestamp', 'asc').onSnapshot(snap=>{
                setChatMessages(snap.docs.map(data=>data.data()));
@@ -84,6 +88,7 @@ export default function Messages() {
     
     return (
         <div className='message-page'>
+            {currentUser==null && <Redirect to='./welcome'/>}
               <div className='message-card'>
                   <div className={'chat-users-section'}>
                       <div className='chat-user-heading'>
@@ -98,7 +103,6 @@ export default function Messages() {
                             :
                             <div>
                                 {chatUsers.map(data=>{
-                                    console.log(data);
                                     return (
                                         <div onClick={()=>SetChatBox(data)}>
                                             <UserCard data={data}/>
@@ -106,19 +110,6 @@ export default function Messages() {
                                     );
                                 })}
                             </div> }
-                      {/* <div>
-                      <UserCard/>
-                      </div>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/>
-                      <UserCard/> */}
                       </div>
                   </div>
                   <div className={'message-section'}>

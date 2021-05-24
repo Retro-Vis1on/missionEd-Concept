@@ -7,12 +7,16 @@ import dots from './../../assets/dots-verticle.svg'
 import Default from './../../assets/default.jpg'
 import {Button} from '@material-ui/core'
 import { useEffect, useState } from 'react'
-import {userdb} from './../../firebase'
+import {userdb, db} from './../../firebase'
+import {useAuth} from './../../contexts/AuthContext'
+import { Link } from 'react-router-dom'
 const Main = (props) =>{
+    const{currentUser} = useAuth();
     const[buttonvarient, setButtonVarient] = useState('outlined')
     const[follow, setFollow] = useState('follow')
     const[loading, setLoading] = useState(true);
     const[user,setUser] = useState(null);
+    const[userId, setUserId] = useState(null);
     async function handleFollow(){
         if(follow==='follow'){
             setButtonVarient('contained')
@@ -27,6 +31,7 @@ const Main = (props) =>{
         const path = window.location.pathname;
         const id = path.substring(path.lastIndexOf('/')+1);
         GetUser(id);
+        setUserId(id);
     },[])
 
     async function GetUser(id){
@@ -38,6 +43,16 @@ const Main = (props) =>{
             alert('something went wrong!')
         }
         setLoading(false)
+    }
+
+    async function handleMessage(){
+        try{
+           await db.collection('chats').add({
+               users:[currentUser.uid,userId],
+           })
+        }catch{
+            console.log('something went wrong!!')
+        }
     }
     return(
         <div className={'user-view-page'}>
@@ -56,7 +71,10 @@ const Main = (props) =>{
                    <div className='user-card-user'>
                    <h5>{user.username}</h5>
                    <h1>{user.name}<span>(21)</span></h1>
-                   <Button size='small' onClick={()=>handleFollow()} color='primary' variant={buttonvarient}>{follow}</Button>
+                   <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant={buttonvarient}>{follow}</Button>
+                <Link to='/profile'>
+                   <Button size='small' onClick={()=>handleMessage()} color='primary' variant={'outlined'}>Message</Button>
+                </Link>
                    </div>
             </div>
             <div className='user-menucard'>
