@@ -22,7 +22,7 @@ function App() {
           <Route path='/saved-post' component={Home} exact/>
           <Route path='/my-post' component={Home}/>
           <Route path='/profile' component={Profile} exact/>
-          <Route path='/post' component={Post} exact/>
+          <Route path='/post' component={Post} />
           <Route path='/user' component={User} />
         </Switch>
       </AuthProvider>

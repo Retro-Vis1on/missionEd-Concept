@@ -1,81 +1,88 @@
-import react, { useState, useEffect} from 'react'
+import react, { useState, useEffect, useRef} from 'react'
 import './Post.css'
 import Comment from './Comment'
 import {RiAccountCircleFill} from 'react-icons/ri'
 import Default from './../../assets/default.jpg'
 import {AiOutlineSave,AiFillSave} from 'react-icons/ai'
-
+import SendIcon from '@material-ui/icons/Send';
+import {Button} from '@material-ui/core'
+import {db,userdb} from './../../firebase'
+import {Form} from 'react-bootstrap'
+import {useAuth} from './../../contexts/AuthContext'
+import firebase from 'firebase'
 export default function Topic(props) {
-    
-
-    // const[topic, setTopic] = useState(getTopicData);
-    const[topicCommnet, setTopicComment] = useState(true);
+    const {currentUser} = useAuth()
+    const[loading,setLoading] = useState(true)
+    const[topic, setTopic] = useState(null);
+    const[topicComment, setTopicComment] = useState(null);
+    const[user,setUser] = useState(null);
     const[profile_img,setProfile_img] = useState(Default);
     const[isSaved, setSave] = useState(false)
-    // const[saveTopicId, setSaveTopicId] = useState(null)
-    // async function getTopicData() {
-    //     window.scrollTo(0,0)
-    //     const path = window.location.pathname;
-    //     const id = path.substring(path.lastIndexOf('/')+1);
-    //     let response = await GetTopicById(id);
-    //     setTopic(response);
-    //     let resp =  await GetProfile(response.username);
-    //     if(response!==null){ 
-    //         setProfile_img(resp.pop().profile_img);
-    //     }
-    //     let savestatus = await IsTopicSaved(localStorage.getItem('username'),id);
-    //     if(savestatus.length){
-    //         setSave(true);
-    //         setSaveTopicId(savestatus.pop().id)
-    //     }
-    //     let comment = await GetCommnet(id)
-    //     setTopicComment(comment)
-        
-    // }
-    
-    // const[comment, setComment] = useState(null);
-    
-    // async function isTopicSaved() {
-    //         console.log(topic)
-    //         let savestatus = await IsTopicSaved(localStorage.getItem('username'),topic.id);
-    //         setSave(savestatus);
-    // }
-       
-    // async function commented(){
-    //     if(comment==''){
-    //         alert('please add comment');
-    //         return ;
-    //     }
-    //     let response =  AddComment(topic.id, localStorage.getItem('username'), comment)
-    //     if(response){
-    //         console.log(response)
-    //         setComment('')
-    //     }
-    //     await UpdateCoin(localStorage.getItem('username'),5)
-    //     window.location.reload(false);
-    // }
+    const commentRef = useRef();
+
+    useEffect(()=>{
+      getTopicData();
+    },[])
+
+    async function getTopicData(){
+      const path = window.location.pathname;
+      const id = path.substring(path.lastIndexOf('/')+1);
+      try{
+        await db.collection('posts').doc(id).onSnapshot(snap=>{
+          setTopic(snap.data())
+          userdb.doc(snap.data().user).onSnapshot(snap=>{
+              setUser(snap.data())
+          })
+        });
+        await db.collection(`posts/${id}/comments`).onSnapshot(snap=>{
+          setTopicComment(snap.docs.map(data=>{return data.data()}));
+        });
+      } catch{
+        console.log('something went wrong, please check your internaet connection!')
+      }
+      setLoading(false)
+    }
     async function saveClick(){
-        if(!isSaved){
-          setSave(true);
+          setSave(!isSaved);
           return;
+    }
+    async function handleComment(e){
+      e.preventDefault();
+      const path = window.location.pathname;
+      const id = path.substring(path.lastIndexOf('/')+1);
+
+      if(commentRef.current.value==null){
+        return;
+      }
+      console.log('clk')
+        try{
+          await db.collection(`posts/${id}/comments`).add({
+            user:currentUser.uid,
+            comment: commentRef.current.value,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+          })
+        }
+        catch{
+          console.log('something went wrong no able to comment on this post!!')
         }
     }
-    //     else{
-    //         let unsave = await UnSaveTopic(saveTopicId)
-    //         console.log(unsave)
-    //         setSave(false);
-    //         await UpdateCoin(localStorage.getItem('username'),-2);            
-    //     }
-    // }
+
     return(
+        <div>
+        {topic==null  ? 
+            <div style={{paddingTop:'100px'}} className={'loading-box'}>
+              <div className={'loader'}></div>
+            </div>
+         :     
         <div className={'topic-page'}>
+        
+        
             <div className={'topic-section'}>
                  <div className={'header'}>
                      
-                           <h1>title of the post</h1>
-                           <h4>General</h4>
-                           {topicCommnet? 
-                              
+                           <h1>{topic.title}</h1>
+                           <h4>{topic.tag}</h4>
+                           {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
                               <div className={'header-heading-save'} style={{backgroundColor:isSaved?'black':'white',color:isSaved?'white':'black'}}>
                                   <div className={'header-save-icon'}>
@@ -91,32 +98,43 @@ export default function Topic(props) {
                               <div></div>
                             }
                     <hr/>
+                    {user==null? null:
                     <div className={'auther'}>
                         <div className={'auther-icon'}>
                             <img src={profile_img} />
                         </div>
-                        <h3>amarpsp10</h3>
+                        <h3>{user.username}</h3>
                     </div>
-                    <text  className={'topic-description'}>description of topic that i want to add</text>
+                    }
+                    <text  className={'topic-description'}>{topic.description}</text>
                  </div>  
+      
            </div>
            <div className={'comment-box'}>
                 <div className={'comment-reply-box'}>
-                  <textarea placeholder={'Comment here ......'} className={'text-area'}/>
-                  <text className={'comment-button'} onClick={()=>console.log('commented')}>Comment</text>
+                <Form onSubmit={(e)=>handleComment(e)}>
+                  <Form.Control as="textarea" rows={3} style={{resize:'none'}} ref={commentRef}/>
+                  <Button
+                             type='submit'
+                             variant="contained"
+                             color="primary"
+                             endIcon={<SendIcon/>}
+                             style={{width:'fit-content',marginLeft:'7px'}}
+                             > 
+                            comment
+                  </Button>
+                </Form>
                 </div>
            </div>
            <div className={'comments'}>
-               <h2 onClick={()=>console.log(topicCommnet)}>Comments</h2>
+               <h2 onClick={()=>console.log(topicComment)}>Comments</h2>
                <hr/>
                 <div className={'all-replies'}>
-                  {topicCommnet?
+                  {topicComment!==null ?
                        <div>
-                           {/* {topicCommnet.map(data=>{
-                             return <Comment username={data.username} comment={data.comment}/>
-                           })} */}
-                           <Comment/>
-                           <Comment/>
+                           {topicComment.map(data=>{
+                             return <Comment data={data}/>
+                           })}
                        </div>
                        :
                        <text>no comments yet</text>
@@ -124,6 +142,8 @@ export default function Topic(props) {
 
                 </div> 
            </div>
+        </div>
+        }
         </div>
     );
 }

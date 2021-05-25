@@ -58,7 +58,7 @@ const BootstrapInput = withStyles((theme) => ({
   
 export default function Feed() {
     const [loading, setLoading] = useState(true);
-    const [Posts, setPosts] = useState(null);
+    const [Posts, setPosts] = useState([]);
     const classes = useStyles();
     const [age, setAge] = React.useState('');
 
@@ -69,7 +69,7 @@ export default function Feed() {
     async function GetPosts(){
       try{
         await db.collection('posts').onSnapshot(snap=>{
-          setPosts(snap.docs.map(doc=>{return doc.data()}))
+          setPosts(snap.docs.map(doc=>({id:doc.id,data:doc.data()})))
         })
       }catch{
         alert('something went wrong')
@@ -122,7 +122,7 @@ export default function Feed() {
                            <div>
                            {
                              Posts.map(data=>{
-                               return <FeedItem data={data}/>
+                               return <FeedItem id={data.id} data={data.data}/>
                               })
                             }
                             </div>

@@ -23,8 +23,9 @@ export default function FeedItem(props) {
     return(
         
         <div>
+            
            <div className={'topic-item'}>
-            <Link  to='/post' className={'topic-text'}>
+            <Link  to={`post/${props.id}`} className={'topic-text'}>
                         <div >
                           <h3 style={{textDecorationLine:'none'}} onClick={()=>console.log('he e')}>{props.data.title}</h3>
                          </div>
@@ -39,7 +40,7 @@ export default function FeedItem(props) {
                              </div>
                          <div className={'topic-tag'}>
                         <h3>{props.data.tag}</h3>
-                         </div>
+                        </div>
             </div>
             <hr/>
         </div>
