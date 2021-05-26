@@ -17,6 +17,7 @@ const Main = (props) =>{
     const[loading, setLoading] = useState(true);
     const[user,setUser] = useState(null);
     const[userId, setUserId] = useState(null);
+    const[msgexist,setmsgexist] = useState(false);
     async function handleFollow(){
         if(follow==='follow'){
             setButtonVarient('contained')
@@ -32,6 +33,7 @@ const Main = (props) =>{
         const id = path.substring(path.lastIndexOf('/')+1);
         GetUser(id);
         setUserId(id);
+        messageExist(id);
     },[])
 
     async function GetUser(id){
@@ -45,15 +47,31 @@ const Main = (props) =>{
         setLoading(false)
     }
 
-    async function handleMessage(){
+    async function messageExist(id){
         try{
-           await db.collection('chats').add({
-               users:[currentUser.uid,userId],
-           })
-        }catch{
-            console.log('something went wrong!!')
-        }
+             await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
+                 snap.docs.map(data=>{ if(data.data().users.includes(id)){
+                      setmsgexist(true)
+                   }
+               })})
+           } catch{
+               console.log('something went wrong')
+           }
     }
+
+    async function handleMessage(){
+        console.log(msgexist)
+        if(!msgexist){
+            try{
+               await db.collection('chats').add({
+                   users:[currentUser.uid,userId],
+               })
+            }catch{
+                console.log('something went wrong!!')
+             }
+           }        
+    }
+
     return(
         <div className={'user-view-page'}>
             {loading ? 
@@ -72,7 +90,7 @@ const Main = (props) =>{
                    <h5>{user.username}</h5>
                    <h1>{user.name}<span>(21)</span></h1>
                    <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant={buttonvarient}>{follow}</Button>
-                <Link to='/profile'>
+                <Link to='/messages'>
                    <Button size='small' onClick={()=>handleMessage()} color='primary' variant={'outlined'}>Message</Button>
                 </Link>
                    </div>

@@ -54,7 +54,6 @@ export default function Topic(props) {
       if(commentRef.current.value==null){
         return;
       }
-      console.log('clk')
         try{
           await db.collection(`posts/${id}/comments`).add({
             user:currentUser.uid,
