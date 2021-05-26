@@ -68,7 +68,7 @@ const Main = (props) =>{
     async function handleFollow(){
      if(following){
         let index = allFollowing.indexOf(userId)
-        setAllFollowing(allFollowing.splice(index,index));
+        setAllFollowing(allFollowing.splice(index,1));
         try{
            await db.collection('users').doc(currentUser.uid).update({
                following: allFollowing

@@ -18,15 +18,29 @@ export default function Topic(props) {
     const[user,setUser] = useState(null);
     const[profile_img,setProfile_img] = useState(Default);
     const[isSaved, setSave] = useState(false)
+    const[allSaved, setAllSaved] = useState(null)
+    const[postId, setPostId] = useState(null)
     const commentRef = useRef();
 
     useEffect(()=>{
-      getTopicData();
-    },[])
-
-    async function getTopicData(){
       const path = window.location.pathname;
       const id = path.substring(path.lastIndexOf('/')+1);
+      setPostId(id);
+      getTopicData(id);
+      SetSaved(id);
+    },[])
+    async function SetSaved(id){
+      try{
+        db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
+          setAllSaved(snap.data().saved);
+          setSave(snap.data().saved.includes(id));
+        })
+      } catch{
+        console.log('error in getting saved')
+      }
+    }
+
+    async function getTopicData(id){
       try{
         await db.collection('posts').doc(id).onSnapshot(snap=>{
           setTopic(snap.data())
@@ -42,9 +56,32 @@ export default function Topic(props) {
       }
       setLoading(false)
     }
+
     async function saveClick(){
-          setSave(!isSaved);
-          return;
+      if(isSaved){
+        let index = allSaved.indexOf(postId)
+         setAllSaved(allSaved.splice(index,1));
+        try{
+           await db.collection('users').doc(currentUser.uid).update({
+               saved: allSaved
+           })
+           setSave(false);
+        }catch{
+            console.log('something went wrong')
+        }
+    }
+    else{
+        setAllSaved(allSaved.push(postId))
+        try{
+            await db.collection('users').doc(currentUser.uid).update({
+                saved:allSaved,
+            })
+            setSave(true);
+        }
+        catch{
+            console.log('something went wrong!')
+        }
+    }
     }
     async function handleComment(e){
       e.preventDefault();
