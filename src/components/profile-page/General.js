@@ -1,27 +1,65 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import Resizer from "react-image-file-resizer";
 import Default from './../../assets/default.jpg'
 import {Form} from 'react-bootstrap'
 import EditIcon from '@material-ui/icons/Edit';
 import {Button} from '@material-ui/core'
-class ImageResizer extends Component {
-  constructor(props) {
-    super(props);
-    this.fileChangedHandler = this.fileChangedHandler.bind(this);
-    this.state = {
-      newImage: null,
-    };
+import {useAuth} from './../../contexts/AuthContext'
+import {userdb, storage} from './../../firebase'
+import firebase from 'firebase'
+export default function General(){
+  const{currentUser} = useAuth();
+  const[newImage,setNewImage] = useState(null);
+  const[user, setUser] = useState(null);
+  const[loading,setLoading] = useState(false);
+  const[imageAsUrl,setImageAsUrl] = useState(null);
+  const nameRef = useRef();
+  const educationRef = useRef();
+  const bioRef = useRef();
+  const locationRef = useRef();
+  useEffect(() => {
+    fileChangedHandler = fileChangedHandler.bind(this)
+    GetUser();
+  }, []);
+
+   async function GetUser(){
+     try{
+       await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+         setUser(snap.data());
+       })
+     }
+     catch{
+       console.log('something went wrong')
+     }
+   }
+  // constructor(props) {
+  //   super(props);
+  //   this.fileChangedHandler = this.fileChangedHandler.bind(this);
+  //   this.state = {
+  //     newImage: null,
+  //   };
+  // }
+  const handleImage=(e)=>{
+    setLoading(true)
+    const image = e.target.files[0];
+
+    if(image==="" || image=== undefined){
+      alert(`not an image, the file is a  ${typeof image}`)
+      return;
+    }
+    
+    fileChangedHandler(image);
   }
 
-  fileChangedHandler(event) {
+  async function fileChangedHandler(image) {
     var fileInput = false;
-    if (event.target.files[0]) {
+    if (image) {
       fileInput = true;
     }
     if (fileInput) {
       try {
         Resizer.imageFileResizer(
-          event.target.files[0],
+          image,
           100,
           100,
           "JPEG",
@@ -29,7 +67,8 @@ class ImageResizer extends Component {
           0,
           (uri) => {
             console.table(uri);
-            this.setState({ newImage: uri });
+            setNewImage(uri);
+            firebaseUpload(uri);
           },
           "file",
           200,
@@ -40,42 +79,93 @@ class ImageResizer extends Component {
       }
     }
   }
+ async function handleUpdate(){
+   setLoading(true);
 
-  render() {
+   if(nameRef.current.value=='' || educationRef.current.value=='' || bioRef.current.value=='' || locationRef.current.value==''){
+     return setLoading(false);
+   }
+   await UpdateProfile();
+    setLoading(false);
+ }
+
+ async function UpdateProfile(){
+   console.log(imageAsUrl)
+   try{
+     await userdb.doc(currentUser.uid).update({
+       name: nameRef.current.value,
+       education: educationRef.current.value,
+       bio: bioRef.current.value,
+       location: locationRef.current.value,
+       profile_image: imageAsUrl==null ? '' : imageAsUrl,
+      })
+    }catch{
+      console.log('something went wrong !!')
+    }
+   console.log('uploaded successfully');
+ }
+  
+ async function firebaseUpload(file){
+
+  console.log('start of upload')
+  const uploadTask = storage.ref(`/profile_images/${file.name}`).put(file)
+  //initiates the firebase side uploading 
+  uploadTask.on('state_changed', 
+  (snapShot) => {
+    //takes a snap shot of the process as it is happening
+    console.log(snapShot)
+  }, (err) => {
+    //catches the errors
+    console.log(err)
+  }, () => {
+    // gets the functions from storage refences the image storage in firebase by the children
+    // gets the download url then sets the image from firebase as the value for the imgUrl key:
+    storage.ref('profile_images').child(file.name).getDownloadURL()
+     .then(fireBaseUrl => {
+         setImageAsUrl(fireBaseUrl);
+        })
+      })
+  setLoading(false);
+}
+
+
+ 
     return (
+      <div>
+        {user==null ? <div className={'general-section'}></div>
+        :
       <div className={'general-section'}>
-        {/* {this.state.newImage==''?
-        null:
-        <img src={this.state.newImage}/>
-         }
-        <input type="file" onChange={this.fileChangedHandler} />
-        <img src={this.state.newImage} alt="" /> */}
         <text>Profile Picture</text>
+         <label htmlFor="file">
         <div>
         <div className={'picture-edit'}>
         <EditIcon/>
         </div>
-        <img src={Default}/>
+        <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image : URL.createObjectURL(newImage))}/>
         </div>
+          </label>
+        <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
         <text>Name</text>
-        <Form.Control type="name" placeholder="name" style={{maxWidth:'400px'}}/>
+        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{maxWidth:'400px'}}/>
         <text>Education</text>
-        <Form.Control type="education" placeholder="education" style={{maxWidth:'400px'}}/>
+        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{maxWidth:'400px'}}/>
         <text>Bio</text>
-        <Form.Control as="textarea" rows={3}  style={{maxWidth:'400px',resize:'none'}}/>
+        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}}/>
         <text>Location</text>
-        <Form.Control type="location" placeholder="Jaipur" style={{maxWidth:'400px'}}/>
+        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="Jaipur" style={{maxWidth:'400px'}}/>
         <Button
         variant="contained"
         color="default"
         style={{width:'fit-content',fontWeight:'600',marginTop:'30px'}}
-        disabled={false}
+        disabled={loading}
+        onClick={()=>handleUpdate()}
        >
         Update Profile
       </Button>
       </div>
+      }
+      </div>
     );
-  }
+  
 }
 
-export default ImageResizer;
