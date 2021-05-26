@@ -18,23 +18,29 @@ const Main = (props) =>{
     const[user,setUser] = useState(null);
     const[userId, setUserId] = useState(null);
     const[msgexist,setmsgexist] = useState(false);
-    async function handleFollow(){
-        if(follow==='follow'){
-            setButtonVarient('contained')
-            setFollow('following')
-        }
-        else{
-            setButtonVarient('outlined')
-            setFollow('follow')
-        }
-    }
+    const[following, setFollowing] = useState(false);
+    const[allFollowing, setAllFollowing] = useState(null);
+   
     useEffect(()=>{
         const path = window.location.pathname;
         const id = path.substring(path.lastIndexOf('/')+1);
         GetUser(id);
         setUserId(id);
         messageExist(id);
+        SetFollowing(id);
     },[])
+    async function SetFollowing(id){
+        try{
+            await db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
+                if(snap.data().following!==null){
+                    setAllFollowing(snap.data().following);
+                    setFollowing(snap.data().following.includes(id))
+                }
+            })
+        }catch{
+           console.log('something went wrong with seting following')
+        }
+    }
 
     async function GetUser(id){
         try{
@@ -58,6 +64,33 @@ const Main = (props) =>{
                console.log('something went wrong')
            }
     }
+    
+    async function handleFollow(){
+     if(following){
+        let index = allFollowing.indexOf(userId)
+        setAllFollowing(allFollowing.splice(index,index));
+        try{
+           await db.collection('users').doc(currentUser.uid).update({
+               following: allFollowing
+           })
+           setFollowing(false);
+        }catch{
+            console.log('something went wrong')
+        }
+    }
+    else{
+        setAllFollowing(allFollowing.push(userId))
+        try{
+            await db.collection('users').doc(currentUser.uid).update({
+                following: allFollowing
+            })
+            setFollowing(true);
+        }
+        catch{
+            console.log('something went wrong!')
+        }
+    }
+}
 
     async function handleMessage(){
         console.log(msgexist)
@@ -89,7 +122,7 @@ const Main = (props) =>{
                    <div className='user-card-user'>
                    <h5>{user.username}</h5>
                    <h1>{user.name}<span>(21)</span></h1>
-                   <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant={buttonvarient}>{follow}</Button>
+                   <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant='outlined'>{following? 'following':'follow'}</Button>
                 <Link to='/messages'>
                    <Button size='small' onClick={()=>handleMessage()} color='primary' variant={'outlined'}>Message</Button>
                 </Link>
