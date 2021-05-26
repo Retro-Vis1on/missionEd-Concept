@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -8,10 +8,12 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Profile from './Profile'
-
+import {userdb} from './../../firebase'
+import {useAuth} from './../../contexts/AuthContext'
+import { Link } from 'react-router-dom';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  
   return (
     <div
       role="tabpanel"
@@ -53,8 +55,33 @@ const useStyles = makeStyles((theme) => ({
 export default function FullWidthTabs() {
   const classes = useStyles();
   const theme = useTheme();
+  const{currentUser}  = useAuth();
   const [value, setValue] = React.useState(0);
+  const[allFollowing, setAllFollowing] = useState([]);
+  const[allFollower, setAllFollwer] = useState([]);
+  useEffect(()=>{
+     GetFollower();
+     GetAllFollowing();
+  },[])
 
+  async function GetFollower(){
+    try{
+      await userdb.where('following','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
+         setAllFollwer(snap.docs.map(data=>{return data.id}));
+        })
+    } catch{
+      console.log('something went wrong')
+    }
+  }
+  async function GetAllFollowing(){
+    try{
+      userdb.doc(currentUser.uid).onSnapshot(snap=>{
+        setAllFollowing(snap.data().following)
+      })
+    } catch{
+      console.log('something went wrong!')
+    }
+  }
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -74,8 +101,8 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Followers (300)"  {...a11yProps(0)} />
-          <Tab label="Following (250)"  {...a11yProps(1)} />
+          <Tab label={`Followers (${allFollower.length})`}  {...a11yProps(0)} />
+          <Tab label={`Following (${allFollowing.length})`}  {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -84,15 +111,37 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-           <div>
-               <Profile/>
-               <Profile/>
-           </div>
+           {!allFollower.length?
+              <div></div>
+              :
+              <div>
+                {allFollower.map(data=>{
+                  return(
+                    <Link to={`/user/${data}`}>
+                    <Profile data={data}/>
+                    </Link>
+                  ) 
+                })}
+              </div>
+           }
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
            <div>
-               <Profile/>
-               <Profile/>
+              {!allFollowing.length ?
+                      <div className='loading-box'>
+                        <div className='loader'></div>
+                       </div>
+                :
+                <div>
+                  {allFollowing.map(data=>{
+                    return(
+                      <Link to={`/user/${data}`}>
+                      <Profile data={data}/>
+                      </Link>
+                    ) 
+                  })}
+                </div> 
+              }
            </div>
         </TabPanel>
       </SwipeableViews>

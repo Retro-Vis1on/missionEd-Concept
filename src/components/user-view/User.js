@@ -121,7 +121,7 @@ const Main = (props) =>{
                    <img src={Default} alt='' />
                    <div className='user-card-user'>
                    <h5>{user.username}</h5>
-                   <h1>{user.name}<span>(21)</span></h1>
+                   <h1>{user.name}</h1>
                    <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant='outlined'>{following? 'following':'follow'}</Button>
                 <Link to='/messages'>
                    <Button size='small' onClick={()=>handleMessage()} color='primary' variant={'outlined'}>Message</Button>
