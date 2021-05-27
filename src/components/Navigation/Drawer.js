@@ -82,18 +82,6 @@ export default function MenuDrawer() {
             <ListItemText primary={'Messages'} />
           </ListItem>
           </Link>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/saved-post'>
-          <ListItem button >
-            <ListItemIcon><TurnedInIcon /></ListItemIcon>
-            <ListItemText primary={'Saved Post'} />
-          </ListItem>
-          </Link>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/my-post'>
-          <ListItem button >
-            <ListItemIcon><BookIcon dir="rtl"/></ListItemIcon>
-            <ListItemText primary={'My Posts'} />
-          </ListItem>
-          </Link>
           <Link style={{textDecorationLine:'none',color:'black'}} to='/profile'>
           <ListItem button >
             <ListItemIcon><AccountCircleIcon /></ListItemIcon>

@@ -111,7 +111,7 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-           {!allFollower.length?
+           {!allFollower ?
               <div></div>
               :
               <div>
@@ -127,7 +127,7 @@ export default function FullWidthTabs() {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
            <div>
-              {!allFollowing.length ?
+              {!allFollowing ?
                       <div className='loading-box'>
                         <div className='loader'></div>
                        </div>

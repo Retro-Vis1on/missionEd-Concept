@@ -5,6 +5,7 @@ import Default from './../../assets/default.jpg'
 import {userdb} from './../../firebase'
 export default function Profile(props) {
    const[user,setUser] = useState(null);
+
     useEffect(() => {
       GetUser();
    }, [])
@@ -28,7 +29,7 @@ export default function Profile(props) {
         <div className={'profile-box'}> 
            <div className={'profile-icon-box'}>
                {/* <RiAccountCircleFill size={90}/> */}
-               <img src={Default}/>
+               <img src={user.profile_image==null ? Default : user.profile_image}/>
            </div>
            <div className={'profile-text'}>
                  <text className={'profile-username'}>{user.username}</text>

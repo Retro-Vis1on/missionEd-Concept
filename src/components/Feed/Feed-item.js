@@ -14,7 +14,9 @@ export default function FeedItem(props) {
     async function GetUser(){
         try{
           userdb.doc(props.data.user).onSnapshot(snap=>{
-              setUsername(snap.data().username)
+              setUsername(snap.data().username) 
+            setProfile_img(snap.data().profile_image);
+              
           })
         }catch{
             alert('something went wrong!')
@@ -29,7 +31,7 @@ export default function FeedItem(props) {
                              </Link>
                              <div className={'midle-field'}>
                                 <div className={'feed-list-icon'}>
-                                    <img src={profile_img}/>
+                                    <img src={profile_img==null ? Default: profile_img}/>
                                 </div>
                              <Link to={`/user/${props.data.user}`} style={{textDecorationColor:'none', color:'black'}}>
                                 <text>{username}</text> 

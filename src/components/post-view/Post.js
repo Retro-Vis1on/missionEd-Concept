@@ -16,7 +16,6 @@ export default function Topic(props) {
     const[topic, setTopic] = useState(null);
     const[topicComment, setTopicComment] = useState(null);
     const[user,setUser] = useState(null);
-    const[profile_img,setProfile_img] = useState(Default);
     const[isSaved, setSave] = useState(false)
     const[allSaved, setAllSaved] = useState(null)
     const[postId, setPostId] = useState(null)
@@ -137,7 +136,7 @@ export default function Topic(props) {
                     {user==null? null:
                     <div className={'auther'}>
                         <div className={'auther-icon'}>
-                            <img src={profile_img} />
+                            <img src={user.profile_image==null ? Default : user.profile_image} />
                         </div>
                         <h3>{user.username}</h3>
                     </div>

@@ -5,7 +5,6 @@ import Default from '../../assets/default.jpg'
 import {userdb} from './../../firebase'
 // import GetProfile from './../../config/getProfile'
 export default function Comment(props) {
-        const[profile_img, setProfile_img] = useState(Default)
         const[user, setUser] = useState(null);
        useState(()=>{
          getUser()
@@ -26,7 +25,7 @@ export default function Comment(props) {
     <div className={'reply'}>
                     <div className={'commenter-auther'}>
                         <div className={'commenter-icon'}>
-                            <img src={profile_img}/>
+                            <img src={user.profile_image==null ? Default : user.profile_image}/>
                         </div>
                         <h3>{user.username}</h3>
                     </div>
