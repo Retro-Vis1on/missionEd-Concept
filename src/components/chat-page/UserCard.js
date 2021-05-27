@@ -3,7 +3,6 @@ import Default from './../../assets/default.jpg'
 import {userdb,db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 export default function UserCard(props) {
-    
     const[user, setUser] = useState(null);
     const{currentUser} = useAuth();
 
@@ -29,7 +28,7 @@ export default function UserCard(props) {
             <div></div>
             :
             <div className={'chat-user-card'}>
-            <img src={Default}/>
+            <img src={user.profile_image==null ? Default : user.profile_image}/>
             <text>{user.username}</text>
             </div>
         }

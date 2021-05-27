@@ -2,13 +2,10 @@ import React,{useEffect, useState,useRef} from 'react'
 import './Messages.css'
 import UserCard from './UserCard'
 import {useAuth} from './../../contexts/AuthContext'
-import Default from './../../assets/default.jpg'
-import SendIcon from '@material-ui/icons/Send';
-import {Button} from '@material-ui/core'
-import {Form} from 'react-bootstrap'
 import {userdb,db} from './../../firebase'
-import firebase from 'firebase'
 import { Redirect } from 'react-router'
+import Chats from './Chats'
+import SearchIcon from '@material-ui/icons/Search';
 export default function Messages() {
     const{currentUser} = useAuth();
     const[chatUsers,setChatUsers] = useState(null);
@@ -16,19 +13,7 @@ export default function Messages() {
     const messageInputRef = useRef();
     const[activeUser,setActiveUser] = useState(null);
     const[chatId, setChatId] = useState(null);
-    const CreateMessage = (props) =>{
-        if(props.data.sender===currentUser.uid)
-        return(
-            <div className='sender-message'>
-               <text>{props.data.message}</text>
-            </div>
-        )
-        return(
-            <div className='receiver-message'>
-                <text>{props.data.message}</text>
-            </div>
-        )
-    }
+  
     useEffect(()=>{
          GetUsers();
     },[])
@@ -41,10 +26,8 @@ export default function Messages() {
     }
 
     async function SetChatBox(data){
-        // console.log(data)
         let id = currentUser.uid === data.users[0] ? data.users[1] : data.users[0];
-        console.log(id)
-        
+        setActiveUser(id);
         try{
             await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
                 snap.docs.map(data=>{
@@ -68,23 +51,6 @@ export default function Messages() {
             console.log('something went wrong')
         }
       }
-
-    async function SendMessage(e){
-      e.preventDefault();
-      if(messageInputRef.current.value !== ''){
-          if(chatId!==null){
-              try{
-                  db.collection(`chats/${chatId}/messages`).add({
-                      message:messageInputRef.current.value,
-                      sender:currentUser.uid,
-                      timestamp:firebase.firestore.FieldValue.serverTimestamp(),
-                    })
-                }catch{
-                    console.log('something went wrong!!')
-                }
-            }
-        }
-    }
     
     return (
         <div className='message-page'>
@@ -92,8 +58,8 @@ export default function Messages() {
               <div className='message-card'>
                   <div className={'chat-users-section'}>
                       <div className='chat-user-heading'>
-                        <img src={Default}/>
-                        <input placeholder='search'/>
+                        <SearchIcon style={{fontSize:'32px',color:'white'}}/>
+                        <input placeholder={'Search'}/>
                       </div>
                       <div className='chat-usercards'>
                     {chatUsers==null?
@@ -103,8 +69,9 @@ export default function Messages() {
                             :
                             <div>
                                 {chatUsers.map(data=>{
+                                     let id = currentUser.uid === data.users[0] ? data.users[1] : data.users[0];
                                     return (
-                                        <div onClick={()=>SetChatBox(data)}>
+                                        <div style={{backgroundColor:activeUser==id ? 'rgba(0,0,0,0.08)':null}} onClick={()=>SetChatBox(data)}>
                                             <UserCard data={data}/>
                                         </div>
                                     );
@@ -113,7 +80,7 @@ export default function Messages() {
                       </div>
                   </div>
                   <div className={'message-section'}>
-                     <div className='message-section-heading'>
+                     {/* <div className='message-section-heading'>
                          <img src={Default}/>
                          <text>Amar Preet Singh</text>
                      </div>
@@ -140,7 +107,13 @@ export default function Messages() {
                          </div> 
                     }
                     
-                  </div>
+                */}
+                  {chatMessages==null ?
+                  <div></div>
+                  :
+                  <Chats chatMessages={chatMessages} chatId={chatId} id={activeUser} />
+                  }
+                  </div> 
               </div>
         </div>
     )
