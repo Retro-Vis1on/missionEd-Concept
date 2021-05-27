@@ -21,28 +21,23 @@ export default function FeedItem(props) {
         }
     }
     return(
-        
-        <div>
-            
-           <div className={'topic-item'}>
-            <Link  to={`post/${props.id}`} className={'topic-text'}>
-                        <div >
-                          <h3 style={{textDecorationLine:'none'}} onClick={()=>console.log('he e')}>{props.data.title}</h3>
+           <div className={'feed-item'}>
+            <Link  to={`post/${props.id}`} style={{textDecorationLine:'none'}} className={'feed-title'}>
+                        <div>
+                          <text style={{textDecorationLine:'none'}}>{props.data.title}</text>
                          </div>
                              </Link>
                              <div className={'midle-field'}>
                                 <div className={'feed-list-icon'}>
                                     <img src={profile_img}/>
                                 </div>
-                             <Link to={`/user/${props.data.user}`}>
-                                <h4>{username}</h4> 
+                             <Link to={`/user/${props.data.user}`} style={{textDecorationColor:'none', color:'black'}}>
+                                <text>{username}</text> 
                              </Link>
                              </div>
-                         <div className={'topic-tag'}>
-                        <h3>{props.data.tag}</h3>
+                         <div className={'post-tag'}>
+                        <text>{props.data.tag}</text>
                         </div>
-            </div>
-            <hr/>
         </div>
     );
 }

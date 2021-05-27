@@ -82,9 +82,8 @@ export default function Feed() {
     };
     return (
       <div>
-      <div>
+      {/* <div>
         <FormControl className={classes.margin}>
-          {/* <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel> */}
           <NativeSelect
             id="demo-customized-select-native"
             value={age}
@@ -101,12 +100,12 @@ export default function Feed() {
             <option value={60}>Questions</option>
           </NativeSelect>
         </FormControl>
-      </div>
+      </div> */}
       <div>
       <div className={'feed-section'}>
             <div style={{backgroundColor: 'white'}} className={'feed'}>   
                       <div className={'topic-item-box'}>
-                          <h2>Posts</h2>
+                          <h4>Posts</h4>
                       <hr style={{height:'3px',backgroundColor:'#414141'}}/>
                       {loading ? 
                         <div className='loading-box'>
