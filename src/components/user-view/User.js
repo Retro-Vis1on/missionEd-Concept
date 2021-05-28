@@ -125,7 +125,7 @@ const Main = (props) =>{
                  : 
             <div>
             <div className='user-card'>
-                   <img src={Default} alt='' />
+                   <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} alt='' />
                    <div className='user-card-user'>
                    <h5>{user.username}</h5>
                    <h1>{user.name}</h1>

@@ -6,13 +6,19 @@ import EditIcon from '@material-ui/icons/Edit';
 import {Button} from '@material-ui/core'
 import {useAuth} from './../../contexts/AuthContext'
 import {userdb, storage} from './../../firebase'
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 import firebase from 'firebase'
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 export default function General(){
   const{currentUser} = useAuth();
   const[newImage,setNewImage] = useState(null);
   const[user, setUser] = useState(null);
   const[loading,setLoading] = useState(false);
   const[imageAsUrl,setImageAsUrl] = useState(null);
+  const [blankError, setBlankError] = useState(false);
   const nameRef = useRef();
   const educationRef = useRef();
   const bioRef = useRef();
@@ -32,18 +38,14 @@ export default function General(){
        console.log('something went wrong')
      }
    }
-  // constructor(props) {
-  //   super(props);
-  //   this.fileChangedHandler = this.fileChangedHandler.bind(this);
-  //   this.state = {
-  //     newImage: null,
-  //   };
-  // }
+ 
+
   const handleImage=(e)=>{
     setLoading(true)
     const image = e.target.files[0];
 
     if(image==="" || image=== undefined){
+      setLoading(false);
       alert(`not an image, the file is a  ${typeof image}`)
       return;
     }
@@ -83,6 +85,7 @@ export default function General(){
    setLoading(true);
 
    if(nameRef.current.value=='' || educationRef.current.value=='' || bioRef.current.value=='' || locationRef.current.value==''){
+     setBlankError(true)
      return setLoading(false);
    }
    await UpdateProfile();
@@ -123,12 +126,17 @@ export default function General(){
     storage.ref('profile_images').child(file.name).getDownloadURL()
      .then(fireBaseUrl => {
          setImageAsUrl(fireBaseUrl);
+         setLoading(false);
         })
       })
-  setLoading(false);
 }
 
-
+   const handleCloseError = (event, reason) => {
+     if (reason === 'clickaway') {
+      return;
+    }
+    setBlankError(false);
+   };
  
     return (
       <div>
@@ -141,7 +149,7 @@ export default function General(){
         <div className={'picture-edit'}>
         <EditIcon/>
         </div>
-        <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image : URL.createObjectURL(newImage))}/>
+        <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image==null? Default : user.profile_image : URL.createObjectURL(newImage))}/>
         </div>
           </label>
         <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
@@ -152,7 +160,7 @@ export default function General(){
         <text>Bio</text>
         <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}}/>
         <text>Location</text>
-        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="Jaipur" style={{maxWidth:'400px'}}/>
+        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="location" style={{maxWidth:'400px'}}/>
         <Button
         variant="contained"
         color="default"
@@ -164,6 +172,11 @@ export default function General(){
       </Button>
       </div>
       }
+      <Snackbar open={blankError} autoHideDuration={2000} onClose={handleCloseError}>
+                 <Alert onClose={handleCloseError} severity="info">
+                  Please fill all details to update your profile!
+              </Alert>
+            </Snackbar>
       </div>
     );
   
