@@ -1,53 +1,50 @@
-import React,{Component} from 'react'
+import React,{useEffect,useState} from 'react'
 import './Network.css'
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 // import {FaPlusSquare} from 'react-icons/fa'
 // import {GiThreeFriends} from 'react-icons/gi'
 // import Profile from './Profile'
 // import {FaInbox} from 'react-icons/fa'
 import {Link} from 'react-router-dom'
-import Tab from './Tab'
-
-export default class Network extends Component{
+import Profile from './Profile'
+export default function Network(){
   
-  constructor(props){
-    super(props)
-    this.state = {
-      isLoading: true,
-      profiles : null
+  const{currentUser}  = useAuth();
+  const [value, setValue] = React.useState(0);
+  const[allFollowing, setAllFollowing] = useState([]);
+  const[allFollower, setAllFollwer] = useState([]);
+  useEffect(()=>{
+     GetFollower();
+     GetAllFollowing();
+  },[])
+
+  async function GetFollower(){
+    try{
+      await userdb.where('following','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
+         setAllFollwer(snap.docs.map(data=>{return data.id}));
+        })
+    } catch{
+      console.log('something went wrong')
     }
   }
-
-  componentDidMount(){
-    
+  async function GetAllFollowing(){
+    try{
+      userdb.doc(currentUser.uid).onSnapshot(snap=>{
+        setAllFollowing(snap.data().following)
+      })
+    } catch{
+      console.log('something went wrong!')
+    }
   }
-
-  render(){
+  
     return(
       <div className={'network-page'}>
-             {/* <div className={'header-menu'}>
-               <Link to='/inbox' style={{textDecoration:'none'}}>
-                <div className={'create-button'}>
-                  <FaInbox style={{alignSelf:'center',paddingRight:'5px'}} size={25} color={'white'}/>
-                  <text className={'create-topic-text'}>Inbox</text>
-                </div>
-               </Link>
-             </div>
-             <div className={'profiles-section'}>
-                
-                {this.state.isLoading?
-                   <div className={'loading-box'}>
-                     <div className={'loader'}></div>    
-                    </div>
-                    :
-                    <div>{this.state.profiles.map((data,id)=>{
-                      return(<Profile id={id} data={data}/>);
-                      })}
-                      </div> 
-                      }
-
-             </div> */}
+          
+        
                  <Tab/>
         </div>
     );
-  }
+  
 }

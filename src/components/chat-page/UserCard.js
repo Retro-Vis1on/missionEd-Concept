@@ -28,7 +28,7 @@ export default function UserCard(props) {
             <div></div>
             :
             <div className={'chat-user-card'}>
-            <img src={user.profile_image==null ? Default : user.profile_image}/>
+            <img src={user.profile_image==null ? Default :user.profile_image=='' ? Default: user.profile_image}/>
             <text>{user.username}</text>
             </div>
         }

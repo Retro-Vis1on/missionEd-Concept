@@ -76,3 +76,13 @@
   width: 90px;
   border-radius: 50%;
 }
+.network-section {
+  /* background-color: white; */
+  margin-bottom: 50px;
+  margin-inline: 4%;
+}
+.tab-section {
+  background-color: white;
+  padding-inline: 30px;
+  border-radius: 20px;
+}

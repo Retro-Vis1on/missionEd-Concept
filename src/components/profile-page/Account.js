@@ -41,8 +41,9 @@ export default function Account(props) {
           <Button
            variant="contained"
            color="primary"
-           style={{width:'100%',fontWeight:'400',marginTop:'30px'}}
+           style={{maxWidth:'500px',fontWeight:'400',marginTop:'30px'}}
            disabled={false}
+           fullWidth
            >
            Update Password
           </Button>

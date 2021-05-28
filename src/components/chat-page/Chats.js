@@ -69,7 +69,7 @@ export default function Chats(props) {
                          <div></div>
                        :
                        <div>
-                         <img src={user.profile_image==null ? Default : user.profile_image}/>
+                         <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                          <text>{user.name}</text>
                        </div>
                      }

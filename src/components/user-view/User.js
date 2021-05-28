@@ -34,7 +34,14 @@ const Main = (props) =>{
             await db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
                 if(snap.data().following!==null){
                     setAllFollowing(snap.data().following);
-                    setFollowing(snap.data().following.includes(id))
+                    if(snap.data().following){
+                        setFollowing(snap.data().following.includes(id))
+                    }
+                    else{
+                        db.collection('users').doc(currentUser.uid).update({
+                            following: ['']
+                        })
+                    }
                 }
             })
         }catch{
