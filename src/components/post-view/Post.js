@@ -10,6 +10,7 @@ import {db,userdb} from './../../firebase'
 import {Form} from 'react-bootstrap'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
+import {Link} from 'react-router-dom'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -138,7 +139,9 @@ export default function Topic(props) {
                         <div className={'auther-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image} />
                         </div>
+                        <Link to={`/user/${topic.user}`} style={{color:'black'}}>
                         <h3>{user.username}</h3>
+                        </Link>
                     </div>
                     }
                     <text  className={'topic-description'}>{topic.description}</text>
