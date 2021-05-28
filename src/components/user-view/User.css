@@ -1,6 +1,6 @@
 .user-view-page {
   padding-top: 100px;
-  padding-inline: 15%;
+  padding-inline: 20%;
 }
 .user-card {
   background-color: white;
@@ -11,18 +11,22 @@
   box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
 }
 .user-card img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 10px;
 }
 .user-card-user {
-  font-size: 22px;
+  padding-left: 2%;
+  width: 100%;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
 }
 .user-menucard {
   margin-top: 10px;
   background-color: white;
   border-radius: 10px;
-  padding: 5px;
+  padding: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -33,4 +37,18 @@
 }
 .user-menucard-item a img {
   width: 24px;
+  margin-left: 5px;
+}
+.profile-location {
+  display: flex;
+  justify-self: flex-end;
+}
+@media screen and (max-width: 760px) {
+  .user-view-page {
+    padding-inline: 5%;
+  }
+  .user-card img {
+    width: 150px;
+    height: 150px;
+  }
 }
