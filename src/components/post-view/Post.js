@@ -35,7 +35,14 @@ export default function Topic(props) {
       try{
         db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
           setAllSaved(snap.data().saved);
-          setSave(snap.data().saved.includes(id));
+          if(snap.data().saved){
+            setSave(snap.data().saved.includes(id));
+          }
+          else{
+            db.collection('users').doc(currentUser.uid).update({
+              saved:[],
+            })
+          }
         })
       } catch{
         console.log('error in getting saved')

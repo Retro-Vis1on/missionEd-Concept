@@ -104,7 +104,7 @@ export default function FullWidthTabs() {
           aria-label="full width tabs example"
         >
           <Tab label={`Followers (${allFollower.length})`}  {...a11yProps(0)} />
-          <Tab label={`Following (${allFollowing.length-1})`}  {...a11yProps(1)} />
+          <Tab label={`Following (${allFollowing.length})`}  {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

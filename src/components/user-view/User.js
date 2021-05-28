@@ -39,7 +39,7 @@ const Main = (props) =>{
                     }
                     else{
                         db.collection('users').doc(currentUser.uid).update({
-                            following: ['']
+                            following: []
                         })
                     }
                 }
