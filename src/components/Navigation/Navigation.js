@@ -106,7 +106,7 @@ const Navigation = () =>{
            <Link to='/'>
                 <div className={'mission-ed-logo'}>
                      <img className='log-image' src={MissionEd_logo} width={'40px'}/>
-                     <text  className='logo-text'>MissionEd-Forum</text>
+                     <text  className='logo-text'>MissionEd Forum</text>
                 </div>
            </Link>
                 <div className='nav-items'> 

@@ -117,3 +117,35 @@
 .coins-button:hover {
   background-color: rgb(97, 97, 97);
 }
+
+@media screen and (max-width: 760px) {
+  .profile-tabs-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .tabs-options {
+    /* width: 15%; */
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    /* padding-top: 20px; */
+    /* padding-bottom: 20px; */
+    border: solid 0px rgb(167, 167, 167);
+    /* border-radius: 5px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-block: 10px;
+  }
+  .tabs-options text {
+    padding-inline: 15px;
+    padding-block: 5px;
+    border-bottom: solid rgb(167, 167, 167) 0.3px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .active-tab {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-left: none;
+  }
+}

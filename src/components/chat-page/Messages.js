@@ -6,6 +6,7 @@ import {userdb,db} from './../../firebase'
 import { Redirect } from 'react-router'
 import Chats from './Chats'
 import SearchIcon from '@material-ui/icons/Search';
+import {AiOutlineMenuUnfold} from 'react-icons/ai'
 export default function Messages() {
     const{currentUser} = useAuth();
     const[chatUsers,setChatUsers] = useState(null);
@@ -13,7 +14,7 @@ export default function Messages() {
     const messageInputRef = useRef();
     const[activeUser,setActiveUser] = useState(null);
     const[chatId, setChatId] = useState(null);
-  
+    const[ischatOpen, setChatOpen] = useState(false);
     useEffect(()=>{
          GetUsers();
     },[])
@@ -50,14 +51,20 @@ export default function Messages() {
         } catch{
             console.log('something went wrong')
         }
+        setChatOpen(true)
       }
-    
+    const handleLeftMenu = ()=>{
+        setChatOpen(!ischatOpen)
+    }
+      
     return (
         <div className='message-page'>
             {currentUser==null && <Redirect to='./welcome'/>}
+                     <AiOutlineMenuUnfold onClick={()=>handleLeftMenu()} size={30} color={'white'} className={'leftMenubutton'} />
               <div className='message-card'>
-                  <div className={'chat-users-section'}>
+                  <div className={!ischatOpen ? 'chat-users-section':'chat-users-section chat-users-section-close'}> 
                       <div className='chat-user-heading'>
+                    
                         <SearchIcon style={{fontSize:'32px',color:'white'}}/>
                         <input placeholder={'Search'}/>
                       </div>
@@ -79,7 +86,7 @@ export default function Messages() {
                             </div> }
                       </div>
                   </div>
-                  <div className={'message-section'}>
+                  <div className={ischatOpen ? 'message-section':'message-section message-section-mobile'}>
                      {/* <div className='message-section-heading'>
                          <img src={Default}/>
                          <text>Amar Preet Singh</text>

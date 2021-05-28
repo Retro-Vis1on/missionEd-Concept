@@ -6,6 +6,7 @@ import {Form} from 'react-bootstrap'
 import {userdb,db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 export default function Chats(props) {
     const[user, setUser] = useState(null);
     const{currentUser} = useAuth();
@@ -68,7 +69,7 @@ export default function Chats(props) {
                          <div></div>
                        :
                        <div>
-                         <img src={Default}/>
+                         <img src={user.profile_image==null ? Default : user.profile_image}/>
                          <text>{user.name}</text>
                        </div>
                      }

@@ -147,3 +147,32 @@
   clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%, 5% 85%);
   border-radius: 5px;
 }
+.leftMenubutton {
+  background-color: #868686;
+  padding: 2px;
+  display: none;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 760px) {
+  .chat-users-section {
+    position: absolute;
+    background-color: white;
+    z-index: 5;
+    width: 90%;
+    height: 80%;
+    transition: width 0.5s;
+  }
+  .chat-users-section-open {
+    width: 90%;
+  }
+  .chat-users-section-close {
+    width: 0px;
+  }
+  .message-section {
+    width: 100%;
+  }
+  .leftMenubutton {
+    display: block;
+  }
+}

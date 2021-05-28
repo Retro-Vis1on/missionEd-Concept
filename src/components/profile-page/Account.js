@@ -5,7 +5,7 @@ export default function Account(props) {
     return(
         <div className={'profile-content'}>
           <div className={'profile-update-input'}>
-          <h3>Change Password</h3>
+          <h5>Change Password</h5>
           <TextField 
           required
           id="filled-required"
@@ -40,8 +40,8 @@ export default function Account(props) {
           </div>
           <Button
            variant="contained"
-           color="secondary"
-           style={{width:'fit-content',fontWeight:'600',marginTop:'30px'}}
+           color="primary"
+           style={{width:'100%',fontWeight:'400',marginTop:'30px'}}
            disabled={false}
            >
            Update Password

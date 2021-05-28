@@ -1,26 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import './Profile.css'
 import Default from './../../assets/default.jpg'
 import General from './General'
 import Rewards from './Rewards'
 import Account from './Account'
+import {userdb} from './../../firebase'
+import {useAuth} from './../../contexts/AuthContext'
 export default function Profile() {
     const[activeTab, setActiveTab] = useState('general')
+    const{currentUser} = useAuth();
+    const[user,setUser] = useState(null);
+    useEffect(() => {
+        GetUser();
+    }, [])
 
+    async function GetUser(){
+        try{
+          userdb.doc(currentUser.uid).onSnapshot(snap=>{
+              setUser(snap.data());
+          })
+        }
+        catch{
+            console.log('error occured!')
+        }
+    }
     const handleTab = (tab) =>{
         setActiveTab(tab)
     }
     return (
             <div className={'profile-page'}>
             <div className={'profile-page-section'}>
-
+           {user==null ? <div></div>
+           :
             <div className={'profile-user-card'}>
-              <img src={Default}/>
+              <img src={user.profile_image==null ? Default : user.profile_image}/>
               <div>
-                  <h3>Amar Preet Singh</h3>
+                  <h3>{user.name}</h3>
                   <text>your Personal Accout</text>
               </div>  
             </div>
+            }
             <div className={'profile-tabs-section'}>
                 <div className={'tabs-options'}>
                     <text onClick={()=>handleTab('general')} className={activeTab==='general'? 'active-tab':null}>General</text>
