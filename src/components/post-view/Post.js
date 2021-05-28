@@ -20,6 +20,8 @@ export default function Topic(props) {
     const[isSaved, setSave] = useState(false)
     const[allSaved, setAllSaved] = useState(null)
     const[postId, setPostId] = useState(null)
+    const[inputComment, setInputComment] = useState('');
+    const[load,setLoad] = useState(false);
     const commentRef = useRef();
 
     useEffect(()=>{
@@ -84,23 +86,26 @@ export default function Topic(props) {
     }
     }
     async function handleComment(e){
+      setLoad(true)
       e.preventDefault();
       const path = window.location.pathname;
       const id = path.substring(path.lastIndexOf('/')+1);
 
-      if(commentRef.current.value==null){
+      if(inputComment==''){
         return;
       }
         try{
           await db.collection(`posts/${id}/comments`).add({
             user:currentUser.uid,
-            comment: commentRef.current.value,
+            comment: inputComment,
             timestamp:firebase.firestore.FieldValue.serverTimestamp(),
           })
         }
         catch{
           console.log('something went wrong no able to comment on this post!!')
         }
+        setInputComment('')
+        setLoad(false)
     }
 
     return(
@@ -151,13 +156,14 @@ export default function Topic(props) {
            <div className={'comment-box'}>
                 <div className={'comment-reply-box'}>
                 <Form onSubmit={(e)=>handleComment(e)}>
-                  <Form.Control as="textarea" rows={3} style={{resize:'none'}} ref={commentRef}/>
+                  <Form.Control as="textarea" rows={3} style={{resize:'none'}} value={inputComment} onChange={(e)=>setInputComment(e.target.value)}/>
                   <Button
                              type='submit'
                              variant="contained"
                              color="primary"
                              endIcon={<SendIcon/>}
                              style={{width:'fit-content',marginLeft:'7px'}}
+                             disabled={load || inputComment==''}
                              > 
                             comment
                   </Button>
