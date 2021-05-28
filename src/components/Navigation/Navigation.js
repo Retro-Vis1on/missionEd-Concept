@@ -101,6 +101,7 @@ const Navigation = () =>{
      return(
          <div>
            {console.log(currentUser)}
+           {currentUser==null ? <Redirect to='/welcome'/>: null}
            {/* {currentUser && <Redirect to='/'/>} */}
             <div className='navbar'>
            <Link to='/'>
