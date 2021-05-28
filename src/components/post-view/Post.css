@@ -92,6 +92,7 @@
 }
 .auther-icon img {
   width: 60px;
+  height: 60px;
   align-self: center;
   border-radius: 50%;
 }
@@ -127,6 +128,7 @@
 }
 .commenter-icon img {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
   align-self: center;
 }

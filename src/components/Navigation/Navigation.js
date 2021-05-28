@@ -118,8 +118,13 @@ const Navigation = () =>{
                 </div> 
                 :
                 <div>
-                <Button variant="contained" color="primary" onClick={()=>setLoginModal(true)}>Login</Button>
-                <Button variant="outlined" color="primary" onClick={()=>setSignupModal(true)}>Join Now</Button>
+                <Button variant="contained" color="primary" onClick={()=>{
+                   setSignupModal(false);
+                   setLoginModal(true)
+                   }}>Login</Button>
+                <Button variant="outlined" color="primary" onClick={()=>{
+                  setLoginModal(false)
+                  setSignupModal(true)}}>Join Now</Button>
                 </div>
                 }
                 </div>      
