@@ -7,6 +7,7 @@ import {userdb,db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
 import {Link} from 'react-router-dom'
+import ScrollableFeed from 'react-scrollable-feed'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 export default function Chats(props) {
     const[user, setUser] = useState(null);
@@ -72,7 +73,7 @@ export default function Chats(props) {
                        <div>
                          <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                          <Link to={`/user/${props.id}`} style={{textDecorationLine:'none'}}>
-                         <text>{user.name}</text>
+                         <text>{user.name==null? user.username : user.username}</text>  
                          </Link>
                        </div>
                      }
@@ -82,9 +83,11 @@ export default function Chats(props) {
                              <div className='chat-box'><text>{props.chatId}</text></div>
                              :
                              <div className='chat-box' id="scroll">
+                                 <ScrollableFeed  className='chat-box'>
                                  {props.chatMessages.map(data=>{
                                      return <CreateMessage data={data} />
-                                 })}
+                                    })}
+                            </ScrollableFeed>
                              </div> 
                         }
                      <Form onSubmit={(e)=>SendMessage(e)}>

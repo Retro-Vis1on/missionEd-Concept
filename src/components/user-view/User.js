@@ -159,7 +159,7 @@ const Main = (props) =>{
             </div>
             {/*<div className='user-menucard'>
                       <div className='user-menucard-item'>
-                          <a>
+                          <a style={{ display:userId==currentUser.uid ? 'none':null}}>
                           <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
                           </a>
                       </div>
@@ -171,7 +171,7 @@ const Main = (props) =>{
                       </div> 
                       <div className='user-menucard-item'>
                           <a>
-                             <Link to='/messages' style={{textDecorationLine:'none'}}>
+                             <Link to='/messages' style={{textDecorationLine:'none', display:userId==currentUser.uid ? 'none':null}}>
                              <Button size='small' endIcon={<BsChatDotsFill/>} variant='outlined' onClick={()=>handleMessage()} color='primary' >Message</Button>
                              </Link> 
                           </a>
