@@ -30,9 +30,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  border: solid 1px;
   width: fit-content;
-  border-radius: 5px;
   padding-inline: 3px;
 }
 .header-save-icon {
@@ -95,6 +93,10 @@
   height: 60px;
   align-self: center;
   border-radius: 50%;
+}
+.auther text {
+  font-size: 22px;
+  margin-left: 5px;
 }
 .topic-description {
   font-weight: 400;

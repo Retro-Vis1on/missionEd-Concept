@@ -10,6 +10,7 @@ import {db,userdb} from './../../firebase'
 import {Form} from 'react-bootstrap'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
+import {TextField} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 export default function Topic(props) {
     const {currentUser} = useAuth()
@@ -127,19 +128,17 @@ export default function Topic(props) {
         
             <div className={'topic-section'}>
                  <div className={'header'}>
-                     
                            <h1>{topic.title}</h1>
                            <h4>{topic.tag}</h4>
                            {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
-                              <div className={'header-heading-save'} style={{backgroundColor:isSaved?'black':'white',color:isSaved?'white':'black'}}>
-                                  <div className={'header-save-icon'}>
-                                  <AiFillSave size={20}/>
-                                  </div>
-                                  {isSaved? 
-                                  <text>Saved</text>
-                                  : <text>Save</text>
-                                  }
+                              <div className={'header-heading-save'}>
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    size="small"
+                                    startIcon={<AiFillSave/>}
+                                  >{isSaved? 'Saved': 'Save'}</Button>
                                </div>
                                </div>
                             : 
@@ -151,8 +150,8 @@ export default function Topic(props) {
                         <div className={'auther-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image=''? Default : user.profile_image} />
                         </div>
-                        <Link to={`/user/${topic.user}`} style={{color:'black'}}>
-                        <h3>{user.username}</h3>
+                        <Link to={`/user/${topic.user}`} style={{textDecorationLine:'none'}}>
+                        <text >{user.username}</text>
                         </Link>
                     </div>
                     }
@@ -163,13 +162,23 @@ export default function Topic(props) {
            <div className={'comment-box'}>
                 <div className={'comment-reply-box'}>
                 <Form onSubmit={(e)=>handleComment(e)}>
-                  <Form.Control as="textarea" rows={3} style={{resize:'none'}} value={inputComment} onChange={(e)=>setInputComment(e.target.value)}/>
+                <TextField
+                    id="standard-textarea"
+                   label="Comment"
+                    placeholder=""
+                    value={inputComment} onChange={(e)=>setInputComment(e.target.value)}
+                    rowsMax={5}
+                    multiline
+                    fullWidth
+                   />
+                  {/* <Form.Control as="textarea" rows={3} style={{resize:'none'}} value={inputComment} onChange={(e)=>setInputComment(e.target.value)}/> */}
                   <Button
+                            size="small"
                              type='submit'
                              variant="contained"
                              color="primary"
                              endIcon={<SendIcon/>}
-                             style={{width:'fit-content',marginLeft:'7px'}}
+                             style={{width:'fit-content',margin:'7px'}}
                              disabled={load || inputComment==''}
                              > 
                             comment

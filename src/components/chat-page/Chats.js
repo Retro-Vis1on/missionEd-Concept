@@ -6,6 +6,7 @@ import {Form} from 'react-bootstrap'
 import {userdb,db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
+import {Link} from 'react-router-dom'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 export default function Chats(props) {
     const[user, setUser] = useState(null);
@@ -70,7 +71,9 @@ export default function Chats(props) {
                        :
                        <div>
                          <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
+                         <Link to={`/user/${props.id}`} style={{textDecorationLine:'none'}}>
                          <text>{user.name}</text>
+                         </Link>
                        </div>
                      }
                      
