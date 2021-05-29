@@ -11,6 +11,7 @@ import Profile from './Profile'
 import {userdb} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import { Link } from 'react-router-dom';
+import './Network.css'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   
@@ -91,6 +92,7 @@ export default function FullWidthTabs() {
   };
 
   return (
+    <div className={'network-page'}>
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
@@ -111,8 +113,10 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-           {!allFollower ?
-              <div></div>
+           {allFollower==null ?
+              <div className='loading-box'>
+              <div className='loader'></div>
+             </div>
               :
               <div>
                 {allFollower.map(data=>{
@@ -127,7 +131,7 @@ export default function FullWidthTabs() {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
            <div>
-              {!allFollowing ?
+              {allFollower==null ?
                       <div className='loading-box'>
                         <div className='loader'></div>
                        </div>
@@ -145,6 +149,7 @@ export default function FullWidthTabs() {
            </div>
         </TabPanel>
       </SwipeableViews>
+    </div>
     </div>
   );
 }

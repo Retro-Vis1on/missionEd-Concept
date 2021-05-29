@@ -82,6 +82,9 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   padding: 5px;
 }
+.message-section-heading text {
+  font-size: large;
+}
 .message-chat-box {
   display: flex;
   flex-direction: column;

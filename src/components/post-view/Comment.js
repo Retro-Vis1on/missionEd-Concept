@@ -27,10 +27,12 @@ export default function Comment(props) {
                         <div className={'commenter-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image}/>
                         </div>
-                        <h3>{user.username}</h3>
+                          <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none'}}>
+                        <text>{user.username}</text>
+                        </Link>
                     </div>
             <div>
-            <text style={{fontSize:'15px'}}>{props.data.comment}</text>
+            <text style={{fontSize:'15px',marginLeft:'8%'}}>{props.data.comment}</text>
             <hr/>
         </div>
     </div>

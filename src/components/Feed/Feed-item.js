@@ -31,7 +31,7 @@ export default function FeedItem(props) {
                              </Link>
                              <div className={'midle-field'}>
                                 <div className={'feed-list-icon'}>
-                                    <img src={profile_img==null ? Default: profile_img}/>
+                                    <img src={profile_img==null ? Default: profile_img=='' ? Default : profile_img}/>
                                 </div>
                              <Link to={`/user/${props.data.user}`} style={{textDecorationColor:'none', color:'black'}}>
                                 <text className="username">{username}</text> 

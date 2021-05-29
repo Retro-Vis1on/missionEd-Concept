@@ -57,7 +57,9 @@ export default function CreatePost() {
   };
   return (
     <div>
-      <AddIcon style={{fontSize:40}} onClick={handleClickOpen}/>
+      <div className={'post-icon-box'}>
+      <AddIcon style={{fontSize:'40px'}} onClick={handleClickOpen}/>
+      </div>
       <Modal isOpen={open} onRequestClose={()=>handleClose} 
                            style={{
                             content : {

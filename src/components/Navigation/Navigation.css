@@ -50,6 +50,16 @@
   flex-direction: row;
   justify-content: space-around;
 }
+.navbar-menu img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  align-self: center;
+  margin-inline: 3px;
+}
+.navbar-menu img:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
 .select {
   background-color: white;
 }
@@ -183,6 +193,10 @@
   margin-inline: 10px;
   border-radius: 3px;
   padding-inline: 20px;
+}
+.post-icon-box:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 .create-post-button:hover {
   opacity: 0.8;

@@ -7,6 +7,7 @@ import {Form, Alert} from 'react-bootstrap'
 import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect, Link} from 'react-router-dom'
 import DrawerMenu from './Drawer'
+import Default from './../../assets/default.jpg'
 import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
 const Navigation = () =>{
@@ -22,7 +23,24 @@ const Navigation = () =>{
     const [loading, setLoading] = useState(false)
     const[loginModal,setLoginModal] = useState(false);
     const[signUpModal, setSignupModal] = useState(false);
-     
+  
+    const[user, setUser] = useState(null);
+     useEffect(()=>{
+           GetUser();
+    },[])
+    async function GetUser(){
+      if(currentUser){
+
+        try{
+          await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+            setUser(snap.data());
+          })
+        }catch{
+          console.log('something went wrong')
+        }
+      }
+    }
+ 
     async function handleSignUp(e){
       e.preventDefault()
       setError('')
@@ -60,7 +78,7 @@ const Navigation = () =>{
          })
        } catch{
          setError('Email alredy taken! please sign In')
-         setLoading(false)
+         return setLoading(false)
        } 
        console.log(currentUser);
       
@@ -80,9 +98,10 @@ const Navigation = () =>{
        try{
         setError('')
         setLoading(true)
-         await login(loginEmailRef.current.value,loginPasswordRef.current.value);
-       } catch{
+        await login(loginEmailRef.current.value,loginPasswordRef.current.value);
+      } catch{
          setError('Invalid Email or password')
+         return setLoading(false);
        }
        onCancelLogIn()
      }
@@ -101,6 +120,7 @@ const Navigation = () =>{
      return(
          <div>
            {console.log(currentUser)}
+           {currentUser==null ? <Redirect to='/welcome'/>: null}
            {/* {currentUser && <Redirect to='/'/>} */}
             <div className='navbar'>
            <Link to='/'>
@@ -111,14 +131,20 @@ const Navigation = () =>{
            </Link>
                 <div className='nav-items'> 
                 {currentUser ?
-                <div style={{display:'flex',flexDirection:'row'}}>
+                <div className={'navbar-menu'} style={{display:'flex',flexDirection:'row'}}>
                   <CreateTopic/>
+                  <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
                   <DrawerMenu/>
                 </div> 
                 :
                 <div>
-                <Button variant="contained" color="primary" onClick={()=>setLoginModal(true)}>Login</Button>
-                <Button variant="outlined" color="primary" onClick={()=>setSignupModal(true)}>Join Now</Button>
+                <Button variant="contained" color="primary" onClick={()=>{
+                   setSignupModal(false);
+                   setLoginModal(true)
+                   }}>Login</Button>
+                <Button variant="outlined" color="primary" onClick={()=>{
+                  setLoginModal(false)
+                  setSignupModal(true)}}>Join Now</Button>
                 </div>
                 }
                 </div>      
