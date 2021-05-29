@@ -153,14 +153,14 @@ export default function General(){
         </div>
           </label>
         <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
-        <text>Name</text>
-        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{maxWidth:'400px'}}/>
-        <text>Education</text>
-        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{maxWidth:'400px'}}/>
-        <text>Bio</text>
-        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}}/>
-        <text>Location</text>
-        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="location" style={{maxWidth:'400px'}}/>
+        <text style={{marginBottom : '8px'}}>Name</text>
+        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{width:'100%'}}/>
+        <text style={{marginBottom : '8px'}}>Education</text>
+        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{width:'100%'}}/>
+        <text style={{marginBottom : '8px'}}>Bio</text>
+        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}} style={{width:'100%'}}/>
+        <text style={{marginBottom : '8px'}}>Location</text>
+        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="location" style={{width:'100%'}}/>
         <Button
         variant="contained"
         color="default"
