@@ -36,7 +36,7 @@ export default function Profile() {
               <img src={user.profile_image==null ? Default : user.profile_image}/>
               <div>
                   <h3>{user.name}</h3>
-                  <text>Your Personal Accout</text>
+                  <text>Your Personal Account</text>
               </div>  
             </div>
             }

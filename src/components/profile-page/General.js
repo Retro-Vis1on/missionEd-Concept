@@ -149,20 +149,6 @@ export default function General(){
         <div className={'picture-edit'}>
         <EditIcon/>
         </div>
-<<<<<<< HEAD
-        <img style={{margin:'0 auto 0 auto'}} src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image : URL.createObjectURL(newImage))}/>
-        </div>
-          </label>
-        <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
-        <text style={{marginBottom:'8px'}}>Name</text>
-        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{width:'100%'}}/>
-        <text style={{marginBottom:'8px'}}>Education</text>
-        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{width:'100%'}}/>
-        <text style={{marginBottom:'8px'}}>Bio</text>
-        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{width:'100%',resize:'none'}}/>
-        <text style={{marginBottom:'8px'}}>Location</text>
-        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="Jaipur" style={{width:'100%'}}/>
-=======
         <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image==null? Default : user.profile_image : URL.createObjectURL(newImage))}/>
         </div>
           </label>
@@ -175,7 +161,6 @@ export default function General(){
         <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}}/>
         <text>Location</text>
         <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="location" style={{maxWidth:'400px'}}/>
->>>>>>> 9c27a40b5a9feb6096400e8a948cceb1cf1ed17c
         <Button
         variant="contained"
         color="default"
