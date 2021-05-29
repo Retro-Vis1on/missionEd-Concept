@@ -25,12 +25,11 @@
 .user-menucard {
   margin-top: 10px;
   background-color: white;
-  border-radius: 10px;
-  padding: 8px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+}
+.user-menucard-item {
+  margin-right : 10px;
 }
 .user-menucard-item a {
   display: flex;
