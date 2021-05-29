@@ -59,18 +59,19 @@
   font-size: 20px;
   color: rgb(75, 75, 75);
   flex-wrap: wrap;
+  background-color: #E0E0E0;
 }
 .chat-user-card:hover {
   background-color: rgba(0, 0, 0, 0.07);
 }
 .chat-user-card img {
-  border: solid #b3b3b3 3px;
+  border: solid #b3b3b3 2px;
   width: 50px;
   height: 50px;
-  border-radius: 40%;
+  border-radius: 50%;
 }
 .chat-user-card text {
-  padding-left: 5px;
+  padding-left: 15px;
 }
 .message-section {
   flex-wrap: wrap;
@@ -110,12 +111,12 @@
   margin-right: 8px;
   border: none;
   border-radius: 20px;
-  width: 85%;
+  width: 70%;
   padding-left: 20px;
 }
 .chat-box {
   height: 100%;
-  background-color: rgb(248, 248, 248);
+  background : url('./bgimage.jpg') fixed;
   display: flex;
   padding-bottom: 5px;
   padding-top: 10px;
@@ -127,7 +128,7 @@
 .sender-message {
   color: white;
   align-self: flex-end;
-  background-color: cornflowerblue;
+  background-color: #0275d8;
   width: fit-content;
   padding: 5px;
   margin-block: 3px;
@@ -156,6 +157,11 @@
   display: none;
   border-radius: 3px;
 }
+/* @media screen and (max-width : 1180px) {
+  .message-section-chat-input input {
+    width : 70%
+  }
+} */
 
 @media screen and (max-width: 760px) {
   .chat-users-section {
