@@ -60,7 +60,7 @@ const Navigation = () =>{
          })
        } catch{
          setError('Email alredy taken! please sign In')
-         setLoading(false)
+         return setLoading(false)
        } 
        console.log(currentUser);
       
@@ -80,9 +80,10 @@ const Navigation = () =>{
        try{
         setError('')
         setLoading(true)
-         await login(loginEmailRef.current.value,loginPasswordRef.current.value);
-       } catch{
+        await login(loginEmailRef.current.value,loginPasswordRef.current.value);
+      } catch{
          setError('Invalid Email or password')
+         return setLoading(false);
        }
        onCancelLogIn()
      }
