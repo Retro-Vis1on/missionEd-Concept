@@ -6,6 +6,7 @@ import {Form} from 'react-bootstrap'
 import {userdb,db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
+import ScrollToBottom from 'react-scroll-to-bottom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 export default function Chats(props) {
     const[user, setUser] = useState(null);
@@ -80,7 +81,7 @@ export default function Chats(props) {
                              :
                              <div className='chat-box' id="scroll">
                                  {props.chatMessages.map(data=>{
-                                     return <CreateMessage data={data}/>
+                                     return <CreateMessage data={data} />
                                  })}
                              </div> 
                         }

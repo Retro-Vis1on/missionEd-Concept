@@ -135,28 +135,28 @@ export default function General(){
         {user==null ? <div className={'general-section'}></div>
         :
       <div className={'general-section'}>
-        <text>Profile Picture</text>
-         <label htmlFor="file">
+        <text style={{textAlign:'center',marginBottom : '8px'}}>Profile Picture</text>
+         <label style={{display : 'flex',justifyContent : 'center'}} htmlFor="file">
         <div>
         <div className={'picture-edit'}>
         <EditIcon/>
         </div>
-        <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image : URL.createObjectURL(newImage))}/>
+        <img style={{margin:'0 auto 0 auto'}} src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image : URL.createObjectURL(newImage))}/>
         </div>
           </label>
         <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
-        <text>Name</text>
-        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{maxWidth:'400px'}}/>
-        <text>Education</text>
-        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{maxWidth:'400px'}}/>
-        <text>Bio</text>
-        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{maxWidth:'400px',resize:'none'}}/>
-        <text>Location</text>
-        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="Jaipur" style={{maxWidth:'400px'}}/>
+        <text style={{marginBottom:'8px'}}>Name</text>
+        <Form.Control ref={nameRef} type="name" defaultValue={user.name} placeholder="name" style={{width:'100%'}}/>
+        <text style={{marginBottom:'8px'}}>Education</text>
+        <Form.Control type="education" ref={educationRef} defaultValue={user.education} placeholder="education" style={{width:'100%'}}/>
+        <text style={{marginBottom:'8px'}}>Bio</text>
+        <Form.Control as="textarea" ref={bioRef} rows={3} defaultValue={user.bio} style={{width:'100%',resize:'none'}}/>
+        <text style={{marginBottom:'8px'}}>Location</text>
+        <Form.Control type="location" ref={locationRef} defaultValue={user.location} placeholder="Jaipur" style={{width:'100%'}}/>
         <Button
         variant="contained"
         color="default"
-        style={{width:'fit-content',fontWeight:'600',marginTop:'30px'}}
+        style={{width:'fit-content',fontWeight:'600',margin : '30px auto 10px auto'}}
         disabled={loading}
         onClick={()=>handleUpdate()}
        >

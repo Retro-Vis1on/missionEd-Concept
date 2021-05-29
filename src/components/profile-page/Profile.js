@@ -36,15 +36,15 @@ export default function Profile() {
               <img src={user.profile_image==null ? Default : user.profile_image}/>
               <div>
                   <h3>{user.name}</h3>
-                  <text>your Personal Accout</text>
+                  <text>Your Personal Accout</text>
               </div>  
             </div>
             }
             <div className={'profile-tabs-section'}>
                 <div className={'tabs-options'}>
-                    <text onClick={()=>handleTab('general')} className={activeTab==='general'? 'active-tab':null}>General</text>
-                    <text onClick={()=>handleTab('rewards')} className={activeTab==='rewards'? 'active-tab':null}>Rewards</text>
-                    <text onClick={()=>handleTab('account')} className={activeTab==='account'? 'active-tab':null}>Account</text>
+                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('general')} className={activeTab==='general'? 'active-tab':null}>General</text>
+                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('rewards')} className={activeTab==='rewards'? 'active-tab':null}>Rewards</text>
+                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('account')} className={activeTab==='account'? 'active-tab':null}>Account</text>
                 </div>
                 <div className={'active-tab-page'}>
                      {activeTab==='general'? <General/>:null}

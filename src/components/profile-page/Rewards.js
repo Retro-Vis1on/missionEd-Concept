@@ -33,7 +33,7 @@ export default class Rewards extends Component {
           <Button
            variant="contained"
            color="default"
-           style={{fontWeight:'600',marginTop:'30px'}}
+           style={{fontWeight:'600',marginTop : '30px'}}
            disabled={false}
           >
            Reedem

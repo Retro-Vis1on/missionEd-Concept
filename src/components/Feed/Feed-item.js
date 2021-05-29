@@ -34,7 +34,7 @@ export default function FeedItem(props) {
                                     <img src={profile_img==null ? Default: profile_img}/>
                                 </div>
                              <Link to={`/user/${props.data.user}`} style={{textDecorationColor:'none', color:'black'}}>
-                                <text>{username}</text> 
+                                <text className="username">{username}</text> 
                              </Link>
                              </div>
                          <div className={'post-tag'}>
