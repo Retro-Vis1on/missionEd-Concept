@@ -116,7 +116,7 @@
 }
 .chat-box {
   height: 100%;
-  background: url("./bgimage.jpg") fixed;
+  background: url("../../assets/bgimage.jpg") fixed;
   display: flex;
   padding-bottom: 5px;
   padding-top: 10px;
