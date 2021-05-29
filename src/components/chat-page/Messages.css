@@ -59,7 +59,7 @@
   font-size: 20px;
   color: rgb(75, 75, 75);
   flex-wrap: wrap;
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 .chat-user-card:hover {
   background-color: rgba(0, 0, 0, 0.07);
@@ -116,7 +116,7 @@
 }
 .chat-box {
   height: 100%;
-  background : url('./bgimage.jpg') fixed;
+  background: url("./bgimage.jpg") fixed;
   display: flex;
   padding-bottom: 5px;
   padding-top: 10px;
