@@ -138,12 +138,12 @@ const Main = (props) =>{
                    <text>{user.education}</text>
                    <div className={'profile-location'}><MdLocationOn style={{alignSelf:'center'}}/><text>{user.location}</text></div>
                    <div className='user-menucard'>
-                        <div className='user-menucard-item'>
+                        <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                             <a>
                                 <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
                             </a>
                         </div>
-                        <div className='user-menucard-item'>
+                        <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                             <a>
                             <Link to='/messages' style={{textDecorationLine:'none'}}>
                                 <Button size='small' endIcon={<BsChatDotsFill/>} variant='outlined' onClick={()=>handleMessage()} color='primary' >Message</Button>

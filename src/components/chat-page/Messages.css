@@ -123,6 +123,7 @@
   flex-direction: column;
   /* justify-content: flex-end; */
   overflow: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 .sender-message {
