@@ -47,8 +47,14 @@ options={{
             <h1>Welcome to MissionEd Forum!</h1>
             <p className="para">Connect with potential recruiters<br/>Collabrate with your friends<br/> Win exciting rewards!</p>
             <div className='buttons'>
-                              <Button  variant="contained"  color="primary" >LOGIN</Button>{'    '}
-                              <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button>
+                          <label htmlFor='login-button' >
+                            <text className='action-button'>Log In</text>
+                              {/* <Button variant="contained" color="primary" >LOGIN</Button>{'    '} */}
+                          </label>
+                          <label htmlFor='signup-button'>
+                             <text className='action-button' >Join Now</text>
+                              {/* <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button> */}
+                          </label>
                         
     </div>
          </div>  
