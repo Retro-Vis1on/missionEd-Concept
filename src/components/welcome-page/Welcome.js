@@ -51,10 +51,10 @@ options={{
                               <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button>
                         
     </div>
-         </div>  
+         </div> 
     </div>
     );
         } 
 
-
+        
 export default Welcome;
