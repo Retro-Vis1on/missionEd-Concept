@@ -4,7 +4,7 @@ import { AuthProvider,useAuth } from './contexts/AuthContext';
 import {BrowserRouter as Router , Switch, Route} from 'react-router-dom'
 import Home from './components/home-page/Home'
 import Navigation from './components/Navigation/Navigation'
-import Network from './components/network/Tab'
+import Network from './components/network/Network'
 import Profile from './components/profile-page/Profile'
 import Messages from './components/chat-page/Messages'
 import Post from './components/post-view/Post'

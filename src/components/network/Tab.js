@@ -131,7 +131,7 @@ export default function FullWidthTabs() {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
            <div>
-              {allFollower==null ?
+              {allFollowing==null ?
                       <div className='loading-box'>
                         <div className='loader'></div>
                        </div>
