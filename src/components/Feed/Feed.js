@@ -68,7 +68,7 @@ export default function Feed() {
 
     async function GetPosts(){
       try{
-        await db.collection('posts').onSnapshot(snap=>{
+        await db.collection('posts').orderBy('timestamp','desc').onSnapshot(snap=>{
           setPosts(snap.docs.map(doc=>({id:doc.id,data:doc.data()})))
         })
       }catch{
