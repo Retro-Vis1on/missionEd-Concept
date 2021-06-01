@@ -103,10 +103,10 @@ export default function Feed() {
       </div> */}
       <div>
       <div className={'feed-section'}>
-            <div style={{backgroundColor: 'white'}} className={'feed'}>   
+            <div className={'feed'}>   
                       <div className={'topic-item-box'}>
                           <h4>Posts</h4>
-                      <hr style={{height:'3px',backgroundColor:'#414141'}}/>
+                      <hr style={{height:'3px',backgroundColor:'#7C7E7F'}}/>
                       {loading ? 
                         <div className='loading-box'>
                         <div className='loader'></div>

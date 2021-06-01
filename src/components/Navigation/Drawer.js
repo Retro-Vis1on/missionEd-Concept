@@ -64,27 +64,27 @@ export default function MenuDrawer() {
       </List>
       <Divider />
       <List>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/'>
+          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/'>
           <ListItem button >
-            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemIcon><HomeIcon style={{color:'#444753'}}/></ListItemIcon>
             <ListItemText primary={'Home'} />
           </ListItem>
           </Link>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/network'>
+          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/network'>
           <ListItem button >
-            <ListItemIcon><PeopleIcon /></ListItemIcon>
+            <ListItemIcon><PeopleIcon style={{color:'#444753'}}/></ListItemIcon>
             <ListItemText primary={'Network'} />
           </ListItem>
           </Link>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/messages'>
+          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/messages'>
           <ListItem button >
-            <ListItemIcon><MessageIcon /></ListItemIcon>
+            <ListItemIcon><MessageIcon style={{color:'#444753'}}/></ListItemIcon>
             <ListItemText primary={'Messages'} />
           </ListItem>
           </Link>
-          <Link style={{textDecorationLine:'none',color:'black'}} to='/profile'>
+          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/profile'>
           <ListItem button >
-            <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+            <ListItemIcon><AccountCircleIcon style={{color:'#444753'}}/></ListItemIcon>
             <ListItemText primary={'Profile'} />
           </ListItem>
           </Link>
@@ -93,7 +93,7 @@ export default function MenuDrawer() {
       <div onClick={()=>handleLogout()}>
       <List>
           <ListItem button >
-            <ListItemIcon ><ExitToAppIcon /></ListItemIcon>
+            <ListItemIcon ><ExitToAppIcon style={{color:'#444753'}}/></ListItemIcon>
             <ListItemText primary={'Logout'} />
           </ListItem>
       </List>
@@ -105,7 +105,7 @@ export default function MenuDrawer() {
     <div>
         <React.Fragment>
            <div onClick={toggleDrawer()}  className={'navbar-icons'}>
-             <MenuOpenIcon style={{ fontSize: 40 }}/>
+             <MenuOpenIcon style={{ fontSize: 40, color:'#E3E3E3' }}/>
             </div> 
           {/* <Button onClick={toggleDrawer()}>{'right'}</Button> */}
           <Drawer anchor={'right'} open={isOpen} onClose={toggleDrawer()}>

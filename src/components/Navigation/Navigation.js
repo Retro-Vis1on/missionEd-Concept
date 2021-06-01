@@ -123,7 +123,7 @@ const Navigation = () =>{
            {currentUser==null ? <Redirect to='/welcome'/>: null}
            {/* {currentUser && <Redirect to='/'/>} */}
             <div className='navbar'>
-           <Link to='/'>
+           <Link to='/' style={{textDecorationLine:'none'}}>
                 <div className={'mission-ed-logo'}>
                      <img className='log-image' src={MissionEd_logo} width={'40px'}/>
                      <text  className='logo-text'>MissionEd Forum</text>
@@ -138,11 +138,11 @@ const Navigation = () =>{
                 </div> 
                 :
                 <div>
-                <Button id='login-button' variant="contained" color="primary" onClick={()=>{
+                <Button id='login-button' variant="contained" color="secondary" onClick={()=>{
                    setSignupModal(false);
                    setLoginModal(true)
                    }}>Login</Button>
-                <Button id='signup-button' variant="outlined" color="primary" onClick={()=>{
+                <Button id='signup-button' variant="outlined" color="secondary" onClick={()=>{
                   setLoginModal(false)
                   setSignupModal(true)}}>Join Now</Button>
                 </div>

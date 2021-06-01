@@ -4,7 +4,7 @@
   z-index: 999;
   padding-block: 10px;
   display: flex;
-  background-color: #f8f9fa;
+  background-color: #444753;
   flex-direction: row;
   justify-content: space-between;
   padding-inline: 2%;
@@ -21,7 +21,7 @@
   font-size: 25px;
   font-weight: 700;
   margin-left: 3px;
-  color: #ff6200;
+  color: #ff7824;
 }
 .nav-items Button {
   margin-inline: 5px;
