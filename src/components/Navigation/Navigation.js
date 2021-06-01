@@ -138,11 +138,11 @@ const Navigation = () =>{
                 </div> 
                 :
                 <div>
-                <Button id='login-button' variant="contained" color="secondary" onClick={()=>{
+                <Button id='login-button' variant="contained" style={{color:'white',backgroundColor:'#ff7824'}} color="secondary" onClick={()=>{
                    setSignupModal(false);
                    setLoginModal(true)
                    }}>Login</Button>
-                <Button id='signup-button' variant="outlined" color="secondary" onClick={()=>{
+                <Button id='signup-button' variant="outlined" color="secondary" style={{fontWeight:'bold',color:'#ff7824',borderColor:'#ff7824'}} onClick={()=>{
                   setLoginModal(false)
                   setSignupModal(true)}}>Join Now</Button>
                 </div>
