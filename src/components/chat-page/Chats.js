@@ -70,10 +70,13 @@ export default function Chats(props) {
                      {user==null?
                          <div></div>
                        :
-                       <div>
+                       <div style={{display:'flex'}}>
+                         <div className={'backButton'}>
+                         <ArrowBackIcon onClick={()=>props.actions()} style={{color:'white',fontSize:'35px'}} />
+                         </div>
                          <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
-                         <Link to={`/user/${props.id}`} style={{textDecorationLine:'none'}}>
-                         <text>{user.name==null? user.username : user.username}</text>  
+                         <Link to={`/user/${props.id}`} style={{textDecorationLine:'none',display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                         <text>{user.name==null? user.username : user.name}</text>  
                          </Link>
                        </div>
                      }
@@ -92,7 +95,11 @@ export default function Chats(props) {
                         }
                      <Form onSubmit={(e)=>SendMessage(e)}>
                      <div className='message-section-chat-input'>
-                         <input placeholder=' message:)' value={input} onChange = {(e)=>{setInput(e.target.value)}} />
+                         <input  placeholder=' message:)' value={input} onChange = {(e)=>{setInput(e.target.value)}} />
+                         <button type='submit' style={{backgroundColor:'transparent',border:'none',position:'absolute',marginTop:'5px',marginLeft:'-50px'}}>
+                         <SendIcon/>
+                         </button>
+{/*                          
                          <Button
                              type='submit'
                               variant="contained"
@@ -100,7 +107,7 @@ export default function Chats(props) {
                               endIcon={<SendIcon/>}
                               >
                             Send
-                           </Button>
+                           </Button> */}
                      </div>
                      </Form>
                     
