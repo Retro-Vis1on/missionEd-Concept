@@ -2,7 +2,7 @@
   padding-top: 100px;
   background-color: #f1f4ffff;
   padding-inline: 20%;
-  min-height: 90vh;
+  min-height: 100vh;
 }
 .profiles-section {
   margin-top: 20px;
@@ -86,4 +86,38 @@
   background-color: white;
   padding-inline: 30px;
   border-radius: 20px;
+}
+.network-category-box {
+  display: flex;
+  justify-content: center;
+}
+.network-category-box div {
+  /* border: solid; */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.network-category-button {
+  border: none;
+  padding-block: 10px;
+  padding-inline: 30px;
+  border-radius: 10px;
+  transition: all 0.4s;
+}
+.network-category-button-active {
+  background-color: #444753;
+  color: white;
+  font-weight: bold;
+  padding-inline: 40px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.network-tabs {
+  margin-top: 20px;
+  background-color: white;
+  padding-inline: 20px;
+  border-radius: 10px;
+}
+@media screen and (max-width: 768px) {
+  .network-category-button {
+    padding-inline: 15px;
+  }
 }
