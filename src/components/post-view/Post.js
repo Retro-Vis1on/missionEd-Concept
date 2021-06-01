@@ -132,30 +132,31 @@ export default function Topic(props) {
                            <h4>{topic.tag}</h4>
                            {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
-                              <div className={'header-heading-save'}>
-                                  <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    size="small"
-                                    startIcon={<AiFillSave/>}
-                                  >{isSaved? 'Saved': 'Save'}</Button>
-                               </div>
+                                <div className={'header-heading-save'}>
+                                    <Button
+                                      variant="outlined"
+                                      color="primary"
+                                      size="small"
+                                      startIcon={<AiFillSave/>}
+                                    >{isSaved? 'Saved': 'Save'}</Button>
+                                </div>
                                </div>
                             : 
                               <div></div>
                             }
                     <hr/>
+                    <text>Post created by :</text>
                     {user==null? null:
                     <div className={'auther'}>
                         <div className={'auther-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image=''? Default : user.profile_image} />
                         </div>
-                        <Link to={`/user/${topic.user}`} style={{textDecorationLine:'none'}}>
-                        <text >{user.username}</text>
+                        <Link to={`/user/${topic.user}`} className="link-user" style={{textDecorationLine:'none'}}>
+                          <text >{user.username}</text>
                         </Link>
                     </div>
                     }
-                    <text  className={'topic-description'}>{topic.description}</text>
+                    {/* <text  className={'topic-description'}>{topic.description}</text> */}
                  </div>  
       
            </div>
@@ -178,7 +179,7 @@ export default function Topic(props) {
                              variant="contained"
                              color="primary"
                              endIcon={<SendIcon/>}
-                             style={{width:'fit-content',margin:'7px'}}
+                             style={{width:'fit-content',margin:'10px 4px 0 0'}}
                              disabled={load || inputComment==''}
                              > 
                             comment

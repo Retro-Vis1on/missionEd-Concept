@@ -60,7 +60,6 @@ export default function Messages() {
     return (
         <div className='message-page'>
             {currentUser==null && <Redirect to='./welcome'/>}
-                     <AiOutlineMenuUnfold onClick={()=>handleLeftMenu()} size={30} color={'white'} className={'leftMenubutton'} />
               <div className='message-card'>
                   <div className={!ischatOpen ? 'chat-users-section':'chat-users-section chat-users-section-close'}> 
                       <div className='chat-user-heading'>
@@ -87,38 +86,10 @@ export default function Messages() {
                       </div>
                   </div>
                   <div className={ischatOpen ? 'message-section':'message-section message-section-mobile'}>
-                     {/* <div className='message-section-heading'>
-                         <img src={Default}/>
-                         <text>Amar Preet Singh</text>
-                     </div>
-                     <Form onSubmit={(e)=>SendMessage(e)}>
-                     <div className='message-section-chat-input'>
-                         <input placeholder=' message:)' ref={messageInputRef}/>
-                         <Button
-                             type='submit'
-                              variant="contained"
-                              color="primary"
-                              endIcon={<SendIcon/>}
-                              >
-                            Send
-                           </Button>
-                     </div>
-                     </Form>
-                     {chatMessages==null?
-                         <div><text>hey click on user and chat</text></div>
-                         :
-                         <div className='chat-box'>
-                             {chatMessages.map(data=>{
-                                 return <CreateMessage data={data}/>
-                             })}
-                         </div> 
-                    }
-                    
-                */}
                   {chatMessages==null ?
                   <div></div>
                   :
-                  <Chats chatMessages={chatMessages} chatId={chatId} id={activeUser} />
+                  <Chats chatMessages={chatMessages} chatId={chatId} id={activeUser} actions={()=>handleLeftMenu()} />
                   }
                   </div> 
               </div>

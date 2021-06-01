@@ -23,16 +23,19 @@ export default function Comment(props) {
       {user==null? null
       :
     <div className={'reply'}>
-                    <div className={'commenter-auther'}>
+                    <div className={'commenter-auther'} style={{display : 'flex'}}>
                         <div className={'commenter-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image}/>
                         </div>
-                          <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none'}}>
-                        <text>{user.username}</text>
-                        </Link>
+                        <div className="commenter-content" style={{border : '2px solid white',backgroundColor : '#e6e6e6',borderRadius : '10px',marginLeft : '10px',width : '80%',padding : '5px'}}>
+                          <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
+                            <text>{user.username}</text>
+                          </Link>
+                          <text style={{fontSize:'15px'}}>{props.data.comment}</text>
+                        </div>
                     </div>
             <div>
-            <text style={{fontSize:'15px',marginLeft:'8%'}}>{props.data.comment}</text>
+            
             <hr/>
         </div>
     </div>
