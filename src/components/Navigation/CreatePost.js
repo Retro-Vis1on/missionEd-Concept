@@ -8,6 +8,7 @@ import {db} from './../../firebase'
 import Snackbar from '@material-ui/core/Snackbar';
 import {useAuth} from './../../contexts/AuthContext'
 import MuiAlert from '@material-ui/lab/Alert';
+import firebase from 'firebase'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -41,7 +42,8 @@ export default function CreatePost() {
            user:currentUser.uid,
            title: titleRef.current.value,
            tag: tagRef.current.value,
-           description: descriptionRef.current.value,       
+           description: descriptionRef.current.value,
+           timestamp: firebase.firestore.FieldValue.serverTimestamp()    
         })
      }catch{
        alert('something went wront, please check your internet connection!!')
