@@ -5,9 +5,7 @@ import {Redirect} from 'react-router-dom'
 import Typewriter from "typewriter-effect";
 import {Button,TextField} from '@material-ui/core'
 import learning from './../../assets/learning.jpg'
-
-
-
+import MediaQuery from 'react-responsive'
 
 
 
@@ -15,6 +13,7 @@ const Welcome = (props) =>{
      const {currentUser} = useAuth()
 
      return(
+       
        <div className="bg_image">
         
         {console.log(currentUser)}
@@ -39,7 +38,7 @@ options={{
             .start();
          }}
          />
-         <img className='image' src={learning} width={'550px'}/>
+         <img className='images' src={learning}/>
 
          </div>      
          <div className="right">
@@ -47,8 +46,14 @@ options={{
             <h1>Welcome to MissionEd Forum!</h1>
             <p className="para">Connect with potential recruiters<br/>Collabrate with your friends<br/> Win exciting rewards!</p>
             <div className='buttons'>
-                              <Button  variant="contained"  color="primary" >LOGIN</Button>{'    '}
-                              <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button>
+                          <label htmlFor='login-button' >
+                            <text className='action-button'>Login</text>
+                              {/* <Button variant="contained" color="primary" >LOGIN</Button>{'    '} */}
+                          </label>
+                          <label htmlFor='signup-button'>
+                             <text className='action-button' >Join Now</text>
+                              {/* <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button> */}
+                          </label>
                         
     </div>
          </div> 
