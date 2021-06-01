@@ -1,10 +1,9 @@
 .feed-page {
-  
   padding-top: 100px;
-  background-color: rgb(255, 255, 255);
+  background-color: #f1f4ffff;
 }
 .feed-section {
-  background-color: rgb(255, 255, 255);
+  background-color: #f1f4ffff;
   padding-bottom: 50px;
   min-height: 90vh;
 }
