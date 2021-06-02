@@ -9,7 +9,7 @@ export default function FeedItem(props) {
 
     useEffect(()=>{
        GetUser();
-    },[])
+    },[props.data.user])
     
     async function GetUser(){
         try{
