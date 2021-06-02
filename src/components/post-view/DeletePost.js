@@ -43,15 +43,22 @@ export default function DeletePost(props) {
                 <DialogTitle id="alert-dialog-title">Do you really want to delete this post ?</DialogTitle>
                 <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    post will permanatly removed after delete, do you still want to delete?
+                The post will permanently remove after delete, do you still want to delete!
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button 
+                  onClick={handleClose} 
+                  color="primary"
+                  variant='outlined'>
                     cancel
                 </Button>
-                <Link to='/'>
-                <Button onClick={()=>Delete()} color="primary" autoFocus>
+                <Link to='/' style={{textDecorationLine:'none'}}>
+                <Button 
+                  onClick={()=>Delete()} 
+                  color="primary" 
+                  variant='contained'
+                  autoFocus>
                     Yes
                 </Button>
                 </Link>

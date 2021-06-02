@@ -99,7 +99,7 @@ export default function General(){
        education: educationRef.current.value,
        bio: bioRef.current.value,
        location: locationRef.current.value,
-       profile_image: imageAsUrl==null ? '' : imageAsUrl,
+       profile_image: imageAsUrl==null ? user.profile_image==null? '': user.profile_image : imageAsUrl,
       })
     }catch{
       console.log('something went wrong !!')
