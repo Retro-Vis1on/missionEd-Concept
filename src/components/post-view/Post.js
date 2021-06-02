@@ -58,7 +58,7 @@ export default function Topic(props) {
               setUser(snap.data())
           })
         });
-        await db.collection(`posts/${id}/comments`).onSnapshot(snap=>{
+        await db.collection(`posts/${id}/comments`).orderBy('timestamp','desc').onSnapshot(snap=>{
           setTopicComment(snap.docs.map(data=>{return data.data()}));
         });
       } catch{
@@ -156,7 +156,7 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    {/* <text  className={'topic-description'}>{topic.description}</text> */}
+                    <text  className={'topic-description'}>{topic.description}</text>
                  </div>  
       
            </div>
