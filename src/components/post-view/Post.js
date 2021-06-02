@@ -12,6 +12,8 @@ import {useAuth} from './../../contexts/AuthContext'
 import firebase from 'firebase'
 import {TextField} from '@material-ui/core'
 import {Link} from 'react-router-dom'
+import EditPost from './EditPost';
+import DeletePost from './DeletePost'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -53,10 +55,12 @@ export default function Topic(props) {
     async function getTopicData(id){
       try{
         await db.collection('posts').doc(id).onSnapshot(snap=>{
-          setTopic(snap.data())
-          userdb.doc(snap.data().user).onSnapshot(snap=>{
+          if(snap.data()){
+            setTopic(snap.data())
+            userdb.doc(snap.data().user).onSnapshot(snap=>{
               setUser(snap.data())
-          })
+            })
+          }
         });
         await db.collection(`posts/${id}/comments`).orderBy('timestamp','desc').onSnapshot(snap=>{
           setTopicComment(snap.docs.map(data=>{return data.data()}));
@@ -130,6 +134,14 @@ export default function Topic(props) {
                  <div className={'header'}>
                            <h1>{topic.title}</h1>
                            <h4>{topic.tag}</h4>
+                           {currentUser.uid==topic.user ? 
+                             <div>
+                               <EditPost post={topic} id={postId}/>
+                               <DeletePost id={postId}/>
+                             </div>
+                             :
+                             null
+                           }
                            {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
                                 <div className={'header-heading-save'}>

@@ -1,5 +1,5 @@
 .topic-page {
-  background-color: #F1F4FFFF;
+  background-color: #f1f4ffff;
   padding-inline: 15%;
   padding-top: 80px;
   padding-bottom: 70px;
@@ -102,7 +102,7 @@
 .auther .link-user {
   justify-content: center;
   align-items: center;
-  margin-left : 8px;
+  margin-left: 8px;
 }
 .topic-description {
   font-weight: 400;
@@ -120,11 +120,11 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 .commenter-author {
-  display : flex;
+  display: flex;
 }
 .commenter-author .commenter-content {
-  border : 2px solid white;
-  background-color: #3333FF;
+  border: 2px solid white;
+  background-color: #3333ff;
 }
 
 @media screen and (max-width: 760px) {
@@ -147,4 +147,12 @@
   height: 40px;
   border-radius: 50%;
   align-self: center;
+}
+.header h1 {
+  font-size: 30px;
+}
+@media screen and (max-width: 768px) {
+  .header h1 {
+    font-size: 25px;
+  }
 }
