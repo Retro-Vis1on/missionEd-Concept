@@ -82,7 +82,7 @@ export default function CreatePost(props) {
                               },
                            }}>
                            <div className={'create-post-modal'}>
-                              <h4 className={'text-center'}>Create Post</h4>
+                              <h4 className={'text-center'}>Edit Post</h4>
                             <Form onSubmit={handlePost}> 
                               <Form.Group controlId="exampleForm.ControlInput1">
                                  <Form.Label >Title</Form.Label>

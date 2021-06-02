@@ -8,7 +8,7 @@ export default function Profile(props) {
 
     useEffect(() => {
       GetUser();
-   }, [])
+   }, [props.data])
    
    async function GetUser(){
      try{
