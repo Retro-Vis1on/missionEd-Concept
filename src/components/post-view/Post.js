@@ -200,7 +200,7 @@ export default function Topic(props) {
                 </div>
            </div>
            <div className={'comments'}>
-               <h2 onClick={()=>console.log(topicComment)}>Comments</h2>
+               <h4>Comments</h4>
                <hr/>
                 <div className={'all-replies'}>
                   {topicComment!==null ?

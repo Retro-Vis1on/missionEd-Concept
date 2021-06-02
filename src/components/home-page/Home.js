@@ -14,7 +14,6 @@ export default function Home() {
 
     return (
         <div className={'feed-page'}>
-                  {console.log(currentUser)}
                   {currentUser==null ? <Redirect to='/welcome'/>: null}
            
             <Feed/>

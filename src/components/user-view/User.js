@@ -104,7 +104,6 @@ const Main = (props) =>{
 }
 
     async function handleMessage(){
-        console.log(msgexist)
         if(!msgexist){
             try{
                await db.collection('chats').add({

@@ -7,7 +7,6 @@ export default function UserCard(props) {
     const{currentUser} = useAuth();
 
     useState(()=>{
-        console.log(props.data)
       GetUser()
     },[])
 

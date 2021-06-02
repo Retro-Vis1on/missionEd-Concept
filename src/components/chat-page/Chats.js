@@ -20,7 +20,6 @@ export default function Chats(props) {
     },[props.id])
 
     async function GetUser(){
-        console.log(props.id)
         try{
          await userdb.doc(props.id).onSnapshot(snap=>{
             setUser(snap.data())

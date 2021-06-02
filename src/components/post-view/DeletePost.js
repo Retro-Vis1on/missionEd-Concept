@@ -20,7 +20,6 @@ export default function DeletePost(props) {
       };
     async function Delete(){
        try{
-           console.log(props.id);
            await db.collection('posts').doc(props.id).delete();
        }catch{
            console.log('something went wrong!')

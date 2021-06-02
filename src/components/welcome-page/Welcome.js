@@ -15,8 +15,6 @@ const Welcome = (props) =>{
      return(
        
        <div className="bg_image">
-        
-        {console.log(currentUser)}
         {currentUser && <Redirect to='/'/>}
             <div className="left">
             <Typewriter

@@ -70,7 +70,6 @@ const Navigation = () =>{
           return setError('Username already exist!')
         }
         else{
-          console.log('chala')
           SignUp();
         }
       })
@@ -91,7 +90,6 @@ const Navigation = () =>{
          setError('Email alredy taken! please sign In')
          return setLoading(false)
        } 
-       console.log(currentUser);
       
        setLoading(false)
        onCancelSignup();
@@ -130,7 +128,6 @@ const Navigation = () =>{
 
      return(
          <div>
-           {console.log(currentUser)}
            {currentUser==null ? <Redirect to='/welcome'/>: null}
            {/* {currentUser && <Redirect to='/'/>} */}
             <div className='navbar'>

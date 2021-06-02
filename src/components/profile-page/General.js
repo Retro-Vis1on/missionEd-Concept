@@ -93,7 +93,6 @@ export default function General(){
  }
 
  async function UpdateProfile(){
-   console.log(imageAsUrl)
    try{
      await userdb.doc(currentUser.uid).update({
        name: nameRef.current.value,
@@ -105,18 +104,17 @@ export default function General(){
     }catch{
       console.log('something went wrong !!')
     }
-   console.log('uploaded successfully');
+   
  }
   
  async function firebaseUpload(file){
 
-  console.log('start of upload')
+  
   const uploadTask = storage.ref(`/profile_images/${file.name}`).put(file)
   //initiates the firebase side uploading 
   uploadTask.on('state_changed', 
   (snapShot) => {
     //takes a snap shot of the process as it is happening
-    console.log(snapShot)
   }, (err) => {
     //catches the errors
     console.log(err)

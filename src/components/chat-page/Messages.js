@@ -21,7 +21,6 @@ export default function Messages() {
 
     async function GetUsers(){
         await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
-            snap.docs.map(data=>{console.log(data.id)})
             setChatUsers(snap.docs.map(data=>data.data()));
         })
     }

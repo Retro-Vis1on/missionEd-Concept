@@ -29,7 +29,6 @@ export default function FeedBack() {
 
     return (
         <div>
-          {console.log(isMobile)}
             <Tooltip title="Feedback">
             <div style={{position:'fixed',right:'3%',bottom:'5%'}}>
             <Fab onClick={()=>{setfeedback(true)}} color="primary" aria-label="add">

@@ -34,7 +34,6 @@ export default function CreatePost(props) {
    async function handlePost(e){
      e.preventDefault();
      if(titleRef.current.value=='' || tagRef.current.value=='' || descriptionRef.current.value==''){
-       console.log('sdkl')
        return setBlankError(true);
      }
      setLoading(true);
