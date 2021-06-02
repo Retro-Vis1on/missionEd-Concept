@@ -38,7 +38,7 @@ const Navigation = () =>{
 
      useEffect(()=>{
            GetUser();
-    },[])
+    },[currentUser])
     async function GetUser(){
       if(currentUser){
 
