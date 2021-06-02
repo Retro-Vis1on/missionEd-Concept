@@ -6,7 +6,7 @@ import Typewriter from "typewriter-effect";
 import {Button,TextField} from '@material-ui/core'
 import learning from './../../assets/learning.jpg'
 import MediaQuery from 'react-responsive'
-
+import Feedback from './../Navigation/FeedBack'
 
 
 const Welcome = (props) =>{
@@ -55,11 +55,12 @@ options={{
                               {/* <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button> */}
                           </label>
                         
-    </div>
-         </div> 
+       </div>
+         </div>
+    <Feedback/> 
     </div>
     );
-        } 
+ } 
 
         
 export default Welcome;
