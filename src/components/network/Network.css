@@ -1,5 +1,5 @@
 .network-page {
-  padding-top: 100px;
+  padding-top: 120px;
   background-color: #f1f4ffff;
   padding-inline: 20%;
   min-height: 100vh;
@@ -24,7 +24,7 @@
   width: 80%;
   display: flex;
   flex-direction: column;
-  padding-right: 10px;
+  margin-left : 10px;
 }
 .profile-button-box {
   justify-self: flex-end;
@@ -39,9 +39,9 @@
 .profile-name {
   font-size: 20px;
   font-weight: bold;
-  border: solid;
+  /* border: solid;
   border-width: 0px;
-  border-bottom-width: 1.5px;
+  border-bottom-width: 1.5px; */
 }
 .profile-company {
   font-size: 14px;
@@ -121,3 +121,4 @@
     padding-inline: 15px;
   }
 }
+
