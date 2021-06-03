@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {useAuth} from './../../contexts/AuthContext'
-import {db} from './../../firebase'
+import {db, userdb} from './../../firebase'
 export default function Rewards(){
       const{currentUser} = useAuth();
       const[coins ,setCoins] = useState(null);
@@ -20,13 +20,8 @@ export default function Rewards(){
 
       async function GetCoins(){
         try{
-            await db.collection('rewards').doc(currentUser.uid).onSnapshot(snap=>{
-                if(snap.exists){
-                    setCoins(snap.data().coins);
-                }
-                else{
-                  setCoins(0);
-                }
+            await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+              setCoins(snap.data().coins)
             })
         }catch{
             console.log('error');

@@ -14,6 +14,7 @@ import {TextField} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import EditPost from './EditPost';
 import DeletePost from './DeletePost'
+import {UpdateCoins} from './../../apis/API'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -118,6 +119,7 @@ export default function Topic(props) {
         }
         setInputComment('')
         setLoad(false)
+        UpdateCoins(currentUser.uid, 2);
     }
 
     return(

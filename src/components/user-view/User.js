@@ -14,6 +14,7 @@ import Icon from '@material-ui/core/Icon';
 import {MdLocationOn} from 'react-icons/md'
 import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
+import {UpdateCoins} from './../../apis/API'
 const Main = (props) =>{
     const{currentUser} = useAuth();
     const[buttonvarient, setButtonVarient] = useState('outlined')
@@ -109,6 +110,7 @@ const Main = (props) =>{
                await db.collection('chats').add({
                    users:[currentUser.uid,userId],
                })
+               UpdateCoins(currentUser.uid,5)
             }catch{
                 console.log('something went wrong!!')
              }
