@@ -37,7 +37,8 @@ export default function Profile(props) {
                  <text className={'profile-company'}>{user.education}</text>
                  <text className={'profile-about'}>{user.bio}</text>
                 <text className={'profile-location'}>
-                    <MdLocationOn />{user.location}
+                    {user.location ? <MdLocationOn style={{marginTop : '3px'}} /> : null}
+                    {user.location} 
                 </text>
            </div>
            <div className={'profile-button-box'}>

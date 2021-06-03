@@ -1,8 +1,14 @@
 .topic-page {
   background-color: #f1f4ffff;
   padding-inline: 15%;
-  padding-top: 80px;
+  padding-top: 120px;
   padding-bottom: 70px;
+}
+.sub-heading {
+  display : flex;
+}
+.sub-heading > div {
+  margin-right : 10px;
 }
 .topic-section {
   background-color: white;
@@ -106,7 +112,7 @@
 }
 .topic-description {
   font-weight: 400;
-  padding-inline: 10%;
+
 }
 .comment-reply-box {
   display: flex;

@@ -66,7 +66,7 @@ export default function Network(){
         <div style={{display:activeTab=='followers'? null:'none'}}>
           {!allFollower.length ?
               <div className='loading-box'>
-              No one following you!
+              <p>No one is following you!</p>
              </div>
               :
               <div>
@@ -83,7 +83,7 @@ export default function Network(){
         <div style={{display:activeTab=='following'? null:'none'}}>
               {!allFollower.length ?
                       <div className='loading-box'>
-                        you are not following anyone!
+                        <p>you are not following anyone!</p>
                        </div>
                 :
                 <div>

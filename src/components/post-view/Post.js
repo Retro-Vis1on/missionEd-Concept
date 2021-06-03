@@ -135,14 +135,14 @@ export default function Topic(props) {
                            <h1>{topic.title}</h1>
                            <h4>{topic.tag}</h4>
                            {currentUser.uid==topic.user ? 
-                             <div>
-                               <EditPost post={topic} id={postId}/>
-                               <DeletePost id={postId}/>
-                             </div>
-                             :
-                             null
-                           }
-                           {topicComment!==null? 
+                             <div className="sub-heading">
+                               <div>
+                                <EditPost post={topic} id={postId}/>
+                              </div>
+                              <div>
+                                <DeletePost id={postId}/>
+                              </div>
+                              {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
                                 <div className={'header-heading-save'}>
                                     <Button
@@ -156,6 +156,10 @@ export default function Topic(props) {
                             : 
                               <div></div>
                             }
+                             </div>
+                             :
+                             null
+                           }
                     <hr/>
                     <text>Post created by :</text>
                     {user==null? null:
@@ -168,7 +172,7 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <text style={{whiteSpace:'pre-wrap'}}  className={'topic-description'}>{topic.description}</text>
+                    <p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p>
                  </div>  
       
            </div>
