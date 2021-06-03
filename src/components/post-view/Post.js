@@ -16,6 +16,7 @@ import EditPost from './EditPost';
 import DeletePost from './DeletePost'
 import Linkify from 'react-linkify';
 import React from 'react'
+import {UpdateCoins} from './../../apis/API'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
