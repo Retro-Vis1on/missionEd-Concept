@@ -1,4 +1,4 @@
-import React,{Component, useState} from 'react'
+import React,{Component, useState,useEffect} from 'react'
 import { TextField } from "@material-ui/core";
 import {RiCoinsLine} from 'react-icons/ri'
 import {Button} from '@material-ui/core'
@@ -7,11 +7,32 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import {useAuth} from './../../contexts/AuthContext'
+import {db} from './../../firebase'
 export default function Rewards(){
-
-      const[coins ,setCoins] = useState(20);
+      const{currentUser} = useAuth();
+      const[coins ,setCoins] = useState(null);
       const [open, setOpen] = useState(false);
+      
+      useEffect(()=>{
+         GetCoins();
+      },[])
+
+      async function GetCoins(){
+        try{
+            await db.collection('rewards').doc(currentUser.uid).onSnapshot(snap=>{
+                if(snap.exists){
+                    setCoins(snap.data().coins);
+                }
+                else{
+                  setCoins(0);
+                }
+            })
+        }catch{
+            console.log('error');
+        }
+    }
+
 
       const handleClickOpen = () => {
         setOpen(true);
@@ -23,7 +44,7 @@ export default function Rewards(){
     
       return(
       <div className={'profile-content'}>
-       {!coins?
+       {coins==null?
          <div className={'loading-box'}>
              <div className={'loader'}></div>    
          </div>
