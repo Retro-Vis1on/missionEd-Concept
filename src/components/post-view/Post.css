@@ -6,6 +6,7 @@
 }
 .sub-heading {
   display : flex;
+  margin-bottom : 10px;
 }
 .sub-heading > div {
   margin-right : 10px;

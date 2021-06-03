@@ -142,7 +142,11 @@ export default function Topic(props) {
                               <div>
                                 <DeletePost id={postId}/>
                               </div>
-                              {topicComment!==null? 
+                             </div>
+                             :
+                             null
+                           }
+                           {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
                                 <div className={'header-heading-save'}>
                                     <Button
@@ -156,10 +160,6 @@ export default function Topic(props) {
                             : 
                               <div></div>
                             }
-                             </div>
-                             :
-                             null
-                           }
                     <hr/>
                     <text>Post created by :</text>
                     {user==null? null:
