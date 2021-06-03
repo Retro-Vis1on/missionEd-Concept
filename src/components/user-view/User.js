@@ -136,8 +136,10 @@ const Main = (props) =>{
                    <text>{user.bio}</text>
                    <text>{user.education}</text>
                    <div className={'profile-location'}><MdLocationOn style={{alignSelf:'center'}}/><text>{user.location}</text></div>
-                   <div className='user-menucard'>
-                        <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
+                   </div>
+            </div>
+            <div className='user-menucard'>
+                       <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                             <a>
                                 <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
                             </a>
@@ -149,38 +151,7 @@ const Main = (props) =>{
                              </Link>
                             </a>
                         </div>
-                   </div>
-                   {/* <Button className='mx-2' size='small' onClick={()=>handleFollow()} color='primary' variant='outlined'>{following? 'following':'follow'}</Button>
-                <Link to='/messages'>
-                   <Button size='small' onClick={()=>handleMessage()} color='primary' variant={'outlined'}>Message</Button>
-                </Link> */}
-                   </div>
             </div>
-            {/*<div className='user-menucard'>
-                      <div className='user-menucard-item'>
-                          <a style={{ display:userId==currentUser.uid ? 'none':null}}>
-                          <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
-                          </a>
-                      </div>
-                      {/* <div className='user-menucard-item'>
-                          <a>
-                              <img src={friends} alt=''/>
-                              <span>Friends</span>
-                          </a>
-                      </div> 
-                      <div className='user-menucard-item'>
-                          <a>
-                             <Link to='/messages' style={{textDecorationLine:'none', display:userId==currentUser.uid ? 'none':null}}>
-                             <Button size='small' endIcon={<BsChatDotsFill/>} variant='outlined' onClick={()=>handleMessage()} color='primary' >Message</Button>
-                             </Link> 
-                          </a>
-                      </div>
-                      {/* <div className='user-menucard-item'>
-                          <a>
-                              <img src={dots} alt=''/>
-                              <span>Notification</span>
-                          </a>
-                      </div> */}
             </div>
             }
             </div>

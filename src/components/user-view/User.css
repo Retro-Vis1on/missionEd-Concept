@@ -27,9 +27,13 @@
   background-color: white;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+  border-radius: 10px;
+  padding: 5px;
 }
 .user-menucard-item {
-  margin-right : 10px;
+  margin-right: 10px;
 }
 .user-menucard-item a {
   display: flex;
