@@ -168,7 +168,7 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <text  className={'topic-description'}>{topic.description}</text>
+                    <text style={{whiteSpace:'pre-wrap'}}  className={'topic-description'}>{topic.description}</text>
                  </div>  
       
            </div>
