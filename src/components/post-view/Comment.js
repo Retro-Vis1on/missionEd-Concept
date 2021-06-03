@@ -31,7 +31,7 @@ export default function Comment(props) {
                           <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
                             <text>{user.username}</text>
                           </Link>
-                          <text style={{fontSize:'15px'}}>{props.data.comment}</text>
+                          <text style={{fontSize:'15px',whiteSpace:'pre-wrap'}}>{props.data.comment}</text>
                         </div>
                     </div>
             <div>
