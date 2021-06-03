@@ -14,7 +14,8 @@ import {TextField} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import EditPost from './EditPost';
 import DeletePost from './DeletePost'
-import {UpdateCoins} from './../../apis/API'
+import Linkify from 'react-linkify';
+import React from 'react'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -136,15 +137,20 @@ export default function Topic(props) {
                  <div className={'header'}>
                            <h1>{topic.title}</h1>
                            <h4>{topic.tag}</h4>
-                           {currentUser.uid==topic.user ? 
-                             <div className="sub-heading">
-                               <div>
-                                <EditPost post={topic} id={postId}/>
-                              </div>
-                              <div>
-                                <DeletePost id={postId}/>
-                              </div>
-                              {topicComment!==null? 
+                           <div className="sub-heading">
+                            {currentUser.uid==topic.user ? 
+                              <React.Fragment>
+                                <div>
+                                  <EditPost post={topic} id={postId}/>
+                                </div>
+                                <div>
+                                  <DeletePost id={postId}/>
+                                </div>
+                              </React.Fragment>
+                              :
+                              null
+                            }
+                            {topicComment!==null? 
                               <div  onClick={()=>saveClick()}>
                                 <div className={'header-heading-save'}>
                                     <Button
@@ -158,10 +164,8 @@ export default function Topic(props) {
                             : 
                               <div></div>
                             }
-                             </div>
-                             :
-                             null
-                           }
+                           </div>
+                           
                     <hr/>
                     <text>Post created by :</text>
                     {user==null? null:
@@ -174,7 +178,10 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p>
+                    <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+                      <a target="blank" href={decoratedHref} key={key}>
+                          {decoratedText}
+                      </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p></Linkify>
                  </div>  
       
            </div>
