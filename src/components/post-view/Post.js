@@ -14,6 +14,7 @@ import {TextField} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import EditPost from './EditPost';
 import DeletePost from './DeletePost'
+import Linkify from 'react-linkify';
 import React from 'react'
 export default function Topic(props) {
     const {currentUser} = useAuth()
@@ -176,7 +177,10 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p>
+                    <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+                      <a target="blank" href={decoratedHref} key={key}>
+                          {decoratedText}
+                      </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p></Linkify>
                  </div>  
       
            </div>
