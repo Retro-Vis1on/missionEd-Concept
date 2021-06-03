@@ -85,6 +85,7 @@ const Navigation = () =>{
           db.doc(`users/${respo.user.uid}`).set({
           email:regEmailRef.current.value,
           username:regUsernameRef.current.value,
+          coins:20,
          })
        } catch{
          setError('Email alredy taken! please sign In')

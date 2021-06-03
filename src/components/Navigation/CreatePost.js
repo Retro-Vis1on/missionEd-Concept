@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import {useAuth} from './../../contexts/AuthContext'
 import MuiAlert from '@material-ui/lab/Alert';
 import firebase from 'firebase'
+import {UpdateCoins} from './../../apis/API'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -49,6 +50,7 @@ export default function CreatePost() {
      }
      setLoading(false);
      setOpen(false);
+     UpdateCoins(currentUser.uid,20);
    }
    const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {

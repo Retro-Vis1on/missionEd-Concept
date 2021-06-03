@@ -29,7 +29,7 @@ export default function Profile(props) {
         <div className={'profile-box'}> 
            <div className={'profile-icon-box'}>
                {/* <RiAccountCircleFill size={90}/> */}
-               <img src={user.profile_image==null ? Default : user.profile_image}/>
+               <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
            </div>
            <div className={'profile-text'}>
                  <text className={'profile-username'}>{user.username}</text>
