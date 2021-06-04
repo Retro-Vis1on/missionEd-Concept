@@ -21,6 +21,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import {auth} from './../../firebase'
 const Navigation = () =>{
     const {signup,login,currentUser} = useAuth()   
     const history = useHistory();
@@ -30,10 +31,12 @@ const Navigation = () =>{
     const regPasswordRef = useRef();
     const regConfirmPasswordRef = useRef();
     const regUsernameRef = useRef();
+    const forgetPasswordRef = useRef();
     const [error,setError] = useState('');
     const [loading, setLoading] = useState(false)
     const[loginModal,setLoginModal] = useState(false);
     const[signUpModal, setSignupModal] = useState(false);
+    const[forgetModal, setForgetModal] = useState(false);
     const[user, setUser] = useState(null);
 
      useEffect(()=>{
@@ -116,6 +119,24 @@ const Navigation = () =>{
        onCancelLogIn()
      }
 
+     async function handleForgetPassword(e){
+       e.preventDefault()
+       setError('')
+       setLoading(true);
+       if(forgetPasswordRef.current.value==''){ 
+        setError('please enter email!')
+        return setLoading(false);
+       }
+       try{
+         await auth.sendPasswordResetEmail(forgetPasswordRef.current.value)
+       } catch{
+         setError("Email doesn't have an account")
+         return setLoading(false);
+       }
+       setError('Check your inbox,password reset link sent to your email!');
+       setLoading(false);
+     }
+
      const onCancelLogIn=(props)=>{
          setError('')
          setLoginModal(false);
@@ -126,7 +147,32 @@ const Navigation = () =>{
         setSignupModal(false);
         setLoading(false);
     }
-
+     const onCancelForgetPassword=(props)=>{
+        setError('')
+        setForgetModal(false);
+        setLoading(false);
+     }
+     const forgetPassword = ()=>{
+       setLoginModal(false);
+       setForgetModal(true);
+     }
+     const forgetToSignin = () =>{
+         setError('');
+         setForgetModal(false);
+         setLoginModal(true);
+     }
+     const signinTosignUp=()=>{
+       if(loginModal){
+         setError('');
+         setLoginModal(false);
+         setSignupModal(true);
+        }
+        else{
+          setError('');
+          setSignupModal(false);
+          setLoginModal(true);
+        }
+     }
      return(
          <div>
            {currentUser==null ? <Redirect to='/welcome'/>: null}
@@ -191,6 +237,13 @@ const Navigation = () =>{
                                 Login
                               </Button>
                               </div>
+                            <div style={{textAlign:'center',paddingTop:'10px',fontSize:'14px'}}>
+                             <text onClick={()=>forgetPassword()} style={{color:'blue',cursor:'pointer'}}>forget your password?</text>
+                            </div>
+                            <div style={{textAlign:'center',paddingTop:'5px',fontSize:'14px'}}>
+                            Don't have an account?
+                             <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> SignUp</text>
+                            </div>
                             </Form>
             </Modal>
             <Modal isOpen={signUpModal} onRequestClose={()=>onCancelSignup()} 
@@ -229,9 +282,44 @@ const Navigation = () =>{
                                 <Form.Control type="password" placeholder="Confirm Password" ref={regConfirmPasswordRef}/>
                               </Form.Group>
                               <div className='form-buttons'>
-                              <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>Cancel</Button>
+                              <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>cancel</Button>
                               <Button disabled={loading} variant="contained" color="primary" type="submit">
                                 Signup
+                              </Button>
+                              </div>
+                              <div style={{textAlign:'center',paddingTop:'8px',fontSize:'14px'}}>
+                             Already have an account?
+                             <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> Login</text>
+                            </div>
+                            </Form>
+            </Modal>
+            <Modal isOpen={forgetModal} onRequestClose={()=>onCancelForgetPassword()} 
+                           style={{
+                            content : {
+                                borderRadius: '20px',
+                                top                   : '50%',
+                                left                  : '50%',
+                                right                 : 'auto',
+                                bottom                : 'auto',
+                                marginRight           : '-50%',
+                                transform             : 'translate(-50%, -50%)',
+                                backgroundColor:  'white',
+                              },
+                          }}>
+                         <Form style={{width:'320px'}} onSubmit={handleForgetPassword}>
+                            <div style={{textAlign:'center'}}>
+                            <img src={MissionEd_logo} width={'70px'}/>
+                            <h3>Reset Password</h3>
+                            {error && <Alert variant="danger">{error}</Alert>}
+                            </div>
+                              <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" ref={forgetPasswordRef}/>
+                              </Form.Group>
+                              <div className='form-buttons'>
+                              <Button variant="outlined" color="primary"  onClick={()=>forgetToSignin()}>Login</Button>
+                              <Button disabled={loading} variant="contained" color="primary" type="submit">
+                                Reset
                               </Button>
                               </div>
                             </Form>
