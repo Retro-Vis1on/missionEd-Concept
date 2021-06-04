@@ -220,7 +220,7 @@ const Navigation = () =>{
                             <Form>
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
-                            <h3>Welcome Back to forum!</h3>
+                            <h3>Welcome to MissionEd Forum!</h3>
                             </div>
                             {error && <Alert variant="danger">{error}</Alert>}
                               <Form.Group controlId="formBasicEmail">
@@ -262,7 +262,7 @@ const Navigation = () =>{
                          <Form  onSubmit={handleSignUp}>
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
-                            <h3>Welcome To MissionEd-Forum</h3>
+                            <h3>Welcome To MissionEd Forum</h3>
                             {error && <Alert variant="danger">{error}</Alert>}
                             </div>
                             <Form.Group controlId="formBasicUsername">
