@@ -131,7 +131,7 @@ export default function CreatePost() {
                               </Form>            
                            </div>
             </Modal> */}
-               <Dialog fullScreen open={open} TransitionComponent={Transition}>
+               <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
                   <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
                     <Toolbar>
                       <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
