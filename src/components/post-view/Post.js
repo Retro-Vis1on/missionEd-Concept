@@ -17,6 +17,7 @@ import DeletePost from './DeletePost'
 import Linkify from 'react-linkify';
 import React from 'react'
 import {UpdateCoins} from './../../apis/API'
+import parse from 'html-react-parser';
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -179,10 +180,12 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
-                      <a target="blank" href={decoratedHref} key={key}>
-                          {decoratedText}
-                      </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p></Linkify>
+                    
+                      <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+                        <a target="_blank" href={decoratedHref} key={key}>
+                            {decoratedText}
+                        </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
+                      
                  </div>  
       
            </div>

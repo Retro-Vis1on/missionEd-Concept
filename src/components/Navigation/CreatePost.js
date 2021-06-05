@@ -10,6 +10,8 @@ import {useAuth} from './../../contexts/AuthContext'
 import MuiAlert from '@material-ui/lab/Alert';
 import firebase from 'firebase'
 import {UpdateCoins} from './../../apis/API'
+import JoditEditor from "jodit-react";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -95,7 +97,11 @@ export default function CreatePost() {
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">
                                       <Form.Label>Description</Form.Label>
-                                      <Form.Control className={'textarea-post-modal'} as="textarea" rows={8} ref={descriptionRef}/>
+                                      <JoditEditor
+                                        ref={descriptionRef}
+                                        tabIndex={1} 
+                                        
+                                    />
                                     </Form.Group>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}> cancel</Button>
                                     <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Post</Button>
