@@ -15,6 +15,7 @@ const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const userdb = firebase.firestore().collection('users');
 const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage();
-export {auth,userdb,db,storage}
+export {auth,userdb,db,storage,provider}
 export default app;

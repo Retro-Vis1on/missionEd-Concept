@@ -1,5 +1,5 @@
 import React,{useContext, useState, useEffect} from 'react'
-import {auth} from '../firebase'
+import {auth, provider, userdb} from '../firebase'
 const AuthContext = React.createContext()
 
 export function useAuth(){
@@ -16,6 +16,21 @@ export function AuthProvider({children}) {
     function login(email, password){
         return auth.signInWithEmailAndPassword(email,password)
     }
+    function loginWithGoogle(){
+        return auth.signInWithPopup(provider).then(data=>{
+            userdb.doc(data.user.uid).onSnapshot(snap=>{
+                  if(!snap.exists){
+                      userdb.doc(data.user.uid).set({
+                          username:data.user.email.substring(0,data.user.email.length-9),
+                          email : data.user.email,
+                          name : data.user.displayName,
+                          profile_image: data.user.photoURL,
+                          coins: 20,
+                      })
+                  }
+            }) 
+            }).catch((error)=>{alert(error.message)})
+    }
     function logout(){
         return auth.signOut()
     }
@@ -31,7 +46,8 @@ export function AuthProvider({children}) {
         currentUser,
         signup,
         login,
-        logout
+        logout,
+        loginWithGoogle
     }
     
     return (
