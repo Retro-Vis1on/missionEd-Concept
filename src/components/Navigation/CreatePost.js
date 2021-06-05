@@ -11,7 +11,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import firebase from 'firebase'
 import {UpdateCoins} from './../../apis/API'
 import JoditEditor from "jodit-react";
-
+console.log(JoditEditor)
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -100,7 +100,9 @@ export default function CreatePost() {
                                       <JoditEditor
                                         ref={descriptionRef}
                                         tabIndex={1} 
-                                        
+                                        customToolbar={{
+                                          fullsize : 'none'
+                                        }}
                                     />
                                     </Form.Group>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}> cancel</Button>
