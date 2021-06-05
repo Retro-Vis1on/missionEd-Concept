@@ -21,7 +21,6 @@ export default function Network(){
      useEffect(()=>{
        GetFollower();
        GetAllFollowing();
-       AllUsers();
       },[])
 
    async function GetFollower(){
@@ -37,14 +36,15 @@ export default function Network(){
     try{
       userdb.doc(currentUser.uid).onSnapshot(snap=>{
         setAllFollowing(snap.data().following)
+        AllUsers(snap.data().following);
       })
     } catch{
       console.log('something went wrong!')
     }
    }
-   async function AllUsers(){
+   async function AllUsers(array){
      try{
-       await userdb.onSnapshot(snap=>{
+       await userdb.where('username','!=','amarpsp10').onSnapshot(snap=>{
         setAllUsers(snap.docs.map(data=>{return data.id}));
        })
      }catch{
@@ -81,7 +81,7 @@ export default function Network(){
            }
         </div>
         <div style={{display:activeTab=='following'? null:'none'}}>
-              {!allFollower.length ?
+              {!allFollowing.length ?
                       <div className='loading-box'>
                         <p>you are not following anyone!</p>
                        </div>
