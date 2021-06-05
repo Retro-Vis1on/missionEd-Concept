@@ -16,12 +16,11 @@ export default function Network(){
      const{currentUser}  = useAuth();
      const [value, setValue] = React.useState(0);
      const[allFollowing, setAllFollowing] = useState([]);
-     const[allFollower, setAllFollwer] = useState([]);
+     const[allFollower, setAllFollwer] = useState(null);
      const[allUsers, setAllUsers] = useState([]);
      useEffect(()=>{
        GetFollower();
        GetAllFollowing();
-       AllUsers();
       },[])
 
    async function GetFollower(){
@@ -36,15 +35,18 @@ export default function Network(){
    async function GetAllFollowing(){
     try{
       userdb.doc(currentUser.uid).onSnapshot(snap=>{
-        setAllFollowing(snap.data().following)
+        if(snap.exists){
+          setAllFollowing(snap.data().following)
+        }
+        AllUsers(snap.data().following);
       })
     } catch{
       console.log('something went wrong!')
     }
    }
-   async function AllUsers(){
+   async function AllUsers(array){
      try{
-       await userdb.onSnapshot(snap=>{
+       await userdb.where('email','!=',currentUser.email).onSnapshot(snap=>{
         setAllUsers(snap.docs.map(data=>{return data.id}));
        })
      }catch{
@@ -64,12 +66,17 @@ export default function Network(){
         </div>
         <div className='network-tabs'>
         <div style={{display:activeTab=='followers'? null:'none'}}>
-          {!allFollower.length ?
+          {allFollower==null ?
               <div className='loading-box'>
               <p>No one is following you!</p>
              </div>
               :
               <div>
+          {!allFollower.length?
+               <div className='loading-box'>
+               <p>No one is following you!</p>
+              </div>
+              :<div>
                 {allFollower.map(data=>{
                   return(
                     <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
@@ -78,15 +85,22 @@ export default function Network(){
                   ) 
                 })}
               </div>
+              }
+              </div>
            }
         </div>
         <div style={{display:activeTab=='following'? null:'none'}}>
-              {!allFollower.length ?
+              {allFollowing==null ?
                       <div className='loading-box'>
                         <p>you are not following anyone!</p>
                        </div>
                 :
                 <div>
+                {!allFollowing.length ? 
+                   <div className='loading-box'>
+                   <p>you are not following anyone!</p>
+                  </div>
+                :<div>
                   {allFollowing.map(data=>{
                     return(
                       <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
@@ -94,6 +108,8 @@ export default function Network(){
                       </Link>
                     ) 
                   })}
+                </div>
+                }
                  </div>}
           </div>    
           <div style={{display:activeTab=='recomended'? null:'none'}}>

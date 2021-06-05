@@ -10,20 +10,10 @@ import DrawerMenu from './Drawer'
 import Default from './../../assets/default.jpg'
 import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
-import Fab from '@material-ui/core/Fab';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import Tooltip from '@material-ui/core/Tooltip';
-// import Feedback from './Feedback'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Rating from '@material-ui/lab/Rating';
-import Box from '@material-ui/core/Box';
+import GoogleLogo from './../../assets/google.svg'
 import {auth} from './../../firebase'
 const Navigation = () =>{
-    const {signup,login,currentUser} = useAuth()   
+    const {signup,login,currentUser,loginWithGoogle} = useAuth()   
     const history = useHistory();
     const loginEmailRef = useRef();
     const loginPasswordRef = useRef();
@@ -137,6 +127,16 @@ const Navigation = () =>{
        setLoading(false);
      }
 
+     async function handleGoogleLogin(){
+       setError('');
+       try{
+         await loginWithGoogle();
+       }catch{
+         return setError('Something went wrong');
+       }
+       onCancelLogIn();
+     }
+
      const onCancelLogIn=(props)=>{
          setError('')
          setLoginModal(false);
@@ -245,6 +245,16 @@ const Navigation = () =>{
                              <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> SignUp</text>
                             </div>
                             </Form>
+                            <div style={{display:'flex',flexDirection:'column'}}>
+                            <button onClick={()=>handleGoogleLogin()} style={{
+                              display: 'flex',
+                              alignSelf:'center',
+                              borderRadius:'10px',
+                              padding: '5px',
+                              marginTop:'10px',
+                              borderWidth:'0.1px'
+                            }}><img src={GoogleLogo}/>Sign in with Google</button>
+                            </div>
             </Modal>
             <Modal isOpen={signUpModal} onRequestClose={()=>onCancelSignup()} 
                            style={{
@@ -292,6 +302,16 @@ const Navigation = () =>{
                              <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> Login</text>
                             </div>
                             </Form>
+                            <div style={{display:'flex',flexDirection:'column'}}>
+                            <button style={{
+                              display: 'flex',
+                              alignSelf:'center',
+                              borderRadius:'10px',
+                              padding: '5px',
+                              marginTop:'10px',
+                              borderWidth:'0.1px'
+                            }}><img src={GoogleLogo}/> Signup with Google</button>
+                            </div>
             </Modal>
             <Modal isOpen={forgetModal} onRequestClose={()=>onCancelForgetPassword()} 
                            style={{
