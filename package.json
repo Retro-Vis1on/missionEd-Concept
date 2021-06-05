@@ -12,6 +12,8 @@
     "bootstrap": "^4.6.0",
     "firebase": "^8.6.2",
     "firebase-tools": "^9.11.0",
+    "html-react-parser": "^1.2.6",
+    "jodit-react": "^1.0.88",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
     "react-dom": "^17.0.2",
