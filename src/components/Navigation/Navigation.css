@@ -202,13 +202,15 @@
   opacity: 0.8;
 }
 .create-post-modal {
-  width: 800px;
+  padding-inline: 20%;
+  margin-top: 30px;
 }
+
 .textarea-post-modal {
   resize: none;
 }
 @media screen and (max-width: 760px) {
   .create-post-modal {
-    width: 300px;
+    padding-inline: 3%;
   }
 }
