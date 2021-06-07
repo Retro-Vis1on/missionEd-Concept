@@ -135,6 +135,7 @@ const Navigation = () =>{
          return setError('Something went wrong');
        }
        onCancelLogIn();
+       onCancelSignup();
      }
 
      const onCancelLogIn=(props)=>{
@@ -303,7 +304,7 @@ const Navigation = () =>{
                             </div>
                             </Form>
                             <div style={{display:'flex',flexDirection:'column'}}>
-                            <button style={{
+                            <button onClick={()=>handleGoogleLogin()} style={{
                               display: 'flex',
                               alignSelf:'center',
                               borderRadius:'10px',
