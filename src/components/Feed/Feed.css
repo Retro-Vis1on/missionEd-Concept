@@ -85,7 +85,7 @@
   font-weight: bold;
 }
 .feed-item {
-  padding-block: 7px;
+  padding : 7px 0; 
   display: flex;
   flex-wrap: wrap;
   border-bottom: rgba(97, 97, 97, 0.568) solid 0.5px;
@@ -109,7 +109,7 @@
   align-items: center;
 }
 .post-tag {
-  width: 15%;
+  width : 15%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -121,9 +121,18 @@
 }
 @media screen and (max-width: 760px) {
   .feed {
-    margin-inline: 0.5%;
+    margin-inline: 2%;
   }
-  .midle-field {
+  /* .feed-title {
+    width : 80%;
+  } */
+  /* .midle-field {
+    width : 20%;
+  } */
+  /* .post-tag {
     display: none;
+  } */
+  .midle-field {
+    display : none;
   }
 }
