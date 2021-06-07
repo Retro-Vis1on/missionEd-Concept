@@ -25,7 +25,7 @@ export function AuthProvider({children}) {
                           email : data.user.email,
                           name : data.user.displayName,
                           profile_image: data.user.photoURL,
-                          coins: 20,
+                          coins: 5,
                       })
                   }
             }) 

@@ -89,8 +89,9 @@ export default function CreatePost() {
        alert('something went wront, please check your internet connection!!')
      }
      setLoading(false);
+     setContent('');
      setOpen(false);
-     UpdateCoins(currentUser.uid,20);
+     UpdateCoins(currentUser.uid,10);
    }
    const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {
