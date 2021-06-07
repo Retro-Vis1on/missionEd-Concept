@@ -52,6 +52,7 @@ export default function CreatePost() {
   const [blankError, setBlankError] = useState(false);
   const[loading,setLoading] = useState(false);
   const[content,setContent] = useState('');
+  const[videoLoading, setvideoLoading] = useState(false);
   const titleRef = useRef();
   const tagRef = useRef();
   const descriptionRef = useRef();
@@ -65,11 +66,13 @@ export default function CreatePost() {
   }
   const handleClose = () => {
     setContent('');
+    setLoading(false);
+    setvideoLoading(false);
+
     setOpen(false);
   };
    async function handlePost(e){
      e.preventDefault();
-     console.log('sldfj')
      if(titleRef.current.value=='' || tagRef.current.value=='' || descriptionRef.current.value==''){
        return setBlankError(true);
      }
@@ -97,15 +100,32 @@ export default function CreatePost() {
   };
 
   const handleImage=(e)=>{
-    setLoading(true)
+    setLoading(true);
     const image = e.target.files[0];
-
     if(image==="" || image=== undefined){
       setLoading(false);
+      console.log('asdklfjlasdjklfjaskldjflkjl')
       alert(`not an image, the file is a  ${typeof image}`)
       return;
     }
-    fileChangedHandler(image);
+    let extension = image.name.split('.').pop();
+    if(extension==='png' || extension==='jpg' || extension==='jpeg')
+     {
+      return fileChangedHandler(image);
+     }
+     setLoading(false);
+  }
+
+  const handleVideo=(e)=>{
+    setvideoLoading(true);
+    const video = e.target.files[0];
+    if(video==='' || video=== undefined || video.name.split('.').pop()!=='mp4'){
+      setvideoLoading(false);
+      alert(`not a video, the file is a ${typeof video}`);
+      return;
+    }
+    // let extension = video.name.split('.').pop();
+    fileVideoUpload(video)
   }
 
   async function fileChangedHandler(image) {
@@ -139,7 +159,7 @@ export default function CreatePost() {
   async function firebaseUpload(file){
 
   
-    const uploadTask = storage.ref(`/profile_images/${file.name}`).put(file)
+    const uploadTask = storage.ref(`/post_images/${file.name}`).put(file)
     //initiates the firebase side uploading 
     uploadTask.on('state_changed', 
     (snapShot) => {
@@ -150,62 +170,44 @@ export default function CreatePost() {
     }, () => {
       // gets the functions from storage refences the image storage in firebase by the children
       // gets the download url then sets the image from firebase as the value for the imgUrl key:
-      storage.ref('profile_images').child(file.name).getDownloadURL()
+      storage.ref('post_images').child(file.name).getDownloadURL()
        .then(fireBaseUrl => {
            setContent(descriptionRef.current.value + `<img src="${fireBaseUrl}" alt="" style="width: 300px;"></img>`)
            setLoading(false);
           })
         })
   }
+{/* <iframe width="400px" height="345px" src="https://media.istockphoto.com/videos/massive-school-of-black-cod-fish-or-smallscaled-cod-swim-underwater-video-id1134262765" frameborder="0" allowfullscreen=""><br></iframe> */}
+async function fileVideoUpload(file){
+
+  
+  const uploadTask = storage.ref(`/post_videos/${file.name}`).put(file)
+  //initiates the firebase side uploading 
+  uploadTask.on('state_changed', 
+  (snapShot) => {
+    //takes a snap shot of the process as it is happening
+  }, (err) => {
+    //catches the errors
+    console.log(err)
+  }, () => {
+    // gets the functions from storage refences the image storage in firebase by the children
+    // gets the download url then sets the image from firebase as the value for the imgUrl key:
+    storage.ref('post_videos').child(file.name).getDownloadURL()
+     .then(fireBaseUrl => {
+         setContent(descriptionRef.current.value + `<iframe width="400px" height="345px" src="${fireBaseUrl}" frameborder="0" allowfullscreen=""><br></iframe>`)
+         setvideoLoading(false);
+        })
+      })
+}
+
+
+
 
   return (
     <div>
       <div className={'post-icon-box'}>
       <AddIcon style={{fontSize:'40px',color:'#E3E3E3'}} onClick={(e)=>handleClickOpen(e)}/>
       </div>
-      {/* <Modal isOpen={open} onRequestClose={()=>handleClose} 
-                           style={{
-                            content : {
-                                borderRadius: '20px',
-                                top                   : '55%',
-                                left                  : '50%',
-                                right                 : 'auto',
-                                bottom                : 'auto',
-                                marginRight           : '-50%',
-                                animationDuration: '1s',
-                                transform             : 'translate(-50%, -50%)',
-                                backgroundColor:  'white',
-                              },
-                           }}>
-                           <div className={'create-post-modal'}>
-                              <h4 className={'text-center'}>Create Post</h4>
-                            <Form onSubmit={handlePost}> 
-                              <Form.Group controlId="exampleForm.ControlInput1">
-                                 <Form.Label >Title</Form.Label>
-                                 <Form.Control type="title" placeholder="Title" ref={titleRef} />
-                               </Form.Group>
-                               <Form.Group controlId="exampleForm.ControlSelect1">
-                                  <Form.Label>Category</Form.Label>
-                                  <Form.Control as="select" ref={tagRef}>
-                                     <option>General</option>
-                                     <option>Internship</option>
-                                     <option>Question</option>
-                                      <option>Experience</option>
-                                      </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                                      <Form.Label>Description</Form.Label>
-                                      <JoditEditor
-                                        ref={descriptionRef}
-                                        tabIndex={1} 
-                                        
-                                    />
-                                    </Form.Group>
-                                    <Button variant='outlined' color='primary' onClick={()=>handleClose()}> cancel</Button>
-                                    <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Post</Button>
-                              </Form>            
-                           </div>
-            </Modal> */}
                <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
                   <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
                     <Toolbar>
@@ -260,8 +262,8 @@ export default function CreatePost() {
                                             <ImageIcon/>Upload Image
                                             </div>
                                             </label>
-                                            <input id="image-file" disabled={loading} style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'}/>
-                                        <label htmlFor='file'>
+                                            <input id="image-file" disabled={loading || videoLoading} style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'}/>
+                                        <label htmlFor='video-file'>
                                             <div 
                                              style={{
                                                border: 'solid 0.1px',
@@ -271,15 +273,16 @@ export default function CreatePost() {
                                                borderRadius:'5px',
                                              }}
                                              >
+                                            {videoLoading && <LinearProgress color="secondary" />}
                                             <VideocamIcon/>Upload Video
                                             </div>
-                                            <input id="image-file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'}/>
+                                            <input id="video-file" style={{display:'none'}} disabled={loading || videoLoading} name={'video'} type="file" onChange={(e)=>handleVideo(e)} accept={'video/mp4 , video/gif'}/>
                                             </label>
                                           </div>
                                     </Form.Group>
                                     <div style={{marginTop:'30px'}}>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}> cancel</Button>
-                                    <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Post</Button>
+                                    <Button className={'mx-3'} disabled={loading || videoLoading}  variant='contained' color='primary' type='submit'>Post</Button>
                                     </div>
                               </Form>            
                            </div>
