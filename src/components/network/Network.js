@@ -37,8 +37,8 @@ export default function Network(){
       userdb.doc(currentUser.uid).onSnapshot(snap=>{
         if(snap.exists){
           setAllFollowing(snap.data().following)
+          AllUsers(snap.data().following);
         }
-        AllUsers(snap.data().following);
       })
     } catch{
       console.log('something went wrong!')
@@ -96,7 +96,7 @@ export default function Network(){
                        </div>
                 :
                 <div>
-                {!allFollowing.length ? 
+                {allFollowing.length==0 ? 
                    <div className='loading-box'>
                    <p>you are not following anyone!</p>
                   </div>

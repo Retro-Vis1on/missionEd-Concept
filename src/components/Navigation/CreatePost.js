@@ -1,4 +1,4 @@
-import React,{useRef, useState} from 'react';
+import React,{useRef, useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import AddIcon from '@material-ui/icons/Add';
@@ -22,6 +22,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import ImageIcon from '@material-ui/icons/Image';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import Resizer from "react-image-file-resizer";
+import { ControlPointSharp } from '@material-ui/icons';
+import {userdb, storage} from './../../firebase'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -45,14 +51,20 @@ export default function CreatePost() {
   const [open, setOpen] = React.useState(false);
   const [blankError, setBlankError] = useState(false);
   const[loading,setLoading] = useState(false);
+  const[content,setContent] = useState('');
   const titleRef = useRef();
   const tagRef = useRef();
   const descriptionRef = useRef();
+
+  useEffect(() => {
+    fileChangedHandler = fileChangedHandler.bind(this)
+  }, []);
   
   const handleClickOpen = () => {
     setOpen(true);
   }
   const handleClose = () => {
+    setContent('');
     setOpen(false);
   };
    async function handlePost(e){
@@ -83,6 +95,69 @@ export default function CreatePost() {
     }
     setBlankError(false);
   };
+
+  const handleImage=(e)=>{
+    setLoading(true)
+    const image = e.target.files[0];
+
+    if(image==="" || image=== undefined){
+      setLoading(false);
+      alert(`not an image, the file is a  ${typeof image}`)
+      return;
+    }
+    fileChangedHandler(image);
+  }
+
+  async function fileChangedHandler(image) {
+    var fileInput = false;
+    if (image) {
+      fileInput = true;
+    }
+    if (fileInput) {
+      try {
+        Resizer.imageFileResizer(
+          image,
+          500,
+          500,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            console.table(uri);
+            firebaseUpload(uri);
+          },
+          "file",
+          200,
+          200
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  async function firebaseUpload(file){
+
+  
+    const uploadTask = storage.ref(`/profile_images/${file.name}`).put(file)
+    //initiates the firebase side uploading 
+    uploadTask.on('state_changed', 
+    (snapShot) => {
+      //takes a snap shot of the process as it is happening
+    }, (err) => {
+      //catches the errors
+      console.log(err)
+    }, () => {
+      // gets the functions from storage refences the image storage in firebase by the children
+      // gets the download url then sets the image from firebase as the value for the imgUrl key:
+      storage.ref('profile_images').child(file.name).getDownloadURL()
+       .then(fireBaseUrl => {
+           setContent(descriptionRef.current.value + `<img src="${fireBaseUrl}" alt="" style="width: 300px;"></img>`)
+           setLoading(false);
+          })
+        })
+  }
+
   return (
     <div>
       <div className={'post-icon-box'}>
@@ -162,15 +237,50 @@ export default function CreatePost() {
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">
                                       <Form.Label style={{fontWeight:'bold'}}>Description</Form.Label>
-                                      <div >
+                                    <div>
                                       <JoditEditor
                                         ref={descriptionRef}
-                                        tabIndex={1} 
+                                        tabIndex={1}
+                                        config={{enableDragAndDropFileToEditor: true, statusbar:'blue', toolbarSticky:true}} 
+                                        value={content}
                                         />
                                         </div>
+                                        <div style={{marginTop:'10px'}}>
+                                          <label htmlFor='image-file'>
+                                            <div  
+                                             style={{
+                                               border: 'solid 0.1px',
+                                               fontSize:'12px',
+                                               paddingInline:'4px',
+                                               marginRight:'10px',
+                                               borderRadius:'5px',
+                                              }}
+                                              >
+                                             {loading && <LinearProgress color="secondary" />} 
+                                            <ImageIcon/>Upload Image
+                                            </div>
+                                            </label>
+                                            <input id="image-file" disabled={loading} style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'}/>
+                                        <label htmlFor='file'>
+                                            <div 
+                                             style={{
+                                               border: 'solid 0.1px',
+                                               fontSize:'12px',
+                                               paddingInline:'4px',
+                                               marginRight:'10px',
+                                               borderRadius:'5px',
+                                             }}
+                                             >
+                                            <VideocamIcon/>Upload Video
+                                            </div>
+                                            <input id="image-file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'}/>
+                                            </label>
+                                          </div>
                                     </Form.Group>
+                                    <div style={{marginTop:'30px'}}>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}> cancel</Button>
                                     <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Post</Button>
+                                    </div>
                               </Form>            
                            </div>
             <Snackbar open={blankError} autoHideDuration={2000} onClose={handleCloseError}>
