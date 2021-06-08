@@ -131,32 +131,32 @@ export default function MenuDrawer(props) {
         </ListItem>
       </List>
       <Divider />
-      <List>
-          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/'>
-          <ListItem button >
-            <ListItemIcon><HomeIcon style={{color:'#444753'}}/></ListItemIcon>
-            <ListItemText primary={'Home'} />
-          </ListItem>
-          </Link>
-          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/network'>
-          <ListItem button >
-            <ListItemIcon><PeopleIcon style={{color:'#444753'}}/></ListItemIcon>
-            <ListItemText primary={'Network'} />
-          </ListItem>
-          </Link>
-          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/messages'>
-          <ListItem button >
-            <ListItemIcon><MessageIcon style={{color:'#444753'}}/></ListItemIcon>
-            <ListItemText primary={'Messages'} />
-          </ListItem>
-          </Link>
-          <Link style={{textDecorationLine:'none',color:'#444753'}} to='/profile'>
-          <ListItem button >
-            <ListItemIcon><AccountCircleIcon style={{color:'#444753'}}/></ListItemIcon>
-            <ListItemText primary={'Profile'} />
-          </ListItem>
-          </Link>
-      </List>
+        <List>
+            <Link style={{textDecorationLine:'none',color:'#444753'}} to='/'>
+            <ListItem button >
+              <ListItemIcon><HomeIcon style={{color:'#444753'}}/></ListItemIcon>
+              <ListItemText primary={'Home'} />
+            </ListItem>
+            </Link>
+            <Link style={{textDecorationLine:'none',color:'#444753'}} to='/network'>
+            <ListItem button >
+              <ListItemIcon><PeopleIcon style={{color:'#444753'}}/></ListItemIcon>
+              <ListItemText primary={'Network'} />
+            </ListItem>
+            </Link>
+            <Link style={{textDecorationLine:'none',color:'#444753'}} to='/messages'>
+            <ListItem button >
+              <ListItemIcon><MessageIcon style={{color:'#444753'}}/></ListItemIcon>
+              <ListItemText primary={'Messages'} />
+            </ListItem>
+            </Link>
+            <Link style={{textDecorationLine:'none',color:'#444753'}} to='/profile'>
+            <ListItem button >
+              <ListItemIcon><AccountCircleIcon style={{color:'#444753'}}/></ListItemIcon>
+              <ListItemText primary={'Profile'} />
+            </ListItem>
+            </Link>
+        </List>
       <Divider />
       <div onClick={()=>handleLogout()}>
       <List>
