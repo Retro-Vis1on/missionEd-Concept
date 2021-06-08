@@ -187,10 +187,10 @@ const Navigation = () =>{
            </Link>
                 <div className='nav-items'> 
                 {currentUser ?
-                <div className={'navbar-menu'} style={{display:'flex',flexDirection:'row'}}>
+                <div className={'navbar-menu'}>
+                  {/* <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/> */}
+                  <DrawerMenu image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
                   <CreateTopic/>
-                  <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
-                  <DrawerMenu/>
                 </div> 
                 :
                 <div>

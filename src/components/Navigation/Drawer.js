@@ -22,6 +22,16 @@ import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import PeopleIcon from '@material-ui/icons/People';
 import {useAuth} from './../../contexts/AuthContext'
+import {animate, motion} from 'framer-motion'
+import {BsPersonFill,BsFillPeopleFill,BsFillChatDotsFill,BsEnvelopeFill,BsFillAwardFill,BsBriefcaseFill,BsFillPieChartFill} from 'react-icons/bs'
+import {AiFillHome} from 'react-icons/ai'
+import {MdNotifications} from 'react-icons/md'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -31,17 +41,56 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MenuDrawer() {
+export default function MenuDrawer(props) {
   const[isOpen, setOpen] = useState()
   const classes = useStyles();
   const {logout} = useAuth()
+  const[activeClassName, setActiveClassName] = useState('home');
+  const [open, setOpenP] = useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleClick = (prop) => {
+    console.log('sldafjaskldj')
+    setActiveClassName(prop);
+    setOpenP(false);
+  }
+
+  const handleToggle = () => {
+    setOpenP((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenP(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpenP(false);
+    }
+  }
+
+  // return focus to the button when we transitioned
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   async function handleLogout(){
     try{
-        await logout()
+        await logout();
     }catch{
         alert('Please check your internet connection!')
     }
+    handleClose();
    }
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -103,16 +152,91 @@ export default function MenuDrawer() {
 
   return (
     <div>
+      <div className={'drawer-class'}>
         <React.Fragment>
            <div onClick={toggleDrawer()}  className={'navbar-icons'}>
              <MenuOpenIcon style={{ fontSize: 40, color:'#E3E3E3' }}/>
             </div> 
-          {/* <Button onClick={toggleDrawer()}>{'right'}</Button> */}
           <Drawer anchor={'right'} open={isOpen} onClose={toggleDrawer()}>
             {list('right')}
           </Drawer>
         </React.Fragment>
-      
+      </div>
+        <motion.nav
+              initial={{x:-300,opacity:0}}
+              animate={{x:0, opacity:1}}
+               transition={{duration:1,}}
+              >
+               
+                <div className={'list'}>       
+                                <div 
+                                className={activeClassName==='home'? 'active-nav-links nav-links' : 'nav-links'}
+                                onClick={()=>handleClick('home')}>
+                                  <Link to='/' >
+                                 <AiFillHome className={'nav-icon'}/>   
+                                  </Link>
+                                 <text className={'nav-text'}>
+                                  Home 
+                                 </text>
+                                </div>
+                                <div
+                               className={activeClassName==='network'? 'active-nav-links nav-links' : 'nav-links'} onClick={()=>handleClick('network')}>
+                                    <Link to='/network'>
+
+                                <BsFillPeopleFill href={'#'} className={'nav-icon'}/>   
+                                    </Link>
+                                <text className={'nav-text'}>
+                                  Network
+                                 </text> 
+                               </div>
+                               <div
+                               className={activeClassName==='messages'? 'active-nav-links nav-links' : 'nav-links'} 
+                               onClick={()=>handleClick('messages')}>
+                                   <Link to='/messages'>
+                               <BsFillChatDotsFill href={'#'} className={'nav-icon'}/>   
+                                   </Link>
+                               <text className={'nav-text'}>
+                                  Messages
+                                 </text>  
+                              </div>
+                              <div
+                              className={activeClassName==='notification'? 'active-nav-links nav-links' : 'nav-links'} 
+                              onClick={()=>handleClick('notification')}>
+                                  <Link>
+                              <MdNotifications href={'#'} className={'nav-icon'}/>   
+                                  </Link>
+                              <text className={'nav-text'}>
+                                  Notification
+                                 </text>  
+                             </div>
+                             {/* <div> */}
+                             <img 
+                                  ref={anchorRef}
+                                  onClick={handleToggle}
+                                 src={props.image} />
+                             {/* </div>         */}
+                </div>     
+           </motion.nav>
+
+           <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                    <Link to='/profile' style={{textDecorationLine:'none'}}>
+                    <MenuItem onClick={()=>handleClick('')}>Profile</MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
     </div>
   );
 }
