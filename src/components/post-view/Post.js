@@ -30,7 +30,6 @@ export default function Topic(props) {
     const[inputComment, setInputComment] = useState('');
     const[load,setLoad] = useState(false);
     const commentRef = useRef();
-
     useEffect(()=>{
       const path = window.location.pathname;
       const id = path.substring(path.lastIndexOf('/')+1);
