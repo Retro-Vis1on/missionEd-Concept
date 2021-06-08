@@ -274,14 +274,32 @@ export default function MenuDrawer(props) {
               {...TransitionProps}
               style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
-              <Paper style={{backgroundColor:'#575b6d'}}>
+              <Paper style={{backgroundColor:'#575b6d',width:'240px',maxHeight:'450px'}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={notopen}  onKeyDown={handleListKeyDownNot}>
-                    <Link to='/profile' style={{textDecorationLine:'none'}}>
-                    <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
-                      <text>hi you got coins 20coins as signup</text>
-                    </MenuItem>
-                    </Link>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div className={'notification-item'}>
+                         <text>Hi, you got 5 coins as a bonus! </text>
+                    </div>
+                    <div style={{textAlign:'center'}}>
+                  <Link to='/notifications' onClick={handleClose} style={{color:'white'}}>
+                  <text>Load More</text>
+                  </Link>
+                    </div>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

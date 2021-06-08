@@ -1,0 +1,13 @@
+.notification-page {
+  padding-top: 100px;
+  padding-inline: 20%;
+}
+.notification-section {
+  border: solid;
+  padding-top: 20px;
+  padding-inline: 5px;
+}
+/* .notification-item {
+  border-bottom: 1px solid;
+  padding-block: 20px;
+} */
