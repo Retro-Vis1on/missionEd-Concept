@@ -2,6 +2,7 @@ import React,{useRef, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import AddIcon from '@material-ui/icons/Add';
+import Linkify from 'react-linkify';
 import {Form, Row} from 'react-bootstrap'
 import Modal from 'react-modal'
 import {db} from './../../firebase'
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+import JoditEditor from "jodit-react";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -119,7 +121,12 @@ export default function CreatePost(props) {
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">
                                       <Form.Label>Description</Form.Label>
-                                      <Form.Control defaultValue={props.post.description} className={'textarea-post-modal'} as="textarea" rows={8} ref={descriptionRef}/>
+                                      <JoditEditor
+                                        ref={descriptionRef}
+                                        tabIndex={1} 
+                                        value={props.post.description}
+                                    />
+                                      
                                     </Form.Group>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}>Discard</Button>
                                     <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Save</Button>

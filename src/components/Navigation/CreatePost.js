@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+console.log(JoditEditor)
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
