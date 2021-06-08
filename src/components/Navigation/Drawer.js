@@ -36,7 +36,7 @@ import MenuList from '@material-ui/core/MenuList';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import Badge from '@material-ui/core/Badge';
-import {userdb, db} from './../../firebase'
+import {userdb, db} from './../../firebase';
 
 const useStyles = makeStyles({
   list: {
@@ -79,7 +79,7 @@ export default function MenuDrawer(props) {
 
   async function GetNotification(){
     try{
-        db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').onSnapshot(snap=>{
+        db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').limit(6).onSnapshot(snap=>{
            setNotifications(snap.docs.map((data)=>{return data.data()}));
         })
     }catch{
@@ -344,7 +344,7 @@ export default function MenuDrawer(props) {
                     }
                     <div style={{textAlign:'center'}}>
                   <Link to='/notifications' onClick={handleClose} style={{color:'white'}}>
-                  <text>Load More</text>
+                  <text>View All</text>
                   </Link>
                     </div>
                   </MenuList>
