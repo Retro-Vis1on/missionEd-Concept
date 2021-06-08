@@ -1,5 +1,5 @@
 .feed-page {
-  padding-top: 100px;
+  padding-top: 90px;
   background-color: #f1f4ffff;
 }
 .feed-section {
@@ -134,5 +134,8 @@
   } */
   .midle-field {
     display : none;
+  }
+  .feed-page {
+    padding-top : 130px
   }
 }

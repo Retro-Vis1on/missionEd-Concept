@@ -71,6 +71,9 @@
   .network-page {
     padding-inline: 1%;
   }
+  .profile-box {
+    padding-top : 30px;
+  }
 }
 .profile-icon-box img {
   width: 90px;

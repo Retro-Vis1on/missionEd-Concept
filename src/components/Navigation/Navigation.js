@@ -8,7 +8,6 @@ import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect, Link} from 'react-router-dom'
 import DrawerMenu from './Drawer'
 import Default from './../../assets/default.jpg'
-import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
 import GoogleLogo from './../../assets/google.svg'
 import {auth} from './../../firebase'
@@ -190,7 +189,7 @@ const Navigation = () =>{
                 <div className={'navbar-menu'}>
                   {/* <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/> */}
                   <DrawerMenu name={user==null ? '': user.name} image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
-                  <CreateTopic/>
+                  
                 </div> 
                 :
                 <div>

@@ -14,6 +14,7 @@
   background-color: #ebedf3;
 }
 
+
 .mission-ed-logo {
   cursor: pointer;
   display: flex;
@@ -201,9 +202,35 @@
   border-radius: 3px;
   padding-inline: 20px;
 }
+.post {
+  display: flex;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  margin-inline: 10%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom : 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+.post-icon-box {
+  align-items: center;
+  width: 95%;
+  margin : 10px;
+  padding : 10px;
+  border : 1px solid black;
+  border-radius: 20px;
+  background-color: white;
+  margin-left: 20px;
+}
+.post-user-image {
+  width: 50px;
+  height : 50px;
+  border-radius: 50%;
+  margin-left: 15px;
+}
 .post-icon-box:hover {
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  cursor: pointer;
 }
 .create-post-button:hover {
   opacity: 0.8;
@@ -283,13 +310,23 @@
 }
 
 @media screen and (max-width: 760px) {
-  .list {
-    display: none;
+  .navbar {
+    flex-direction: column;
+  }
+  .mission-ed-logo {
+    margin-bottom: 10px;
   }
   .drawer-class {
-    display: block;
+    display: none;
   }
   .navbar-menu {
     flex-direction: row-reverse;
+  }
+  .post {
+    margin-inline : 2%;
+  }
+  .list {
+    margin-left : auto;
+    margin-right : auto;
   }
 }

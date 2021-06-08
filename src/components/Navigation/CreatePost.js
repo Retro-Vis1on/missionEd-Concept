@@ -28,6 +28,7 @@ import Resizer from "react-image-file-resizer";
 import { ControlPointSharp } from '@material-ui/icons';
 import {userdb, storage} from './../../firebase'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Default from '../../assets/default.jpg';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -207,8 +208,9 @@ async function fileVideoUpload(file){
 
   return (
     <div>
-      <div className={'post-icon-box'}>
-      <AddIcon style={{fontSize:'40px',color:'white'}} onClick={(e)=>handleClickOpen(e)}/>
+      <div className={'post'}>
+        <img src={Default} className="post-user-image" />
+        <div className="post-icon-box"  onClick={(e)=>handleClickOpen(e)}>Create Post....</div>
       </div>
                <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
                   <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
