@@ -35,6 +35,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
+import Badge from '@material-ui/core/Badge';
+import {userdb, db} from './../../firebase'
 
 const useStyles = makeStyles({
   list: {
@@ -46,6 +48,9 @@ const useStyles = makeStyles({
 });
 
 export default function MenuDrawer(props) {
+  const {currentUser} = useAuth();
+  const [numberNote, setNumberNote] = useState(0);
+  const [notifications, setNotifications] = useState(null);
   const[isOpen, setOpen] = useState()
   const classes = useStyles();
   const {logout} = useAuth()
@@ -54,6 +59,33 @@ export default function MenuDrawer(props) {
   const [notopen, setopennot] = useState(false);
   const anchorRef = useRef(null);
   const notRef = useRef(null);
+  
+
+  useEffect(()=>{
+    GetNotificationCount();
+    GetNotification();
+  },[])
+  
+  async function GetNotificationCount(){
+    try{
+        db.collection(`users/${currentUser.uid}/notifications`).where('seen','==', false).onSnapshot(snap=>{
+           setNumberNote(snap.docs.length);
+        })
+    }catch{
+      console.log('something went wrong!')
+    }
+  }
+
+
+  async function GetNotification(){
+    try{
+        db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').onSnapshot(snap=>{
+           setNotifications(snap.docs.map((data)=>{return data.data()}));
+        })
+    }catch{
+      console.log('something went wrong!')
+    }
+  }
 
   const handleClick = (prop) => {
     setActiveClassName(prop);
@@ -226,6 +258,8 @@ export default function MenuDrawer(props) {
                                   className={'nav-links'} 
                                 
                                   >
+                                  <Badge badgeContent={numberNote} color="secondary" style={{position:'absolute',marginLeft:'50px',marginTop:'5px'}}>
+                                  </Badge>
                                   <MdNotifications href={'#'} className={'nav-icon'}/>   
                                   <text className={'nav-text'}>
                                       Notification
@@ -277,7 +311,7 @@ export default function MenuDrawer(props) {
               <Paper style={{backgroundColor:'#575b6d',width:'240px',maxHeight:'450px'}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={notopen}  onKeyDown={handleListKeyDownNot}>
-                    <div className={'notification-item'}>
+                    {/* <div className={'notification-item'}>
                          <text>Hi, you got 5 coins as a bonus! </text>
                     </div>
                     <div className={'notification-item'}>
@@ -294,7 +328,20 @@ export default function MenuDrawer(props) {
                     </div>
                     <div className={'notification-item'}>
                          <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
+                    </div> */}
+                    {notifications==null?
+                        <div></div>
+                        :
+                      <div>
+                        {notifications.map((data)=>{
+                          return(
+                            <div className={'notification-item'}>
+                            <text>{data.msg}</text>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    }
                     <div style={{textAlign:'center'}}>
                   <Link to='/notifications' onClick={handleClose} style={{color:'white'}}>
                   <text>Load More</text>
