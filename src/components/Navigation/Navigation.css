@@ -311,6 +311,8 @@
 .notification-item {
   margin-inline: 5px;
   margin-block: 5px;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 5px;
   /* font-size: 15px; */
   padding-inline: 5px;

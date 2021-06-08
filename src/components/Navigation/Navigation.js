@@ -190,7 +190,7 @@ const Navigation = () =>{
                 {currentUser ?
                 <div className={'navbar-menu'}>
                   {/* <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/> */}
-                  <DrawerMenu name={user==null ? '': user.name} image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
+                  <DrawerMenu name={user==null ? '': user.name} username={user==null ? '': user.username} image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
                   
                 </div> 
                 :

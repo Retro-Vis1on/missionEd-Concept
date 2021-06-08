@@ -37,6 +37,8 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import Badge from '@material-ui/core/Badge';
 import {userdb, db} from './../../firebase';
+import {RiCoinsLine} from 'react-icons/ri'
+
 
 const useStyles = makeStyles({
   list: {
@@ -287,6 +289,7 @@ export default function MenuDrawer(props) {
                     <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
                       <img  src={props.image}/>
                       <div style={{display:'flex',flexDirection:'column'}}>
+                      <text style={{fontSize:'12px'}}>{props.username}</text>
                       <text>{props.name}</text>
                       <text style={{fontSize:'12px'}}>Profile</text>
                       </div>
@@ -335,8 +338,13 @@ export default function MenuDrawer(props) {
                       <div>
                         {notifications.map((data)=>{
                           return(
-                            <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer'}} className={'notification-item'}>
-                            <text>{data.msg}</text>
+                            <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer',display:'flex',flexDirection:'row'}} className={'notification-item'}>
+                            {data.coins?
+                              <RiCoinsLine color='black' size={30} style={{backgroundColor:'white',borderRadius:'50%',padding:'3px',alignSelf:'center'}}/>
+                              :
+                              null
+                            } 
+                             <text>{data.msg}</text>
                             </div>
                           );
                         })}

@@ -55,6 +55,7 @@ export default function CreatePost() {
   const[loading,setLoading] = useState(false);
   const[content,setContent] = useState('');
   const[videoLoading, setvideoLoading] = useState(false);
+  const[user, setUser] = useState(null);
   const titleRef = useRef();
   const tagRef = useRef();
   const descriptionRef = useRef();
@@ -62,6 +63,24 @@ export default function CreatePost() {
   useEffect(() => {
     fileChangedHandler = fileChangedHandler.bind(this)
   }, []);
+
+  useEffect(() => {
+    GetUser();
+    fileChangedHandler = fileChangedHandler.bind(this)
+  }, [currentUser]);
+
+
+  async function GetUser(){
+    if(currentUser){
+      try{
+        await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+          setUser(snap.data());
+        })
+      }catch{
+        console.log('something went wrong')
+      }
+    }
+  }
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -210,7 +229,7 @@ async function fileVideoUpload(file){
   return (
     <div>
       <div className={'post'}>
-        <img src={Default} className="post-user-image" />
+        <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image} className="post-user-image" />
         <div className="post-icon-box"  onClick={(e)=>handleClickOpen(e)}>Create Post....</div>
       </div>
                <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
