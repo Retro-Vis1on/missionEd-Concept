@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -28,10 +28,14 @@ import {AiFillHome} from 'react-icons/ai'
 import {MdNotifications} from 'react-icons/md'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
+import Menu from '@material-ui/core/Menu';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -47,7 +51,9 @@ export default function MenuDrawer(props) {
   const {logout} = useAuth()
   const[activeClassName, setActiveClassName] = useState('home');
   const [open, setOpenP] = useState(false);
-  const anchorRef = React.useRef(null);
+  const [notopen, setopennot] = useState(false);
+  const anchorRef = useRef(null);
+  const notRef = useRef(null);
 
   const handleClick = (prop) => {
     setActiveClassName(prop);
@@ -55,14 +61,23 @@ export default function MenuDrawer(props) {
   }
 
   const handleToggle = () => {
-    setOpenP((prevOpen) => !prevOpen);
+    setOpenP(!open);
+  };
+  const handleToggleNot = () => {
+    setopennot(!notopen);
   };
 
-  const handleClose = (event) => {
+  const handleCloseNot = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpenP(false);
+  };
+  const handleClose = (event) => {
+    if (notRef.current && notRef.current.contains(event.target)) {
+      return;
+    }
+    setopennot(false);
   };
 
   function handleListKeyDown(event) {
@@ -71,6 +86,13 @@ export default function MenuDrawer(props) {
       setOpenP(false);
     }
   }
+  function handleListKeyDownNot(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setopennot(false);
+    }
+  }
+
   // return focus to the button when we transitioned
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -196,22 +218,25 @@ export default function MenuDrawer(props) {
                                       </text>  
                                     </div>
                               </Link>
-                              <Link>
+                              <Link
+                                 ref={notRef}
+                                 onClick={handleToggleNot}
+                              >
                                   <div
-                                  className={activeClassName==='notification'? 'active-nav-links nav-links' : 'nav-links'} 
-                                  onClick={()=>handleClick('notification')}>
+                                  className={'nav-links'} 
+                                
+                                  >
                                   <MdNotifications href={'#'} className={'nav-icon'}/>   
                                   <text className={'nav-text'}>
                                       Notification
                                     </text>  
                                 </div>
                               </Link>
-                             {/* <div> */}
                              <img 
+                                 style={{marginLeft:'30px'}}
                                   ref={anchorRef}
                                   onClick={handleToggle}
                                  src={props.image} />
-                             {/* </div>         */}
                 </div>     
            </motion.nav>
 
@@ -222,8 +247,8 @@ export default function MenuDrawer(props) {
               style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
               <Paper style={{backgroundColor:'#575b6d'}}>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                <ClickAwayListener onClickAway={handleCloseNot}>
+                  <MenuList autoFocusItem={open}  onKeyDown={handleListKeyDown}>
                     <Link to='/profile' style={{textDecorationLine:'none'}}>
                     <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
                       <img  src={props.image}/>
@@ -237,6 +262,26 @@ export default function MenuDrawer(props) {
                       <ExitToAppIcon style={{fontSize:'30px'}}/>
                       <text style={{marginLeft:'22px'}}>Log out</text>
                     </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+        <Popper open={notopen} anchorEl={notRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper style={{backgroundColor:'#575b6d'}}>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList autoFocusItem={notopen}  onKeyDown={handleListKeyDownNot}>
+                    <Link to='/profile' style={{textDecorationLine:'none'}}>
+                    <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
+                      <text>hi you got coins 20coins as signup</text>
+                    </MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

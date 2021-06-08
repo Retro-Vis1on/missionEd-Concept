@@ -261,9 +261,9 @@
   transition: height 0.2s;
 }
 
-.active-nav-links {
+/* .active-nav-links {
   border-bottom: solid white 4px;
-}
+} */
 
 .nav-links:hover .nav-icon {
   width: 70px;
