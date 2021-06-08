@@ -29,7 +29,7 @@ import { ControlPointSharp } from '@material-ui/icons';
 import {userdb, storage} from './../../firebase'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Default from '../../assets/default.jpg';
-
+import {UpdateNotificationForCoins} from './../../apis/NotificationApi'
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -94,6 +94,7 @@ export default function CreatePost() {
      setContent('');
      setOpen(false);
      UpdateCoins(currentUser.uid,10);
+     UpdateNotificationForCoins(currentUser.uid, 10, 'creating post !!');
    }
    const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {

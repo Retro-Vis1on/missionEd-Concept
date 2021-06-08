@@ -18,6 +18,7 @@ import Linkify from 'react-linkify';
 import React from 'react'
 import {UpdateCoins} from './../../apis/API'
 import parse from 'html-react-parser';
+import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -122,6 +123,7 @@ export default function Topic(props) {
         setInputComment('')
         setLoad(false)
         UpdateCoins(currentUser.uid, 2);
+        UpdateNotificationForCoins(currentUser.uid, 2, 'commenting !!');
     }
 
     return(
