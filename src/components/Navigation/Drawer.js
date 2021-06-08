@@ -169,46 +169,46 @@ export default function MenuDrawer(props) {
               >
                
                 <div className={'list'}>       
+                                <Link to='/' >
                                 <div 
                                 className={activeClassName==='home'? 'active-nav-links nav-links' : 'nav-links'}
                                 onClick={()=>handleClick('home')}>
-                                  <Link to='/' >
                                  <AiFillHome className={'nav-icon'}/>   
-                                  </Link>
                                  <text className={'nav-text'}>
                                   Home 
                                  </text>
                                 </div>
-                                <div
-                               className={activeClassName==='network'? 'active-nav-links nav-links' : 'nav-links'} onClick={()=>handleClick('network')}>
-                                    <Link to='/network'>
-
-                                <BsFillPeopleFill href={'#'} className={'nav-icon'}/>   
-                                    </Link>
-                                <text className={'nav-text'}>
-                                  Network
-                                 </text> 
-                               </div>
-                               <div
-                               className={activeClassName==='messages'? 'active-nav-links nav-links' : 'nav-links'} 
-                               onClick={()=>handleClick('messages')}>
-                                   <Link to='/messages'>
-                               <BsFillChatDotsFill href={'#'} className={'nav-icon'}/>   
-                                   </Link>
-                               <text className={'nav-text'}>
-                                  Messages
-                                 </text>  
-                              </div>
-                              <div
-                              className={activeClassName==='notification'? 'active-nav-links nav-links' : 'nav-links'} 
-                              onClick={()=>handleClick('notification')}>
-                                  <Link>
-                              <MdNotifications href={'#'} className={'nav-icon'}/>   
                                   </Link>
-                              <text className={'nav-text'}>
-                                  Notification
-                                 </text>  
-                             </div>
+                                <Link to='/network'>
+                                  <div
+                                  className={activeClassName==='network'? 'active-nav-links nav-links' : 'nav-links'} onClick={()=>handleClick('network')}>
+
+                                  <BsFillPeopleFill href={'#'} className={'nav-icon'}/>   
+                                  <text className={'nav-text'}>
+                                    Network
+                                  </text> 
+                                </div>
+                                </Link>
+                                <Link to='/messages'>
+                                    <div
+                                    className={activeClassName==='messages'? 'active-nav-links nav-links' : 'nav-links'} 
+                                    onClick={()=>handleClick('messages')}>
+                                    <BsFillChatDotsFill href={'#'} className={'nav-icon'}/>   
+                                    <text className={'nav-text'}>
+                                        Messages
+                                      </text>  
+                                    </div>
+                              </Link>
+                              <Link>
+                                  <div
+                                  className={activeClassName==='notification'? 'active-nav-links nav-links' : 'nav-links'} 
+                                  onClick={()=>handleClick('notification')}>
+                                  <MdNotifications href={'#'} className={'nav-icon'}/>   
+                                  <text className={'nav-text'}>
+                                      Notification
+                                    </text>  
+                                </div>
+                              </Link>
                              {/* <div> */}
                              <img 
                                   ref={anchorRef}

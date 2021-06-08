@@ -262,10 +262,14 @@
   border-bottom: solid white 4px;
 }
 
-.nav-icon:hover {
+.nav-links:hover .nav-icon {
   width: 70px;
   height: 35px;
 }
+/* .nav-icon:hover {
+  width: 70px;
+  height: 35px;
+} */
 .active-nav-icon {
   height: 60px;
   width: 70px;
