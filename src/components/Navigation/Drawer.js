@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,7 +50,6 @@ export default function MenuDrawer(props) {
   const anchorRef = React.useRef(null);
 
   const handleClick = (prop) => {
-    console.log('sldafjaskldj')
     setActiveClassName(prop);
     setOpenP(false);
   }
@@ -63,7 +62,6 @@ export default function MenuDrawer(props) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpenP(false);
   };
 
@@ -73,7 +71,6 @@ export default function MenuDrawer(props) {
       setOpenP(false);
     }
   }
-
   // return focus to the button when we transitioned
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -224,13 +221,22 @@ export default function MenuDrawer(props) {
               {...TransitionProps}
               style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
-              <Paper>
+              <Paper style={{backgroundColor:'#575b6d'}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <Link to='/profile' style={{textDecorationLine:'none'}}>
-                    <MenuItem onClick={()=>handleClick('')}>Profile</MenuItem>
+                    <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
+                      <img  src={props.image}/>
+                      <div style={{display:'flex',flexDirection:'column'}}>
+                      <text>{props.name}</text>
+                      <text style={{fontSize:'12px'}}>Profile</text>
+                      </div>
+                    </MenuItem>
                     </Link>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem className='drawerpopup' onClick={handleLogout} style={{color:'white',fontSize:'18px'}}>
+                      <ExitToAppIcon style={{fontSize:'30px'}}/>
+                      <text style={{marginLeft:'22px'}}>Log out</text>
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

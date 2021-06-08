@@ -207,7 +207,7 @@ async function fileVideoUpload(file){
   return (
     <div>
       <div className={'post-icon-box'}>
-      <AddIcon style={{fontSize:'40px',color:'#E3E3E3'}} onClick={(e)=>handleClickOpen(e)}/>
+      <AddIcon style={{fontSize:'40px',color:'white'}} onClick={(e)=>handleClickOpen(e)}/>
       </div>
                <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
                   <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
