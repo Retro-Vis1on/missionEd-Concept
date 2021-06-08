@@ -309,10 +309,8 @@
 }
 
 .notification-item {
-  color: rgb(219, 219, 219);
   margin-inline: 5px;
   margin-block: 5px;
-  background-color: teal;
   border-radius: 5px;
   /* font-size: 15px; */
   padding-inline: 5px;

@@ -335,7 +335,7 @@ export default function MenuDrawer(props) {
                       <div>
                         {notifications.map((data)=>{
                           return(
-                            <div className={'notification-item'}>
+                            <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer'}} className={'notification-item'}>
                             <text>{data.msg}</text>
                             </div>
                           );
