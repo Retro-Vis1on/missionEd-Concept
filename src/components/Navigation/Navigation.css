@@ -10,6 +10,9 @@
   padding-inline: 2%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.drawerpopup:hover {
+  background-color: #ebedf3;
+}
 
 .mission-ed-logo {
   cursor: pointer;
@@ -50,9 +53,13 @@
   flex-direction: row;
   justify-content: space-around;
 }
+.navbar-menu {
+  display: flex;
+  flex-direction: row-reverse;
+}
 .navbar-menu img {
-  width: 38px;
-  height: 38px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   align-self: center;
   margin-inline: 3px;
@@ -213,5 +220,76 @@
 @media screen and (max-width: 760px) {
   .create-post-modal {
     padding-inline: 3%;
+  }
+}
+
+.drawer-class {
+  display: none;
+}
+
+.list {
+  z-index: 2;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+  margin-bottom: -9px;
+  width: 100%;
+  /* box-shadow: 0 14px 24px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
+}
+.nav-links {
+  text-decoration: none;
+  text-align: center;
+  font-size: 12px;
+  border: solid;
+  border-color: rgb(255, 255, 255);
+  border-width: 0px;
+  border-radius: 5px;
+  /* height: 100%;
+  width: 99%; */
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  transition: border-bottom 0.2s;
+}
+
+.nav-icon {
+  color: white;
+  width: 70px;
+  height: 30px;
+  transition: height 0.2s;
+}
+
+.active-nav-links {
+  border-bottom: solid white 4px;
+}
+
+.nav-links:hover .nav-icon {
+  width: 70px;
+  height: 35px;
+}
+/* .nav-icon:hover {
+  width: 70px;
+  height: 35px;
+} */
+.active-nav-icon {
+  height: 60px;
+  width: 70px;
+}
+.nav-text {
+  color: white;
+  font-size: 10px;
+}
+
+@media screen and (max-width: 760px) {
+  .list {
+    display: none;
+  }
+  .drawer-class {
+    display: block;
+  }
+  .navbar-menu {
+    flex-direction: row-reverse;
   }
 }
