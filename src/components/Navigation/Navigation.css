@@ -310,14 +310,14 @@
 }
 
 @media screen and (max-width: 760px) {
-  .navbar {
+  /* .navbar {
     flex-direction: column;
   }
   .mission-ed-logo {
     margin-bottom: 10px;
-  }
+  } */
   .drawer-class {
-    display: none;
+    display: block;
   }
   .navbar-menu {
     flex-direction: row-reverse;
@@ -326,7 +326,10 @@
     margin-inline : 2%;
   }
   .list {
+    display: none;
+  }
+  /* .list {
     margin-left : auto;
     margin-right : auto;
-  }
+  } */
 }
