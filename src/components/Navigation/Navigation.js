@@ -11,6 +11,7 @@ import Default from './../../assets/default.jpg'
 import {userdb, db} from './../../firebase'
 import GoogleLogo from './../../assets/google.svg'
 import {auth} from './../../firebase'
+import {UpdateNotificationForCoins} from './../../apis/NotificationApi'
 const Navigation = () =>{
     const {signup,login,currentUser,loginWithGoogle} = useAuth()   
     const history = useHistory();
@@ -73,12 +74,13 @@ const Navigation = () =>{
        try{
         setError('')
         setLoading(true)
-        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value);
+        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value)
           db.doc(`users/${respo.user.uid}`).set({
           email:regEmailRef.current.value,
           username:regUsernameRef.current.value,
           coins:5,
          })
+         UpdateNotificationForCoins(respo.user.uid,5,'SignUp !!')
        } catch{
          setError('Email alredy taken! please sign In')
          return setLoading(false)
