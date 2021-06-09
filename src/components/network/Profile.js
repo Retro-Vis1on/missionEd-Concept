@@ -4,7 +4,7 @@ import {MdLocationOn} from 'react-icons/md'
 import Default from './../../assets/default.jpg'
 import {userdb} from './../../firebase'
 import {animate, motion} from 'framer-motion'
-
+import {Button} from '@material-ui/core'
 export default function Profile(props) {
    const[user,setUser] = useState(null);
 
@@ -46,10 +46,14 @@ export default function Profile(props) {
                 </text>
            </div>
            <div className={'profile-button-box'}>
-                <text className={'profile-message-button'}>message</text>
-           </div>
+           <Button 
+             style={{height:'fit-content',color:'white',borderColor:'white',borderWidth:'2px'}}
+             variant='outlined'>
+               message
+           </Button>
+            </div>
         </div>
-        <hr/>
+       
         </motion.div>
         }
        </div>

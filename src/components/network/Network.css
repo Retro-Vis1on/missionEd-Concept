@@ -12,19 +12,32 @@
   padding: 10px;
 }
 .profile-box {
-  padding-top: 20px;
+  background-color: #8989bb;
+  background-image: linear-gradient(315deg, #79799c 0%, #858592 74%);
+  padding-block: 20px;
+  margin-top: 10px;
+  padding-inline: 3%;
   display: flex;
+  margin-inline: 3%;
   flex-direction: row;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: all 0.2s;
+}
+.profile-box:hover {
+  margin-inline: 0%;
 }
 .profile-icon-box {
+  align-self: center;
   width: 90px;
   margin-right: 5px;
 }
 .profile-text {
+  color: white;
   width: 80%;
   display: flex;
   flex-direction: column;
-  margin-left : 10px;
+  margin-left: 10px;
 }
 .profile-button-box {
   justify-self: flex-end;
@@ -72,7 +85,7 @@
     padding-inline: 1%;
   }
   .profile-box {
-    padding-top : 30px;
+    padding-top: 30px;
   }
 }
 .profile-icon-box img {
@@ -115,13 +128,15 @@
 }
 .network-tabs {
   margin-top: 20px;
-  background-color: white;
-  padding-inline: 20px;
-  border-radius: 10px;
+  /* background-color: white; */
+  /* padding-inline: 20px; */
+  /* border-radius: 10px; */
 }
 @media screen and (max-width: 768px) {
   .network-category-button {
     padding-inline: 15px;
   }
+  .profile-button-box {
+    display: none;
+  }
 }
-
