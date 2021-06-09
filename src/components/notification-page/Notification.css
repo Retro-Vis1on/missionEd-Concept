@@ -3,11 +3,33 @@
   padding-inline: 20%;
 }
 .notification-section {
-  border: solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding-top: 20px;
   padding-inline: 5px;
 }
-/* .notification-item {
-  border-bottom: 1px solid;
-  padding-block: 20px;
-} */
+.notification-section-item {
+  box-shadow: 0 2px 4px 0 #00000033, 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  padding-block: 15px;
+  margin-inline: 5px;
+  margin-block: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  /* font-size: 15px; */
+  padding-inline: 3%;
+  transition: all 0.2s;
+}
+.notification-section-item text {
+  align-self: center;
+  margin-left: 10px;
+}
+.notification-section-item:hover {
+  box-shadow: 0 8px 16px 0 #00000033, 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  margin-block: 10px;
+  margin-inline: 0px;
+  font-size: 20px;
+}
