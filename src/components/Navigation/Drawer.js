@@ -287,7 +287,8 @@ export default function MenuDrawer(props) {
                 <ClickAwayListener onClickAway={handleCloseNot}>
                   <MenuList autoFocusItem={open}  onKeyDown={handleListKeyDown}>
                     <Link to='/profile' style={{textDecorationLine:'none'}}>
-                    <MenuItem  onClick={()=>handleClick('')} style={{color:'white'}}> 
+                    <MenuItem  onClick={()=>handleClick('')} 
+                     style={{color:'white',backgroundColor:'#ff7824',borderRadius:'10px',marginInline:'3px'}}> 
                       <img  src={props.image}/>
                       <div style={{display:'flex',flexDirection:'column'}}>
                       <text style={{fontSize:'12px'}}>{props.username}</text>
