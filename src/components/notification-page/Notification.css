@@ -19,12 +19,16 @@
   border-radius: 5px;
   display: flex;
   flex-direction: row;
-  /* font-size: 15px; */
+  justify-content: space-between;
+  font-size: 15px;
   padding-inline: 3%;
   transition: all 0.2s;
 }
-.notification-section-item text {
+.notification-section-item div {
   align-self: center;
+  /* margin-left: 10px; */
+}
+.notification-section-item div text {
   margin-left: 10px;
 }
 .notification-section-item:hover {

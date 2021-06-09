@@ -29,8 +29,8 @@ import NotificationItem from './Notification-Item'
     
       async function GetNotification(){
         try{
-            db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').limit(6).onSnapshot(snap=>{
-               setNotifications(snap.docs.map((data)=>{return data.data()}));
+            db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').onSnapshot(snap=>{
+               setNotifications(snap.docs.map((data)=>{return {id: data.id ,data:data.data()}}));
             })
         }catch{
           console.log('something went wrong!')
@@ -42,12 +42,14 @@ import NotificationItem from './Notification-Item'
            <div className='notification-section'>
            
             {notifications==null?
-                        <div></div>
+                      <div className={'loading-box'}>
+                        <div className={'loader'}></div>
+                      </div>
                         :
                       <div>
                         {notifications.map((data)=>{
                           return(
-                            <NotificationItem data={data} />
+                            <NotificationItem data={data.data} id={data.id}/>
                           );
                         })}
                       </div>
