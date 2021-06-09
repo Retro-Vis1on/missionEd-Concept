@@ -21,6 +21,24 @@ export default function NotificationItem(props) {
     setAnchorEl(event.currentTarget);
   };
 
+  useEffect(()=>{
+    return () => UpdateSeen()
+  },[])
+  
+  async function UpdateSeen(){
+      console.log('sdlfkjskl    ')
+      if(!props.data.seen){
+          try{
+              await db.collection(`users/${currentUser.uid}/notifications`).doc(props.id).update({
+                  seen : true,
+                })
+            }
+            catch{
+                console.log('eror occured!')
+            }
+        }
+  }
+
   const handleClose = () => {
     setAnchorEl(null);
   };

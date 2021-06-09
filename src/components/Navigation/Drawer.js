@@ -38,6 +38,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Badge from '@material-ui/core/Badge';
 import {userdb, db} from './../../firebase';
 import {RiCoinsLine} from 'react-icons/ri'
+import CoinLogo from './../../assets/coin.svg' 
 
 
 const useStyles = makeStyles({
@@ -340,7 +341,7 @@ export default function MenuDrawer(props) {
                           return(
                             <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer',display:'flex',flexDirection:'row'}} className={'notification-item'}>
                             {data.coins?
-                              <RiCoinsLine color='black' size={30} style={{backgroundColor:'white',borderRadius:'50%',padding:'3px',alignSelf:'center'}}/>
+                              <img src={CoinLogo} style={{alignSelf:'center'}}/>
                               :
                               null
                             } 

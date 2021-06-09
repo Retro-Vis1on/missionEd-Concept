@@ -317,6 +317,10 @@
   /* font-size: 15px; */
   padding-inline: 5px;
 }
+.notification-item img {
+  width: 30px;
+  height: 30px;
+}
 
 @media screen and (max-width: 760px) {
   /* .navbar {
