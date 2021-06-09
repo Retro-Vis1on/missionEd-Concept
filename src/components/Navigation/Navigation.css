@@ -309,13 +309,17 @@
 }
 
 .notification-item {
-  color: rgb(219, 219, 219);
   margin-inline: 5px;
   margin-block: 5px;
-  background-color: teal;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 5px;
   /* font-size: 15px; */
   padding-inline: 5px;
+}
+.notification-item img {
+  width: 30px;
+  height: 30px;
 }
 
 @media screen and (max-width: 760px) {

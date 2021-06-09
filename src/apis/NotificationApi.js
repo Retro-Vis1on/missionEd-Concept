@@ -14,7 +14,7 @@ import {userdb, db} from '../firebase'
 export async function UpdateNotificationForCoins(uid, coins, reason){
     try{
        await db.collection(`users/${uid}/notifications`).add({
-           msg: `hey you get ${coins} coins for ${reason}`,
+           msg: `hey you got ${coins} coins for ${reason}`,
            seen:false,
            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
            coins:true,
