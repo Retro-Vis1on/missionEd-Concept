@@ -10,10 +10,11 @@ import Menu from '@material-ui/core/Menu';
 import {useAuth} from './../../contexts/AuthContext'
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Default from './../../assets/default.jpg'
 
 export default function NotificationItem(props) {
     const {currentUser} = useAuth();
-
+    const[image, setImage] = useState(null,GetImage());
     const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -24,9 +25,23 @@ export default function NotificationItem(props) {
   useEffect(()=>{
     return () => UpdateSeen()
   },[])
-  
+
+   async function GetImage(){
+       if(props.data.follower){
+
+           try{
+               await userdb.doc(props.data.follower).get().then(data=>{
+                   setImage(data.data().profile_image);
+               })
+            }  
+            catch{
+                console.log('something went wrong!')
+            }
+        }
+   }
+
   async function UpdateSeen(){
-      console.log('sdlfkjskl    ')
+
       if(!props.data.seen){
           try{
               await db.collection(`users/${currentUser.uid}/notifications`).doc(props.id).update({
@@ -66,7 +81,7 @@ export default function NotificationItem(props) {
             {props.data.coins?
                 <img src={CoinLogo} width='30px' height='30px'/>
                 :
-                null
+                <img src={image==null ? Default : image==''? Default : image} width='40px' height='40px'/>
             } 
                 <text>{props.data.msg}</text>
             </div>

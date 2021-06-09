@@ -3,6 +3,8 @@ import {RiAccountCircleFill} from 'react-icons/ri'
 import {MdLocationOn} from 'react-icons/md'
 import Default from './../../assets/default.jpg'
 import {userdb} from './../../firebase'
+import {animate, motion} from 'framer-motion'
+import {Button} from '@material-ui/core'
 export default function Profile(props) {
    const[user,setUser] = useState(null);
 
@@ -25,7 +27,9 @@ export default function Profile(props) {
                <div>
                </div>
             :
-        <div>
+        <motion.div initial={{x:-300,opacity:0}}
+        animate={{x:0, opacity:1}}
+        transition={{duration:0.5,}}>
         <div className={'profile-box'}> 
            <div className={'profile-icon-box'}>
                {/* <RiAccountCircleFill size={90}/> */}
@@ -42,11 +46,15 @@ export default function Profile(props) {
                 </text>
            </div>
            <div className={'profile-button-box'}>
-                <text className={'profile-message-button'}>message</text>
-           </div>
+           <Button 
+             style={{height:'fit-content',color:'white',borderColor:'white',borderWidth:'2px'}}
+             variant='outlined'>
+               message
+           </Button>
+            </div>
         </div>
-        <hr/>
-        </div>
+       
+        </motion.div>
         }
        </div>
     );
