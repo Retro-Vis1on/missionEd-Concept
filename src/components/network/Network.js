@@ -21,6 +21,7 @@ export default function Network(){
      useEffect(()=>{
        GetFollower();
        GetAllFollowing();
+       AllUsers();
       },[])
 
    async function GetFollower(){
@@ -37,23 +38,47 @@ export default function Network(){
       userdb.doc(currentUser.uid).onSnapshot(snap=>{
         if(snap.exists){
           setAllFollowing(snap.data().following)
-          AllUsers(snap.data().following);
         }
       })
     } catch{
       console.log('something went wrong!')
     }
    }
-   async function AllUsers(array){
+   async function AllUsers(){
      try{
       userdb.doc(currentUser.uid).get().then(data=>{
            let a = data.data().following;
-           userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
-             let b = data.docs.map((data)=>{return data.data().username})    
-            userdb.onSnapshot(snap=>{
-                setAllUsers(snap.docs.map(data=>{return data.id}));
-               })      
-           })
+
+           if(a==null || a.length===0){
+            userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
+              let b = data.docs.map((data)=>{return data.data().username})
+              if(b.length==0){
+                userdb.onSnapshot(snap=>{
+                  setAllUsers(snap.docs.map(data=>{return data.id}));
+                 }) 
+              } 
+              else{
+                userdb.where('username','not-in', b ).onSnapshot(snap=>{
+                  setAllUsers(snap.docs.map(data=>{return data.id}));
+                 })  
+              }   
+            })
+           }
+           else{
+             userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
+               let b = data.docs.map((data)=>{return data.data().username})    
+               if(b.length==0){
+                userdb.onSnapshot(snap=>{
+                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
+                 }) 
+                  } 
+                else{
+                  userdb.where('username','not-in', b ).onSnapshot(snap=>{
+                    setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
+                  })  
+                }       
+              })
+           }
       })
      }catch{
        console.log('something went wrong!')
