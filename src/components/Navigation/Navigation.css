@@ -330,7 +330,11 @@
     margin-bottom: 10px;
   } */
   .drawer-class {
-    display: block;
+    display: flex;
+    flex-direction: row;
+  }
+  .drawer-class div {
+    align-self: center;
   }
   .navbar-menu {
     flex-direction: row-reverse;
@@ -340,6 +344,13 @@
   }
   .list {
     display: none;
+  }
+  .notification-popup {
+    position: absolute;
+    /* left: 45%; */
+    right: 260px;
+    /* height: 200px;
+    width: 200px; */
   }
   /* .list {
     margin-left : auto;

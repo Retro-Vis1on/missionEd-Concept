@@ -97,8 +97,8 @@ export default function NotificationItem(props) {
             } 
                 <text>{props.data.msg}</text>
             </div>
-                <div>
-                    <text style={{fontSize:'14px',color:'white'}}>{time}</text>
+                <div className='notification-item-left'>
+                    <text >{time}</text>
                 <IconButton
                     aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
                     >
