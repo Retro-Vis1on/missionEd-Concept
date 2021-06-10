@@ -142,13 +142,13 @@ export default function General(){
         :
       <div className={'general-section'}>
         <text style={{textAlign:'center',marginBottom : '8px'}}>Profile Picture</text>
-         <label style={{display : 'flex',justifyContent : 'center'}} htmlFor="file">
-        <div>
-        <div className={'picture-edit'}>
-        <EditIcon/>
-        </div>
-        <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image==null? Default : user.profile_image : URL.createObjectURL(newImage))}/>
-        </div>
+         <label style={{display : 'flex',justifyContent : 'center',width:'fit-content',borderRadius:'50%',alignSelf:'center'}} htmlFor="file">
+            <div>
+            <div className={'picture-edit'}>
+            <EditIcon/>
+            </div>
+            <img src={user.profile_image=='' ? Default : (newImage==null ? user.profile_image==null? Default : user.profile_image : URL.createObjectURL(newImage))}/>
+            </div>
           </label>
         <input id="file" style={{display:'none'}} name={'image'} type="file" onChange={(e)=>handleImage(e)} accept={'image/jpg , image/png, image/jpeg'} width="48" height="48"/>  
         <text style={{marginBottom : '8px'}}>Name</text>

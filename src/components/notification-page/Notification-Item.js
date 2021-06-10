@@ -11,10 +11,12 @@ import {useAuth} from './../../contexts/AuthContext'
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Default from './../../assets/default.jpg'
-
+import TimeDiff from './../../apis/TimeDiff'
+import firebase from 'firebase'
 export default function NotificationItem(props) {
     const {currentUser} = useAuth();
     const[image, setImage] = useState(null,GetImage());
+    const[time, setTime] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +27,16 @@ export default function NotificationItem(props) {
   useEffect(()=>{
     return () => UpdateSeen()
   },[])
+
+
+  useEffect(()=>{
+    GetTime();
+  },[props.data.timestamp]);
+
+  async function GetTime(){
+    let a =  await TimeDiff(props.data.timestamp.toDate());
+    setTime(a);
+  }
 
    async function GetImage(){
        if(props.data.follower){
@@ -85,11 +97,14 @@ export default function NotificationItem(props) {
             } 
                 <text>{props.data.msg}</text>
             </div>
+                <div>
+                    <text style={{fontSize:'14px',color:'white'}}>{time}</text>
                 <IconButton
                     aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
-                >
+                    >
                 <MoreVertIcon />
                 </IconButton>
+                 </div>
                <Menu
                     id="fade-menu"
                     anchorEl={anchorEl}

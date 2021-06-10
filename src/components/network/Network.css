@@ -27,6 +27,14 @@
 .profile-box:hover {
   margin-inline: 0%;
 }
+.profile-box:hover .profile-icon-box img {
+  width: 110px;
+  height: 110px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.profile-box:hover .profile-text {
+  margin-left: 20px;
+}
 .profile-icon-box {
   align-self: center;
   width: 90px;
@@ -38,6 +46,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  transition: all 0.3s;
 }
 .profile-button-box {
   justify-self: flex-end;
@@ -92,6 +101,7 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
+  transition: all 0.3s;
 }
 .network-section {
   /* background-color: white; */
