@@ -18,7 +18,7 @@ export default async function TimeDiff(obj){
         return `Yesterday`
     }
     else if(a.getHours()>obj.getHours()){
-        return `${a.getHours-obj.getHours()} hours ago`
+        return `${a.getHours()-obj.getHours()} hours ago`
     }
     else if(a.getMinutes()>obj.getMinutes()){
         return `${a.getMinutes()-obj.getMinutes()} min ago`
