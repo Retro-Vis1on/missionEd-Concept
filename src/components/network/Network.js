@@ -50,8 +50,8 @@ export default function Network(){
            let a = data.data().following;
            userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
              let b = data.docs.map((data)=>{return data.data().username})    
-            userdb.where('username','not-in', b ).onSnapshot(snap=>{
-                setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
+            userdb.onSnapshot(snap=>{
+                setAllUsers(snap.docs.map(data=>{return data.id}));
                })      
            })
       })

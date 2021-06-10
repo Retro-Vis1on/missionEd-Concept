@@ -21,6 +21,7 @@ const Main = (props) =>{
     const[buttonvarient, setButtonVarient] = useState('outlined')
     const[follow, setFollow] = useState('follow')
     const[loading, setLoading] = useState(true);
+    const[username, setUsername] = useState('someone')
     const[user,setUser] = useState(null);
     const[userId, setUserId] = useState(null);
     const[msgexist,setmsgexist] = useState(false);
@@ -38,6 +39,7 @@ const Main = (props) =>{
     async function SetFollowing(id){
         try{
             await db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
+                setUsername(snap.data().username);
                 if(snap.data().following!==null){
                     setAllFollowing(snap.data().following);
                     if(snap.data().following){
@@ -102,7 +104,7 @@ const Main = (props) =>{
         catch{
             console.log('something went wrong!')
         }
-        UpdateNotificationForFollowers(currentUser.uid, user.username, userId);
+        UpdateNotificationForFollowers(currentUser.uid, username, userId);
     }
 }
 
