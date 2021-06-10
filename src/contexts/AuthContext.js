@@ -1,5 +1,6 @@
 import React,{useContext, useState, useEffect} from 'react'
 import {auth, provider, userdb} from '../firebase'
+import {UpdateNotificationForCoins} from './../apis/NotificationApi'
 const AuthContext = React.createContext()
 
 export function useAuth(){
@@ -27,6 +28,7 @@ export function AuthProvider({children}) {
                           profile_image: data.user.photoURL,
                           coins: 5,
                       })
+                    UpdateNotificationForCoins(data.user.uid,5,'SignUp !!');
                   }
             }) 
             }).catch((error)=>{alert(error.message)})

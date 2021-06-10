@@ -8,10 +8,10 @@ import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect, Link} from 'react-router-dom'
 import DrawerMenu from './Drawer'
 import Default from './../../assets/default.jpg'
-import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
 import GoogleLogo from './../../assets/google.svg'
 import {auth} from './../../firebase'
+import {UpdateNotificationForCoins} from './../../apis/NotificationApi'
 const Navigation = () =>{
     const {signup,login,currentUser,loginWithGoogle} = useAuth()   
     const history = useHistory();
@@ -74,12 +74,13 @@ const Navigation = () =>{
        try{
         setError('')
         setLoading(true)
-        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value);
+        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value)
           db.doc(`users/${respo.user.uid}`).set({
           email:regEmailRef.current.value,
           username:regUsernameRef.current.value,
           coins:5,
          })
+         UpdateNotificationForCoins(respo.user.uid,5,'SignUp !!')
        } catch{
          setError('Email alredy taken! please sign In')
          return setLoading(false)
@@ -187,10 +188,10 @@ const Navigation = () =>{
            </Link>
                 <div className='nav-items'> 
                 {currentUser ?
-                <div className={'navbar-menu'} style={{display:'flex',flexDirection:'row'}}>
-                  <CreateTopic/>
-                  <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
-                  <DrawerMenu/>
+                <div className={'navbar-menu'}>
+                  {/* <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/> */}
+                  <DrawerMenu name={user==null ? '': user.name} username={user==null ? '': user.username} image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
+                  
                 </div> 
                 :
                 <div>

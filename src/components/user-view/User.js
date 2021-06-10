@@ -15,6 +15,7 @@ import {MdLocationOn} from 'react-icons/md'
 import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
 import {UpdateCoins} from './../../apis/API'
+import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
     const[buttonvarient, setButtonVarient] = useState('outlined')
@@ -101,6 +102,7 @@ const Main = (props) =>{
         catch{
             console.log('something went wrong!')
         }
+        UpdateNotificationForFollowers(currentUser.uid, user.username, userId);
     }
 }
 

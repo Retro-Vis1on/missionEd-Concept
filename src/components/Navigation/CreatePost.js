@@ -28,7 +28,8 @@ import Resizer from "react-image-file-resizer";
 import { ControlPointSharp } from '@material-ui/icons';
 import {userdb, storage} from './../../firebase'
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Default from '../../assets/default.jpg';
+import {UpdateNotificationForCoins} from './../../apis/NotificationApi'
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+console.log(JoditEditor)
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -53,6 +55,7 @@ export default function CreatePost() {
   const[loading,setLoading] = useState(false);
   const[content,setContent] = useState('');
   const[videoLoading, setvideoLoading] = useState(false);
+  const[user, setUser] = useState(null);
   const titleRef = useRef();
   const tagRef = useRef();
   const descriptionRef = useRef();
@@ -60,6 +63,24 @@ export default function CreatePost() {
   useEffect(() => {
     fileChangedHandler = fileChangedHandler.bind(this)
   }, []);
+
+  useEffect(() => {
+    GetUser();
+    fileChangedHandler = fileChangedHandler.bind(this)
+  }, [currentUser]);
+
+
+  async function GetUser(){
+    if(currentUser){
+      try{
+        await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+          setUser(snap.data());
+        })
+      }catch{
+        console.log('something went wrong')
+      }
+    }
+  }
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,6 +113,7 @@ export default function CreatePost() {
      setContent('');
      setOpen(false);
      UpdateCoins(currentUser.uid,10);
+     UpdateNotificationForCoins(currentUser.uid, 10, 'creating post !!');
    }
    const handleCloseError = (event, reason) => {
     if (reason === 'clickaway') {
@@ -206,8 +228,9 @@ async function fileVideoUpload(file){
 
   return (
     <div>
-      <div className={'post-icon-box'}>
-      <AddIcon style={{fontSize:'40px',color:'#E3E3E3'}} onClick={(e)=>handleClickOpen(e)}/>
+      <div className={'post'}>
+        <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image} className="post-user-image" />
+        <div className="post-icon-box"  onClick={(e)=>handleClickOpen(e)}>Create Post....</div>
       </div>
                <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
                   <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
