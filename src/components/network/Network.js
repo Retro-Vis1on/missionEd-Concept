@@ -48,37 +48,27 @@ export default function Network(){
      try{
       userdb.doc(currentUser.uid).get().then(data=>{
            let a = data.data().following;
-
-           if(a==null || a.length===0){
+           if(a==undefined){
+               a = [currentUser.uid];
+           }
+           else{
+             a.push(currentUser.uid);
+           }
+           console.log(a);
             userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
               let b = data.docs.map((data)=>{return data.data().username})
               if(b.length==0){
                 userdb.onSnapshot(snap=>{
-                  setAllUsers(snap.docs.map(data=>{return data.id}));
+                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
                  }) 
               } 
               else{
                 userdb.where('username','not-in', b ).onSnapshot(snap=>{
-                  setAllUsers(snap.docs.map(data=>{return data.id}));
+                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
                  })  
               }   
             })
-           }
-           else{
-             userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
-               let b = data.docs.map((data)=>{return data.data().username})    
-               if(b.length==0){
-                userdb.onSnapshot(snap=>{
-                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
-                 }) 
-                  } 
-                else{
-                  userdb.where('username','not-in', b ).onSnapshot(snap=>{
-                    setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
-                  })  
-                }       
-              })
-           }
+           
       })
      }catch{
        console.log('something went wrong!')
