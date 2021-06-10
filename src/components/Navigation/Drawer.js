@@ -207,6 +207,13 @@ export default function MenuDrawer(props) {
   return (
     <div>
       <div className={'drawer-class'}>
+              <div 
+              ref={notRef}
+              onClick={handleToggleNot}>
+              <Badge badgeContent={numberNote} color="secondary" style={{position:'absolute',marginLeft:'50px',marginTop:'5px'}}>
+              </Badge>
+              <MdNotifications href={'#'} className={'nav-icon'}/>    
+            </div>
         <React.Fragment>
            <div onClick={toggleDrawer()}  className={'navbar-icons'}>
              <MenuOpenIcon style={{ fontSize: 40, color:'#E3E3E3' }}/>
@@ -307,37 +314,20 @@ export default function MenuDrawer(props) {
             </Grow>
           )}
         </Popper>
+        <div className='notification-popup'>
         <Popper open={notopen} anchorEl={notRef.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
               <Paper style={{backgroundColor:'#575b6d',width:'240px',maxHeight:'450px'}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={notopen}  onKeyDown={handleListKeyDownNot}>
-                    {/* <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
-                    <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
-                    <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
-                    <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
-                    <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div>
-                    <div className={'notification-item'}>
-                         <text>Hi, you got 5 coins as a bonus! </text>
-                    </div> */}
                     {notifications==null?
                         <div></div>
                         :
-                      <div>
+                        <div>
                         {notifications.map((data)=>{
                           return(
                             <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer',display:'flex',flexDirection:'row'}} className={'notification-item'}>
@@ -363,6 +353,7 @@ export default function MenuDrawer(props) {
             </Grow>
           )}
         </Popper>
+      </div>
     </div>
   );
 }
