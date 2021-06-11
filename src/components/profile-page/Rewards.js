@@ -1,4 +1,4 @@
-import React,{Component, useState} from 'react'
+import React,{Component, useState,useEffect} from 'react'
 import { TextField } from "@material-ui/core";
 import {RiCoinsLine} from 'react-icons/ri'
 import {Button} from '@material-ui/core'
@@ -7,11 +7,56 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {useAuth} from './../../contexts/AuthContext'
+import {db, userdb} from './../../firebase'
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import Confetti from 'react-confetti'
+import {useWindowSize} from 'react-use';
+import {Link} from 'react-router-dom'
+import Store from './Store'
+
 
 export default function Rewards(){
-
-      const[coins ,setCoins] = useState(20);
+      const{currentUser} = useAuth();
+      const[coins ,setCoins] = useState(null);
       const [open, setOpen] = useState(false);
+      const { width, height } = useWindowSize()
+      useEffect(()=>{
+         GetCoins();
+      },[])
+    
+      async function GetCoins(){
+        try{
+            await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+              setCoins(snap.data().coins)
+            })
+        }catch{
+            console.log('error');
+        }
+    }
+ /*    
+useEffect(()=>{
+        GetConfetti();
+     },[])
+
+     async function GetConfetti()  {  
+      try {
+      await userdb.doc(currentUser.uid).onSnapshot(snap=>{
+        setCoins(snap.data().coins)
+        if((snap.data().coins)>=15){
+          <Confetti
+          width={width}
+          height={height}/>
+        }}
+      )}
+      catch{
+        console.log('error');
+    
+        }    
+ }*/
+  
+
+
 
       const handleClickOpen = () => {
         setOpen(true);
@@ -20,19 +65,20 @@ export default function Rewards(){
       const handleClose = () => {
         setOpen(false);
       };
+
     
       return(
       <div className={'profile-content'}>
-       {!coins?
+       {coins==null?
          <div className={'loading-box'}>
              <div className={'loader'}></div>    
          </div>
                    :
         <div className={'reward-content'}>
           
-          <div className={'coins-section'}>
-                 <text>Your Coins</text>
-                 <text className={'coins'}>
+          <div className={'coins-section'}   style={{fontWeight:'600',marginTop : '2px',color:'white'}}>
+                 <text>My Coins</text>
+                 <text className={'coins'}  style={{fontWeight:'600',paddingTop : '2px'}}>
                  <RiCoinsLine/>= {coins}
                  </text>
           </div>
@@ -47,29 +93,24 @@ export default function Rewards(){
            size='large'
            onClick={()=>handleClickOpen()}
            >
-           Redeem
+          <Link to='/store'  style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
           </Button>
          
         </div>
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle style={{textAlign:'center'}} id="alert-dialog-title">Rewards will available soon!</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            start collecting rewards you will be able to redeem them soon. 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} variant='contained' color="primary">
-            OKAY
-          </Button>
-        </DialogActions>
-        </Dialog>
-        </div>
+     {       
+      /*userdb.doc(currentUser.uid).onSnapshot(snap=>{
+        setCoins(snap.data().coins)
+         snap.data().coins>=15 ?*/
+coins>=500?
+<Confetti
+          width={width}
+          height={height}/>
+        
+
+      :
+      <div></div>}
+</div>
+
     );
   
 }

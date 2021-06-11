@@ -9,6 +9,8 @@ import Profile from './components/profile-page/Profile'
 import Messages from './components/chat-page/Messages'
 import Post from './components/post-view/Post'
 import User from './components/user-view/User'
+import Store from './components/profile-page/Store'
+
 function App() {
   return (
     <Router>
@@ -24,6 +26,8 @@ function App() {
           <Route path='/profile' component={Profile} exact/>
           <Route path='/post' component={Post} />
           <Route path='/user' component={User} />
+          <Route path='/store' component={Store} />
+
         </Switch>
       </AuthProvider>
     </Router>
