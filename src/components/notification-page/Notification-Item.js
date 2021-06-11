@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Default from './../../assets/default.jpg'
 import TimeDiff from './../../apis/TimeDiff'
 import firebase from 'firebase'
+import {Link} from 'react-router-dom'
 export default function NotificationItem(props) {
     const {currentUser} = useAuth();
     const[image, setImage] = useState(null,GetImage());
@@ -81,7 +82,7 @@ export default function NotificationItem(props) {
   };
 
     return (
-        <div>
+        <Link to={props.data.follower==null ? '/notifications': `/user/${props.data.follower}`} style={{textDecorationLine:'none',}}>
             <motion.div 
             initial={{x:-300,opacity:0}}
             animate={{x:0, opacity:1}}
@@ -121,6 +122,6 @@ export default function NotificationItem(props) {
                     </MenuItem>
                 </Menu>
             </motion.div>
-        </div>
+        </Link>
     )
 }
