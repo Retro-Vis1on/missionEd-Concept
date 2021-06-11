@@ -25,6 +25,11 @@ export default function Rewards(){
          GetCoins();
       },[])
     
+      
+      useEffect(()=>{
+         GetCoins();
+      },[])
+
       async function GetCoins(){
         try{
             await userdb.doc(currentUser.uid).onSnapshot(snap=>{

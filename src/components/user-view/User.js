@@ -14,11 +14,14 @@ import Icon from '@material-ui/core/Icon';
 import {MdLocationOn} from 'react-icons/md'
 import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
+import {UpdateCoins} from './../../apis/API'
+import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
     const[buttonvarient, setButtonVarient] = useState('outlined')
     const[follow, setFollow] = useState('follow')
     const[loading, setLoading] = useState(true);
+    const[username, setUsername] = useState('someone')
     const[user,setUser] = useState(null);
     const[userId, setUserId] = useState(null);
     const[msgexist,setmsgexist] = useState(false);
@@ -36,6 +39,7 @@ const Main = (props) =>{
     async function SetFollowing(id){
         try{
             await db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
+                setUsername(snap.data().username);
                 if(snap.data().following!==null){
                     setAllFollowing(snap.data().following);
                     if(snap.data().following){
@@ -100,6 +104,7 @@ const Main = (props) =>{
         catch{
             console.log('something went wrong!')
         }
+        UpdateNotificationForFollowers(currentUser.uid, username, userId);
     }
 }
 
@@ -109,6 +114,7 @@ const Main = (props) =>{
                await db.collection('chats').add({
                    users:[currentUser.uid,userId],
                })
+               UpdateCoins(currentUser.uid,5)
             }catch{
                 console.log('something went wrong!!')
              }

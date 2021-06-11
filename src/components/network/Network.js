@@ -16,7 +16,7 @@ export default function Network(){
      const{currentUser}  = useAuth();
      const [value, setValue] = React.useState(0);
      const[allFollowing, setAllFollowing] = useState([]);
-     const[allFollower, setAllFollwer] = useState([]);
+     const[allFollower, setAllFollwer] = useState(null);
      const[allUsers, setAllUsers] = useState([]);
      useEffect(()=>{
        GetFollower();
@@ -36,7 +36,9 @@ export default function Network(){
    async function GetAllFollowing(){
     try{
       userdb.doc(currentUser.uid).onSnapshot(snap=>{
-        setAllFollowing(snap.data().following)
+        if(snap.exists){
+          setAllFollowing(snap.data().following)
+        }
       })
     } catch{
       console.log('something went wrong!')
@@ -44,9 +46,30 @@ export default function Network(){
    }
    async function AllUsers(){
      try{
-       await userdb.onSnapshot(snap=>{
-        setAllUsers(snap.docs.map(data=>{return data.id}));
-       })
+      userdb.doc(currentUser.uid).get().then(data=>{
+           let a = data.data().following;
+           if(a==undefined){
+               a = [currentUser.uid];
+           }
+           else{
+             a.push(currentUser.uid);
+           }
+           console.log(a);
+            userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
+              let b = data.docs.map((data)=>{return data.data().username})
+              if(b.length==0){
+                userdb.onSnapshot(snap=>{
+                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
+                 }) 
+              } 
+              else{
+                userdb.where('username','not-in', b ).onSnapshot(snap=>{
+                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
+                 })  
+              }   
+            })
+           
+      })
      }catch{
        console.log('something went wrong!')
      }
@@ -64,12 +87,17 @@ export default function Network(){
         </div>
         <div className='network-tabs'>
         <div style={{display:activeTab=='followers'? null:'none'}}>
-          {!allFollower.length ?
+          {allFollower==null ?
               <div className='loading-box'>
               <p>No one is following you!</p>
              </div>
               :
               <div>
+          {!allFollower.length?
+               <div className='loading-box'>
+               <p>No one is following you!</p>
+              </div>
+              :<div>
                 {allFollower.map(data=>{
                   return(
                     <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
@@ -78,15 +106,22 @@ export default function Network(){
                   ) 
                 })}
               </div>
+              }
+              </div>
            }
         </div>
         <div style={{display:activeTab=='following'? null:'none'}}>
-              {!allFollower.length ?
+              {allFollowing==null ?
                       <div className='loading-box'>
                         <p>you are not following anyone!</p>
                        </div>
                 :
                 <div>
+                {allFollowing.length==0 ? 
+                   <div className='loading-box'>
+                   <p>you are not following anyone!</p>
+                  </div>
+                :<div>
                   {allFollowing.map(data=>{
                     return(
                       <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
@@ -94,6 +129,8 @@ export default function Network(){
                       </Link>
                     ) 
                   })}
+                </div>
+                }
                  </div>}
           </div>    
           <div style={{display:activeTab=='recomended'? null:'none'}}>

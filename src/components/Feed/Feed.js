@@ -10,6 +10,7 @@ import InputBase from '@material-ui/core/InputBase';
 import FeedItem from './Feed-item'
 import {db} from './../../firebase'
 import Feedback from './../Navigation/FeedBack'
+import CreateTopic from '../Navigation/CreatePost';
 const BootstrapInput = withStyles((theme) => ({  
   root: {
       'label + &': {
@@ -102,6 +103,7 @@ export default function Feed() {
           </NativeSelect>
         </FormControl>
       </div> */}
+      <CreateTopic />
       <div>
       <div className={'feed-section'}>
             <div className={'feed'}>   

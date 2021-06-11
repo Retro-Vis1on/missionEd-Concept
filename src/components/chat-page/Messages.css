@@ -1,5 +1,5 @@
 .message-page {
-  padding-top: 70px;
+  padding-top: 120px;
   background-color: #f1f4ffff;
   padding-inline: 20%;
   padding-bottom: 40px;
@@ -136,20 +136,22 @@
   overflow-x: hidden;
 }
 .sender-message {
+  white-space: pre-wrap;
   color: white;
   align-self: flex-end;
   background: linear-gradient(300deg, #248a52, #257287);
   width: fit-content;
   max-width: 85%;
   padding: 5px;
+  flex-wrap: wrap;
   margin-block: 5px;
   padding-inline: 13px;
   margin-left: 10px;
   margin-right: 10px;
-  clip-path: polygon(0 0, 95% 0%, 95% 80%, 100% 100%, 0% 100%, 0% 20%);
   border-radius: 5px;
 }
 .receiver-message {
+  white-space: pre-wrap;
   color: white;
   align-self: flex-start;
   background: linear-gradient(120deg, #248a52, #257287);
@@ -157,10 +159,10 @@
   padding: 5px;
   max-width: 85%;
   margin-block: 5px;
+  flex-wrap: wrap;
   padding-inline: 13px;
   margin-left: 10px;
   margin-right: 10px;
-  clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%, 5% 85%);
   border-radius: 5px;
 }
 .leftMenubutton {

@@ -16,6 +16,9 @@ import EditPost from './EditPost';
 import DeletePost from './DeletePost'
 import Linkify from 'react-linkify';
 import React from 'react'
+import {UpdateCoins} from './../../apis/API'
+import parse from 'html-react-parser';
+import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -28,7 +31,6 @@ export default function Topic(props) {
     const[inputComment, setInputComment] = useState('');
     const[load,setLoad] = useState(false);
     const commentRef = useRef();
-
     useEffect(()=>{
       const path = window.location.pathname;
       const id = path.substring(path.lastIndexOf('/')+1);
@@ -120,6 +122,8 @@ export default function Topic(props) {
         }
         setInputComment('')
         setLoad(false)
+        UpdateCoins(currentUser.uid, 2);
+        UpdateNotificationForCoins(currentUser.uid, 2, 'commenting !!');
     }
 
     return(
@@ -177,10 +181,12 @@ export default function Topic(props) {
                         </Link>
                     </div>
                     }
-                    <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
-                      <a target="blank" href={decoratedHref} key={key}>
-                          {decoratedText}
-                      </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{topic.description}</p></Linkify>
+                    
+                      <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+                        <a target="_blank" href={decoratedHref} key={key}>
+                            {decoratedText}
+                        </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
+                      
                  </div>  
       
            </div>

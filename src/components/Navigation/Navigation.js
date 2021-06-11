@@ -8,21 +8,12 @@ import {useAuth} from '../../contexts/AuthContext'
 import {useHistory,Redirect, Link} from 'react-router-dom'
 import DrawerMenu from './Drawer'
 import Default from './../../assets/default.jpg'
-import CreateTopic from './CreatePost'
 import {userdb, db} from './../../firebase'
-import Fab from '@material-ui/core/Fab';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import Tooltip from '@material-ui/core/Tooltip';
-// import Feedback from './Feedback'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Rating from '@material-ui/lab/Rating';
-import Box from '@material-ui/core/Box';
+import GoogleLogo from './../../assets/google.svg'
+import {auth} from './../../firebase'
+import {UpdateNotificationForCoins} from './../../apis/NotificationApi'
 const Navigation = () =>{
-    const {signup,login,currentUser} = useAuth()   
+    const {signup,login,currentUser,loginWithGoogle} = useAuth()   
     const history = useHistory();
     const loginEmailRef = useRef();
     const loginPasswordRef = useRef();
@@ -30,10 +21,12 @@ const Navigation = () =>{
     const regPasswordRef = useRef();
     const regConfirmPasswordRef = useRef();
     const regUsernameRef = useRef();
+    const forgetPasswordRef = useRef();
     const [error,setError] = useState('');
     const [loading, setLoading] = useState(false)
     const[loginModal,setLoginModal] = useState(false);
     const[signUpModal, setSignupModal] = useState(false);
+    const[forgetModal, setForgetModal] = useState(false);
     const[user, setUser] = useState(null);
 
      useEffect(()=>{
@@ -81,11 +74,13 @@ const Navigation = () =>{
        try{
         setError('')
         setLoading(true)
-        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value);
+        let respo = await signup(regEmailRef.current.value, regPasswordRef.current.value)
           db.doc(`users/${respo.user.uid}`).set({
           email:regEmailRef.current.value,
           username:regUsernameRef.current.value,
+          coins:5,
          })
+         UpdateNotificationForCoins(respo.user.uid,5,'SignUp !!')
        } catch{
          setError('Email alredy taken! please sign In')
          return setLoading(false)
@@ -115,6 +110,35 @@ const Navigation = () =>{
        onCancelLogIn()
      }
 
+     async function handleForgetPassword(e){
+       e.preventDefault()
+       setError('')
+       setLoading(true);
+       if(forgetPasswordRef.current.value==''){ 
+        setError('please enter email!')
+        return setLoading(false);
+       }
+       try{
+         await auth.sendPasswordResetEmail(forgetPasswordRef.current.value)
+       } catch{
+         setError("Email doesn't have an account")
+         return setLoading(false);
+       }
+       setError('Check your inbox,password reset link sent to your email!');
+       setLoading(false);
+     }
+
+     async function handleGoogleLogin(){
+       setError('');
+       try{
+         await loginWithGoogle();
+       }catch{
+         return setError('Something went wrong');
+       }
+       onCancelLogIn();
+       onCancelSignup();
+     }
+
      const onCancelLogIn=(props)=>{
          setError('')
          setLoginModal(false);
@@ -125,7 +149,32 @@ const Navigation = () =>{
         setSignupModal(false);
         setLoading(false);
     }
-
+     const onCancelForgetPassword=(props)=>{
+        setError('')
+        setForgetModal(false);
+        setLoading(false);
+     }
+     const forgetPassword = ()=>{
+       setLoginModal(false);
+       setForgetModal(true);
+     }
+     const forgetToSignin = () =>{
+         setError('');
+         setForgetModal(false);
+         setLoginModal(true);
+     }
+     const signinTosignUp=()=>{
+       if(loginModal){
+         setError('');
+         setLoginModal(false);
+         setSignupModal(true);
+        }
+        else{
+          setError('');
+          setSignupModal(false);
+          setLoginModal(true);
+        }
+     }
      return(
          <div>
            {currentUser==null ? <Redirect to='/welcome'/>: null}
@@ -139,10 +188,10 @@ const Navigation = () =>{
            </Link>
                 <div className='nav-items'> 
                 {currentUser ?
-                <div className={'navbar-menu'} style={{display:'flex',flexDirection:'row'}}>
-                  <CreateTopic/>
-                  <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
-                  <DrawerMenu/>
+                <div className={'navbar-menu'}>
+                  {/* <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/> */}
+                  <DrawerMenu name={user==null ? '': user.name} username={user==null ? '': user.username} image={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image}/>
+                  
                 </div> 
                 :
                 <div>
@@ -173,7 +222,7 @@ const Navigation = () =>{
                             <Form>
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
-                            <h3>Welcome Back to forum!</h3>
+                            <h3>Welcome to MissionEd Forum!</h3>
                             </div>
                             {error && <Alert variant="danger">{error}</Alert>}
                               <Form.Group controlId="formBasicEmail">
@@ -190,7 +239,24 @@ const Navigation = () =>{
                                 Login
                               </Button>
                               </div>
+                            <div style={{textAlign:'center',paddingTop:'10px',fontSize:'14px'}}>
+                             <text onClick={()=>forgetPassword()} style={{color:'blue',cursor:'pointer'}}>forget your password?</text>
+                            </div>
+                            <div style={{textAlign:'center',paddingTop:'5px',fontSize:'14px'}}>
+                            Don't have an account?
+                             <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> SignUp</text>
+                            </div>
                             </Form>
+                            <div style={{display:'flex',flexDirection:'column'}}>
+                            <button onClick={()=>handleGoogleLogin()} style={{
+                              display: 'flex',
+                              alignSelf:'center',
+                              borderRadius:'10px',
+                              padding: '5px',
+                              marginTop:'10px',
+                              borderWidth:'0.1px'
+                            }}><img src={GoogleLogo}/>Sign in with Google</button>
+                            </div>
             </Modal>
             <Modal isOpen={signUpModal} onRequestClose={()=>onCancelSignup()} 
                            style={{
@@ -208,7 +274,7 @@ const Navigation = () =>{
                          <Form  onSubmit={handleSignUp}>
                             <div style={{textAlign:'center'}}>
                             <img src={MissionEd_logo} width={'70px'}/>
-                            <h3>Welcome To MissionEd-Forum</h3>
+                            <h3>Welcome To MissionEd Forum</h3>
                             {error && <Alert variant="danger">{error}</Alert>}
                             </div>
                             <Form.Group controlId="formBasicUsername">
@@ -228,9 +294,54 @@ const Navigation = () =>{
                                 <Form.Control type="password" placeholder="Confirm Password" ref={regConfirmPasswordRef}/>
                               </Form.Group>
                               <div className='form-buttons'>
-                              <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>Cancel</Button>
+                              <Button variant="outlined" color="primary"  onClick={()=>onCancelSignup()}>cancel</Button>
                               <Button disabled={loading} variant="contained" color="primary" type="submit">
                                 Signup
+                              </Button>
+                              </div>
+                              <div style={{textAlign:'center',paddingTop:'8px',fontSize:'14px'}}>
+                             Already have an account?
+                             <text onClick={()=>signinTosignUp()} style={{cursor:'pointer',color:'blue'}}> Login</text>
+                            </div>
+                            </Form>
+                            <div style={{display:'flex',flexDirection:'column'}}>
+                            <button onClick={()=>handleGoogleLogin()} style={{
+                              display: 'flex',
+                              alignSelf:'center',
+                              borderRadius:'10px',
+                              padding: '5px',
+                              marginTop:'10px',
+                              borderWidth:'0.1px'
+                            }}><img src={GoogleLogo}/> Signup with Google</button>
+                            </div>
+            </Modal>
+            <Modal isOpen={forgetModal} onRequestClose={()=>onCancelForgetPassword()} 
+                           style={{
+                            content : {
+                                borderRadius: '20px',
+                                top                   : '50%',
+                                left                  : '50%',
+                                right                 : 'auto',
+                                bottom                : 'auto',
+                                marginRight           : '-50%',
+                                transform             : 'translate(-50%, -50%)',
+                                backgroundColor:  'white',
+                              },
+                          }}>
+                         <Form style={{width:'320px'}} onSubmit={handleForgetPassword}>
+                            <div style={{textAlign:'center'}}>
+                            <img src={MissionEd_logo} width={'70px'}/>
+                            <h3>Reset Password</h3>
+                            {error && <Alert variant="danger">{error}</Alert>}
+                            </div>
+                              <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" ref={forgetPasswordRef}/>
+                              </Form.Group>
+                              <div className='form-buttons'>
+                              <Button variant="outlined" color="primary"  onClick={()=>forgetToSignin()}>Login</Button>
+                              <Button disabled={loading} variant="contained" color="primary" type="submit">
+                                Reset
                               </Button>
                               </div>
                             </Form>

@@ -2,6 +2,7 @@ import React,{useRef, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import AddIcon from '@material-ui/icons/Add';
+import Linkify from 'react-linkify';
 import {Form, Row} from 'react-bootstrap'
 import Modal from 'react-modal'
 import {db} from './../../firebase'
@@ -10,6 +11,25 @@ import {useAuth} from './../../contexts/AuthContext'
 import MuiAlert from '@material-ui/lab/Alert';
 import firebase from 'firebase'
 import EditIcon from '@material-ui/icons/Edit';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import JoditEditor from "jodit-react";
+import { makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    position: 'relative',
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+}));
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -18,6 +38,7 @@ function Alert(props) {
 }
 export default function CreatePost(props) {
   const{currentUser} = useAuth();
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [blankError, setBlankError] = useState(false);
   const[loading,setLoading] = useState(false);
@@ -67,7 +88,7 @@ export default function CreatePost(props) {
             startIcon={<EditIcon/>}
         >Edit</Button>
       </div>
-      <Modal isOpen={open} onRequestClose={()=>handleClose} 
+      {/* <Modal isOpen={open} onRequestClose={()=>handleClose} 
                            style={{
                             content : {
                                 borderRadius: '20px',
@@ -99,18 +120,68 @@ export default function CreatePost(props) {
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">
                                       <Form.Label>Description</Form.Label>
-                                      <Form.Control defaultValue={props.post.description} className={'textarea-post-modal'} as="textarea" rows={8} ref={descriptionRef}/>
+                                      <JoditEditor
+                                        ref={descriptionRef}
+                                        tabIndex={1} 
+                                        value={props.post.description}
+                                    />
+                                      
                                     </Form.Group>
                                     <Button variant='outlined' color='primary' onClick={()=>handleClose()}>Discard</Button>
                                     <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>Save</Button>
                               </Form>            
                            </div>
-            </Modal>
-            <Snackbar open={blankError} autoHideDuration={2000} onClose={handleCloseError}>
-                 <Alert onClose={handleCloseError} severity="info">
-                  Post Cann't be blank!!
-              </Alert>
-            </Snackbar>
+            </Modal> */}
+            <Dialog fullScreen open={open} TransitionComponent={Transition} disableEnforceFocus={true}>
+                  <AppBar className={classes.appBar} style={{backgroundColor:'#444753'}}>
+                    <Toolbar>
+                      <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                        <CloseIcon />
+                      </IconButton>
+                      <Typography variant="h6" className={classes.title}>
+                        Edit Post
+                      </Typography>
+                      {/* <Button variant='outlined' color='primary' disabled={loading} onClick={handlePost}>
+                        Post
+                      </Button>  */}
+                    </Toolbar>
+                  </AppBar>
+                  <div className={'create-post-modal'}>
+                            <Form onSubmit={handlePost}> 
+                              <Form.Group controlId="exampleForm.ControlInput1">
+                                 <Form.Label style={{fontWeight:'bold'}}>Title</Form.Label>
+                                 <Form.Control type="title" placeholder="Title" defaultValue={props.post.title} ref={titleRef} />
+                               </Form.Group>
+                               <Form.Group controlId="exampleForm.ControlSelect1">
+                                  <Form.Label style={{fontWeight:'bold'}}>Category</Form.Label>
+                                  <Form.Control as="select" defaultValue={props.post.tag} ref={tagRef}>
+                                     <option>General</option>
+                                     <option>Internship</option>
+                                     <option>Question</option>
+                                      <option>Experience</option>
+                                      </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                                      <Form.Label style={{fontWeight:'bold'}}>Description</Form.Label>
+                                      <div >
+                                      <JoditEditor
+                                        ref={descriptionRef}
+                                        tabIndex={1}
+                                        value={props.post.description} 
+                                        />
+                                        </div>
+                                    </Form.Group>
+                                    <Button variant='outlined' color='primary' onClick={()=>handleClose()}>discard</Button>
+                                    <Button className={'mx-3'} disabled={loading}  variant='contained' color='primary' type='submit'>save</Button>
+                              </Form>            
+                           </div>
+                    <Snackbar open={blankError} autoHideDuration={2000} onClose={handleCloseError}>
+                        <Alert onClose={handleCloseError} severity="info">
+                          Post Cann't be blank!!
+                      </Alert>
+                    </Snackbar>
+                </Dialog>
+        
     </div>
   );
 }
