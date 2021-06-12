@@ -309,6 +309,7 @@
 }
 
 .notification-item {
+  box-shadow: 0.1px 0px 1px 0.1px rgba(0, 0, 0, 0.72);
   margin-inline: 5px;
   margin-block: 5px;
   font-size: 15px;
@@ -316,6 +317,9 @@
   border-radius: 5px;
   /* font-size: 15px; */
   padding-inline: 5px;
+}
+.notification-item:hover {
+  box-shadow: 0.5px 0px 3px 0.5px rgba(0, 0, 0, 0.72);
 }
 .notification-item img {
   width: 30px;

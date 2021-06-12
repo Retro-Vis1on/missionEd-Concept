@@ -292,7 +292,7 @@ const useStyles = makeStyles({
               {...TransitionProps}
               style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
-              <Paper style={{backgroundColor:'#575b6d'}}>
+              <Paper style={{backgroundColor:'#575b6d',boxShadow:'4px 4px 15px 0px rgba(0,0,0,0.72)'}}>
                 <ClickAwayListener onClickAway={handleCloseNot}>
                   <MenuList autoFocusItem={open}  onKeyDown={handleListKeyDown}>
                     <Link to='/profile' style={{textDecorationLine:'none'}}>
@@ -323,7 +323,7 @@ const useStyles = makeStyles({
             {...TransitionProps}
             style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
-              <Paper style={{backgroundColor:'#575b6d',width:'240px',maxHeight:'450px'}}>
+              <Paper style={{backgroundColor:'#575b6d',width:'240px',maxHeight:'450px',boxShadow:'4px 4px 15px 0px rgba(0,0,0,0.72)'}}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={notopen}  onKeyDown={handleListKeyDownNot}>
                     {notifications==null?
@@ -332,6 +332,7 @@ const useStyles = makeStyles({
                         <div>
                         {notifications.map((data)=>{
                           return(
+                            <Link to='/notifications' onClick={handleClose} style={{textDecorationLine:'none',}}>
                             <div style={{backgroundColor: data.seen? 'teal':'#ff7824', color: data.seen? 'white':'black', cursor:'pointer',display:'flex',flexDirection:'row'}} className={'notification-item'}>
                             {data.coins?
                               <img src={CoinLogo} style={{alignSelf:'center'}}/>
@@ -340,6 +341,7 @@ const useStyles = makeStyles({
                             } 
                              <text>{data.msg}</text>
                             </div>
+                            </Link>
                           );
                         })}
                       </div>
