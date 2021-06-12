@@ -52,10 +52,10 @@ export default function Messages() {
                   <div className={!ischatOpen ? 'chat-users-section':'chat-users-section chat-users-section-close'}> 
                       <div className='chat-user-heading'>
                     
-                        <SearchIcon style={{fontSize:'32px',color:'white'}}/>
+                        <SearchIcon style={{fontSize:'32px',color:'black'}}/>
                         <input placeholder={'Search'}/>
                       </div>
-                      <div className='chat-usercards'>
+                      <div className='chat-usercards' style={{backgroundColor : 'white'}}>
                     {chatUsers==null?
                             <div className='loading-box'>
                                  <div className='loader'></div>

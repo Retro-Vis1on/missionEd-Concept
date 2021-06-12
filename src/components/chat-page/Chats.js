@@ -73,7 +73,7 @@ export default function Chats(props) {
                          <div className={'backButton'}>
                          <ArrowBackIcon onClick={()=>props.actions()} style={{color:'white',fontSize:'35px'}} />
                          </div>
-                         <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
+                         <img style={{border : '2px solid black' }} src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                          <Link to={`/user/${props.id}`} style={{textDecorationLine:'none',display:'flex',flexDirection:'column',justifyContent:'center'}}>
                          <text>{user.name==null? user.username : user.name}</text>  
                          </Link>
@@ -93,8 +93,8 @@ export default function Chats(props) {
                              </div> 
                         }
                      <Form onSubmit={(e)=>SendMessage(e)}>
-                     <div className='message-section-chat-input'>
-                         <input  placeholder=' message:)' value={input} onChange = {(e)=>{setInput(e.target.value)}} />
+                     <div  className='message-section-chat-input'>
+                         <input style={{backgroundColor : '#e6e6ff'}} placeholder=' message:)' value={input} onChange = {(e)=>{setInput(e.target.value)}} />
                          <button type='submit' style={{backgroundColor:'transparent',border:'none',position:'absolute',marginTop:'5px',marginLeft:'-50px'}}>
                          <SendIcon/>
                          </button>

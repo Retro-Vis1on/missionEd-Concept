@@ -14,6 +14,7 @@
   flex-direction: row;
 }
 .chat-users-section {
+  background-color: white;
   width: 400px;
   border-right: solid 5px;
   border-color: rgb(165, 165, 165);
@@ -25,7 +26,6 @@
   width: 0px;
 }
 .chat-usercards {
-  background-color: #444753;
   /* padding-top: 10px; */
   min-width: 300px;
 }
@@ -35,7 +35,7 @@
   padding-block: 10px;
   display: flex;
   flex-direction: row;
-  background-color: #656874;
+  background-color: white;
   transition: box-shadow 500ms;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   /* justify-content: space-evenly; */
@@ -49,6 +49,7 @@
   width: 100%;
   outline: none;
   color: #868686;
+  background-color: #e6e6ff;
   border: none;
   border-radius: 10px;
   padding-inline: 10px;
@@ -61,9 +62,9 @@
   border-bottom: solid 2px rgb(175, 175, 175);
   padding: 10px;
   font-size: 20px;
-  color: rgb(189, 189, 189);
+  color: black;
   flex-wrap: wrap;
-  background-color: #444753;
+  background-color: white;
 }
 .chat-user-card:hover {
   background-color: rgba(0, 0, 0, 0.07);
@@ -84,14 +85,15 @@
 }
 .message-section-heading {
   /* background: rgba(125, 125, 125, 1); */
-  background: linear-gradient(120deg, rgb(68, 71, 83), rgb(126, 126, 126));
+  background: white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
+  border-bottom : 3px solid black;
 }
 .message-section-heading text {
   font-size: 22px;
   margin-left: 12px;
-  color: white;
+  color : black;
 }
 .message-chat-box {
   display: flex;
@@ -106,7 +108,7 @@
   margin-inline: 1%;
 }
 .message-section-chat-input {
-  background: linear-gradient(120deg, rgb(68, 71, 83), rgb(126, 126, 126));
+  background: white;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
@@ -125,8 +127,8 @@
 }
 .chat-box {
   height: 100%;
-  background: url("../../assets/bgimage.jpg") fixed;
   display: flex;
+  background-color: white;
   /* padding-bottom: 5px; */
   /* padding-top: 10px; */
   flex-direction: column;
@@ -139,7 +141,8 @@
   white-space: pre-wrap;
   color: white;
   align-self: flex-end;
-  background: linear-gradient(300deg, #248a52, #257287);
+  background-color: black;
+  /* background: linear-gradient(300deg, #248a52, #257287); */
   width: fit-content;
   max-width: 85%;
   padding: 5px;
@@ -152,9 +155,10 @@
 }
 .receiver-message {
   white-space: pre-wrap;
-  color: white;
+  color: black;
   align-self: flex-start;
-  background: linear-gradient(120deg, #248a52, #257287);
+  background-color: darkgrey;
+  /* background: linear-gradient(120deg, #248a52, #257287); */
   width: fit-content;
   padding: 5px;
   max-width: 85%;
