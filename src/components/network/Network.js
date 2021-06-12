@@ -9,6 +9,7 @@ import Tab from './Tab'
 import Profile from './Profile'
 import {userdb} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
+import { Redirect } from 'react-router'
 
 
 export default function Network(){
@@ -76,6 +77,7 @@ export default function Network(){
    }
     return(
       <div className={'network-page'}>
+        {currentUser==null ? <Redirect to="/welcome"/> : null}
         <div className='network-category-box'>
           <div>
             <button onClick={()=>setActiveTab('followers')} className={activeTab==='followers' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Followers</button>

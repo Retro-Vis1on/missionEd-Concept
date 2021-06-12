@@ -31,7 +31,7 @@ export default function Chats(props) {
 
 
     const CreateMessage = (props) =>{
-        if(props.data.sender===currentUser.uid)
+        if(currentUser&&props.data.sender===currentUser.uid)
         return(
             <div className='sender-message'>
                <text>{props.data.message}</text>

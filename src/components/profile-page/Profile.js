@@ -6,6 +6,7 @@ import Rewards from './Rewards'
 import Account from './Account'
 import {userdb} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
+import  {Redirect} from 'react-router-dom';
 export default function Profile() {
     const[activeTab, setActiveTab] = useState('general')
     const{currentUser} = useAuth();
@@ -29,6 +30,7 @@ export default function Profile() {
     }
     return (
             <div className={'profile-page'}>
+                {currentUser==null ? <Redirect to="/welcome" /> : null}
             <div className={'profile-page-section'}>
            {user==null ? <div></div>
            :

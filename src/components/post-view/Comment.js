@@ -28,9 +28,16 @@ export default function Comment(props) {
                             <img src={user.profile_image==null ? Default : user.profile_image}/>
                         </div>
                         <div className="commenter-content" style={{border : '2px solid white',backgroundColor : '#e6e6e6',borderRadius : '10px',marginLeft : '10px',width : '80%',padding : '5px'}}>
-                          <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
-                            <text>{user.username}</text>
-                          </Link>
+                          {props.currentUser? 
+                            <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
+                              <text>{user.username}</text>
+                            </Link>
+                            :
+                            <div to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block',color : 'blue'}}>
+                              <text>{user.username}</text>
+                            </div>
+                            }
+                          
                           <text style={{fontSize:'15px',whiteSpace:'pre-wrap'}}>{props.data.comment}</text>
                         </div>
                     </div>

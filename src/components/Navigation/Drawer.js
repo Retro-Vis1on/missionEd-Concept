@@ -39,7 +39,8 @@ import Badge from '@material-ui/core/Badge';
 import {userdb, db} from './../../firebase';
 import {RiCoinsLine} from 'react-icons/ri'
 import CoinLogo from './../../assets/coin.svg' 
-
+import { Redirect } from 'react-router';
+import { withRouter } from 'react-router';
 
 const useStyles = makeStyles({
   list: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MenuDrawer(props) {
+ function MenuDrawer(props) {
   const {currentUser} = useAuth();
   const [numberNote, setNumberNote] = useState(0);
   const [notifications, setNotifications] = useState(null);
@@ -141,6 +142,7 @@ export default function MenuDrawer(props) {
   async function handleLogout(){
     try{
         await logout();
+        props.history.push("/welcome") 
     }catch{
         alert('Please check your internet connection!')
     }
@@ -357,3 +359,5 @@ export default function MenuDrawer(props) {
     </div>
   );
 }
+
+export default withRouter(MenuDrawer);

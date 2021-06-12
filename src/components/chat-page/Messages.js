@@ -20,9 +20,12 @@ export default function Messages() {
     },[])
 
     async function GetUsers(){
-        await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
-            setChatUsers(snap.docs.map(data=>{return {id: data.id ,data:data.data()}}));
-        })
+        if(currentUser) {
+            await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
+                setChatUsers(snap.docs.map(data=>{return {id: data.id ,data:data.data()}}));
+            })
+        }
+        
     }
 
     async function SetChatBox(data){
@@ -62,14 +65,14 @@ export default function Messages() {
                             </div>
                             :
                             <div>
-                                {chatUsers.map(data=>{
+                                {currentUser ? chatUsers.map(data=>{
                                      let id = currentUser.uid === data.data.users[0] ? data.data.users[1] : data.data.users[0];
                                     return (
                                         <div style={{backgroundColor:activeUser==id ? 'rgba(0,0,0,0.08)':null}} onClick={()=>SetChatBox(data)}>
                                             <UserCard data={data.data}/>
                                         </div>
                                     );
-                                })}
+                                }) : null}
                             </div> }
                       </div>
                   </div>

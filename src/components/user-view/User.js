@@ -15,6 +15,7 @@ import {MdLocationOn} from 'react-icons/md'
 import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
 import {UpdateCoins} from './../../apis/API'
+import { Redirect } from 'react-router'
 import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
@@ -123,6 +124,7 @@ const Main = (props) =>{
 
     return(
         <div className={'user-view-page'}>
+            {currentUser==null ? <Redirect to="/welcome"/> : null}
             {loading ? 
             <div className={'loading-box'}>
                 <div className={'loader'}></div>
