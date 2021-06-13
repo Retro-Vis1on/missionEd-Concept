@@ -82,7 +82,7 @@ export default function Network(){
           <div>
             <button onClick={()=>setActiveTab('followers')} className={activeTab==='followers' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Followers</button>
             <button onClick={()=>setActiveTab('following')} className={activeTab==='following' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Following</button>
-            <button onClick={()=>setActiveTab('recomended')} className={activeTab==='recomended' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Recomended</button>
+            <button onClick={()=>setActiveTab('recomended')} className={activeTab==='recomended' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Recommended</button>
           </div>
         </div>
         <div style={{height:'5px'}}>

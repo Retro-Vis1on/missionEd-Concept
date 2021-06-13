@@ -82,7 +82,7 @@ export default function NotificationItem(props) {
   };
 
     return (
-        <Link to={props.data.follower==null ? '/notifications': `/user/${props.data.follower}`} style={{textDecorationLine:'none',}}>
+        <div>
             <motion.div 
             initial={{x:-300,opacity:0}}
             animate={{x:0, opacity:1}}
@@ -90,13 +90,14 @@ export default function NotificationItem(props) {
             
             style={{backgroundColor: props.data.seen? 'teal':'#ff7824', color: props.data.seen? 'white':'#222222', cursor:'pointer',display:'flex',flexDirection:'row'}} className={'notification-section-item'}>
             <div>
-
+             <Link to={props.data.follower==null ? '/notifications': `/user/${props.data.follower}`} style={{textDecorationLine:'none',color:'white'}}>
             {props.data.coins?
                 <img src={CoinLogo} width='30px' height='30px'/>
                 :
                 <img src={image==null ? Default : image==''? Default : image} width='40px' height='40px'/>
             } 
                 <text>{props.data.msg}</text>
+            </Link>
             </div>
                 <div className='notification-item-left'>
                     <text >{time}</text>
@@ -122,6 +123,6 @@ export default function NotificationItem(props) {
                     </MenuItem>
                 </Menu>
             </motion.div>
-        </Link>
+        </div>
     )
 }
