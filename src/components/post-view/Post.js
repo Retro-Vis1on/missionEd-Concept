@@ -18,6 +18,7 @@ import Linkify from 'react-linkify';
 import React from 'react'
 import {UpdateCoins} from './../../apis/API'
 import parse from 'html-react-parser';
+import { Redirect } from 'react-router'
 import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 export default function Topic(props) {
     const {currentUser} = useAuth()
@@ -141,7 +142,7 @@ export default function Topic(props) {
                            <h1>{topic.title}</h1>
                            <h4>{topic.tag}</h4>
                            <div className="sub-heading">
-                            {currentUser.uid==topic.user ? 
+                            {currentUser&&currentUser.uid==topic.user ? 
                               <React.Fragment>
                                 <div>
                                   <EditPost post={topic} id={postId}/>
@@ -153,7 +154,7 @@ export default function Topic(props) {
                               :
                               null
                             }
-                            {topicComment!==null? 
+                            {topicComment!==null && currentUser ? 
                               <div  onClick={()=>saveClick()}>
                                 <div className={'header-heading-save'}>
                                     <Button
@@ -176,9 +177,15 @@ export default function Topic(props) {
                         <div className={'auther-icon'}>
                             <img src={user.profile_image==null ? Default : user.profile_image=''? Default : user.profile_image} />
                         </div>
+                        {currentUser ? 
                         <Link to={`/user/${topic.user}`} className="link-user" style={{textDecorationLine:'none'}}>
                           <text >{user.username}</text>
-                        </Link>
+                        </Link> 
+                        : 
+                        <div className="link-user" style={{textDecorationLine:'none'}}>
+                          <text >{user.username}</text>
+                        </div> }
+                        
                     </div>
                     }
                     
@@ -198,6 +205,7 @@ export default function Topic(props) {
                    label="Comment"
                     placeholder=""
                     value={inputComment} onChange={(e)=>setInputComment(e.target.value)}
+                    disabled = {currentUser ? false : true}
                     rowsMax={5}
                     multiline
                     fullWidth
@@ -224,7 +232,7 @@ export default function Topic(props) {
                   {topicComment!==null ?
                        <div>
                            {topicComment.map(data=>{
-                             return <Comment data={data}/>
+                             return <Comment currentUser = {currentUser} data={data}/>
                            })}
                        </div>
                        :

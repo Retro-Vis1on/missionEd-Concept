@@ -31,6 +31,7 @@ const Navigation = () =>{
 
      useEffect(()=>{
            GetUser();
+           
     },[currentUser])
     async function GetUser(){
       if(currentUser){
@@ -177,8 +178,7 @@ const Navigation = () =>{
      }
      return(
          <div>
-           {currentUser==null ? <Redirect to='/welcome'/>: null}
-           {/* {currentUser && <Redirect to='/'/>} */}
+           {/* {currentUser==null ? <Redirect to='/welcome'/>: null} */}
             <div className='navbar'>
            <Link to='/' style={{textDecorationLine:'none'}}>
                 <div className={'mission-ed-logo'}>

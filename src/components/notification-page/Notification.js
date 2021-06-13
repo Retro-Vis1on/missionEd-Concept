@@ -5,6 +5,7 @@ import CoinLogo from './../../assets/coin.svg'
 import {useAuth} from './../../contexts/AuthContext'
 import {animate, motion} from 'framer-motion'
 import NotificationItem from './Notification-Item'
+import { Redirect } from 'react-router';
 
  export default function Notification() {
     const {currentUser} = useAuth();
@@ -39,6 +40,7 @@ import NotificationItem from './Notification-Item'
        
      return (
          <div className='notification-page'>
+           {currentUser==null ? <Redirect to="/welcome"/> : null}
            <div className='notification-section'>
            
             {notifications==null?

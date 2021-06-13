@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
         <div className={'feed-page'}>
-                  {currentUser==null ? <Redirect to='/welcome'/>: null}
+                  {currentUser==null ? <Redirect to="/welcome"/>: null}
            
             <Feed/>
         </div>

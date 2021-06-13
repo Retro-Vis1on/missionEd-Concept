@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import './Feed.css'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {useAuth} from './../../contexts/AuthContext'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,6 +12,8 @@ import FeedItem from './Feed-item'
 import {db} from './../../firebase'
 import Feedback from './../Navigation/FeedBack'
 import CreateTopic from '../Navigation/CreatePost';
+import { Redirect } from 'react-router';
+
 const BootstrapInput = withStyles((theme) => ({  
   root: {
       'label + &': {
@@ -63,6 +66,7 @@ export default function Feed() {
     const [Posts, setPosts] = useState([]);
     const classes = useStyles();
     const [age, setAge] = React.useState('');
+    const {currentUser} = useAuth();
 
     useEffect(() => {
       GetPosts();
@@ -84,6 +88,7 @@ export default function Feed() {
     };
     return (
       <div>
+        {!currentUser ? <Redirect to="/welcome" /> : null}
       {/* <div>
         <FormControl className={classes.margin}>
           <NativeSelect
