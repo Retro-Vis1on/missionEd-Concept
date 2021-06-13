@@ -20,6 +20,8 @@ import {UpdateCoins} from './../../apis/API'
 import parse from 'html-react-parser';
 import { Redirect } from 'react-router'
 import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
+import {Helmet} from "react-helmet";
+
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -126,9 +128,12 @@ export default function Topic(props) {
         UpdateCoins(currentUser.uid, 2);
         UpdateNotificationForCoins(currentUser.uid, 2, 'commenting !!');
     }
-
     return(
         <div>
+           <Helmet>
+                <meta charSet="utf-8" />
+                <meta name="description" content={`${topic ? topic.description: null}`} />
+            </Helmet>
         {topic==null  ? 
             <div style={{paddingTop:'100px'}} className={'loading-box'}>
               <div className={'loader'}></div>
