@@ -21,6 +21,12 @@ import parse from 'html-react-parser';
 import { Redirect } from 'react-router'
 import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 import {Helmet} from "react-helmet";
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import Modal from 'react-modal'
+import LikeProfile from './LikeProfile'
+import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
 
 export default function Topic(props) {
     const {currentUser} = useAuth()
@@ -30,9 +36,12 @@ export default function Topic(props) {
     const[user,setUser] = useState(null);
     const[isSaved, setSave] = useState(false)
     const[allSaved, setAllSaved] = useState(null)
+    const[isLiked, setLike] = useState(false)
+    const[allLiked, setAllLiked] = useState(null)
     const[postId, setPostId] = useState(null)
     const[inputComment, setInputComment] = useState('');
     const[load,setLoad] = useState(false);
+    const[likeModal, setLikeModal] = useState(false);
     const commentRef = useRef();
     useEffect(()=>{
       const path = window.location.pathname;
@@ -40,7 +49,10 @@ export default function Topic(props) {
       setPostId(id);
       getTopicData(id);
       SetSaved(id);
+      setLike(id);
+      SetLiked(id);
     },[])
+    
     async function SetSaved(id){
       try{
         db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
@@ -51,6 +63,31 @@ export default function Topic(props) {
           else{
             db.collection('users').doc(currentUser.uid).update({
               saved:[],
+            })
+          }
+        })
+      } catch{
+        console.log('error in getting saved')
+      }
+    }
+
+    async function SetLiked(id){
+      try{
+        db.collection('posts').doc(id).onSnapshot(snap=>{
+          setAllLiked(snap.data().liked);
+          if(snap.data().liked){
+            if(!snap.data().liked.length){
+              console.log('salaksjdflkjasdlk')
+              setLike(false)
+            }
+            else{
+              console.log(snap.data().liked.includes(currentUser.uid))
+              setLike(snap.data().liked.includes(currentUser.uid));
+            }
+          }
+          else{
+            db.collection('posts').doc(id).update({
+              liked:[],
             })
           }
         })
@@ -104,6 +141,34 @@ export default function Topic(props) {
         }
     }
     }
+
+    async function likeClick(){
+      if(isLiked){
+        let index = allLiked.indexOf(currentUser.uid)
+         setAllLiked(allLiked.splice(index,1));
+        try{
+           await db.collection('posts').doc(postId).update({
+               liked: allLiked
+           })
+           setLike(false);
+        }catch{
+            console.log('something went wrong')
+        }
+    }
+    else{
+        setAllLiked(allLiked.push(currentUser.uid))
+        try{
+            await db.collection('posts').doc(postId).update({
+                liked:allLiked,
+            })
+            setLike(true);
+        }
+        catch{
+            console.log('something went wrong!')
+        }
+    }
+    }
+
     async function handleComment(e){
       setLoad(true)
       e.preventDefault();
@@ -128,6 +193,11 @@ export default function Topic(props) {
         UpdateCoins(currentUser.uid, 2);
         UpdateNotificationForCoins(currentUser.uid, 2, 'commenting !!');
     }
+
+    const onCancelLikeModal =()=>{
+      setLikeModal(false);
+    }
+
     return(
         <div>
            <Helmet>
@@ -200,7 +270,22 @@ export default function Topic(props) {
                         </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
                       
                  </div>  
-      
+                 <div onClick={()=>likeClick()}>
+                 <div style={{marginLeft:'10px',color:'blueviolet',fontSize:'15px',display:'flex'}}>
+                     {isLiked ? 
+                      <div className={'like-button'} >
+                      <ThumbUpAltIcon style={{fontSize:'22px'}}/>Liked
+                      </div>
+                     : 
+                     <div className={'like-button'} >
+                       <ThumbUpAltOutlinedIcon style={{fontSize:'22px'}}/>Like
+                     </div>
+                    }
+                    </div>
+                 </div>
+                 <div style={{marginTop:'5px'}}>
+                    <text onClick={()=>setLikeModal(true)} style={{fontSize:'14px',marginLeft:'12px',color:'blue',textDecorationLine:'underline',cursor:'pointer'}}>{topic.liked==null ? 0 : topic.liked.length} Likes</text>
+                 </div>
            </div>
            <div className={'comment-box'}>
                 <div className={'comment-reply-box'}>
@@ -248,6 +333,39 @@ export default function Topic(props) {
            </div>
         </div>
         }
+        <Modal isOpen={likeModal} onRequestClose={()=>onCancelLikeModal()} 
+                           style={{
+                            content : {
+                                borderRadius: '20px',
+                                top                   : '50%',
+                                left                  : '50%',
+                                right                 : 'auto',
+                                bottom                : 'auto',
+                                marginRight           : '-50%',
+                                transform             : 'translate(-50%, -50%)',
+                                backgroundColor:  'white',
+                              },
+                          }}>
+                    <div className='like-modal'>
+                      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',borderBottom:'solid 1px',marginBottom:'5px'}}>
+                      <text style={{fontSize:'18px',fontWeight:'bold',alignSelf:'center'}}>Likes</text>
+                      <IconButton onClick={()=>onCancelLikeModal()}>
+                        <ClearIcon/>
+                      </IconButton>
+                      </div>
+                        {allLiked && allLiked.length ? 
+                           <div style={{maxHeight:'450px',overflow:'scroll',overflowX:'hidden'}}>
+                           {allLiked.map(data=>{
+                            return <LikeProfile id={data}/>
+                           })}
+                           </div>
+                        :
+                         <div style={{textAlign:'center',paddingBlock:"20px"}}>
+                           No likes yet!
+                          </div>
+                     }
+                    </div>
+            </Modal>
         </div>
     );
 }

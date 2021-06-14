@@ -5,11 +5,11 @@
   padding-bottom: 70px;
 }
 .sub-heading {
-  display : flex;
-  margin-bottom : 10px;
+  display: flex;
+  margin-bottom: 10px;
 }
 .sub-heading > div {
-  margin-right : 10px;
+  margin-right: 10px;
 }
 .topic-section {
   background-color: white;
@@ -113,7 +113,6 @@
 }
 .topic-description {
   font-weight: 400;
-
 }
 .comment-reply-box {
   display: flex;
@@ -158,8 +157,49 @@
 .header h1 {
   font-size: 30px;
 }
+.like-button {
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 10px;
+  padding-inline: 8px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.like-button:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+.like-profile {
+  padding-block: 5px;
+  padding-inline: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: #b1b1b1 1px solid;
+  transition: all 0.3s;
+}
+.like-profile:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+.like-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.like-profile text {
+  font-size: large;
+  align-self: center;
+  margin-left: 10px;
+  color: #4e4e4e;
+}
+.like-modal {
+  width: 400px;
+}
 @media screen and (max-width: 768px) {
   .header h1 {
     font-size: 25px;
+  }
+  .like-modal {
+    width: 300px;
   }
 }

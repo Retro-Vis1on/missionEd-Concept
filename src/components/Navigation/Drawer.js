@@ -278,11 +278,13 @@ const useStyles = makeStyles({
                                     </text>  
                                 </div>
                               </Link>
+                             <div>
                              <img 
                                  style={{marginLeft:'30px'}}
-                                  ref={anchorRef}
-                                  onClick={handleToggle}
+                                 ref={anchorRef}
+                                 onClick={handleToggle}
                                  src={props.image} />
+                              </div>
                 </div>     
            </motion.nav>
 
