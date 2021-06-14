@@ -24,6 +24,10 @@ import {Helmet} from "react-helmet";
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import Modal from 'react-modal'
+import LikeProfile from './LikeProfile'
+import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
+
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -342,16 +346,23 @@ export default function Topic(props) {
                                 backgroundColor:  'white',
                               },
                           }}>
-                    <div>
-
+                    <div className='like-modal'>
+                      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',borderBottom:'solid 1px',marginBottom:'5px'}}>
+                      <text style={{fontSize:'18px',fontWeight:'bold',alignSelf:'center'}}>Likes</text>
+                      <IconButton onClick={()=>onCancelLikeModal()}>
+                        <ClearIcon/>
+                      </IconButton>
+                      </div>
                         {allLiked && allLiked.length ? 
-                           <div>
+                           <div style={{maxHeight:'450px',overflow:'scroll',overflowX:'hidden'}}>
                            {allLiked.map(data=>{
-                            return <text>{data}</text>
+                            return <LikeProfile id={data}/>
                            })}
                            </div>
                         :
-                         <div>No likes</div>
+                         <div style={{textAlign:'center',paddingBlock:"20px"}}>
+                           No likes yet!
+                          </div>
                      }
                     </div>
             </Modal>
