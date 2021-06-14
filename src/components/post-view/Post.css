@@ -5,11 +5,11 @@
   padding-bottom: 70px;
 }
 .sub-heading {
-  display : flex;
-  margin-bottom : 10px;
+  display: flex;
+  margin-bottom: 10px;
 }
 .sub-heading > div {
-  margin-right : 10px;
+  margin-right: 10px;
 }
 .topic-section {
   background-color: white;
@@ -113,7 +113,6 @@
 }
 .topic-description {
   font-weight: 400;
-
 }
 .comment-reply-box {
   display: flex;
@@ -157,6 +156,18 @@
 }
 .header h1 {
   font-size: 30px;
+}
+.like-button {
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 10px;
+  padding-inline: 8px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.like-button:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 @media screen and (max-width: 768px) {
   .header h1 {

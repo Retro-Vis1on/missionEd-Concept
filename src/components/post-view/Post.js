@@ -21,6 +21,8 @@ import parse from 'html-react-parser';
 import { Redirect } from 'react-router'
 import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 import {Helmet} from "react-helmet";
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 
 export default function Topic(props) {
     const {currentUser} = useAuth()
@@ -30,6 +32,8 @@ export default function Topic(props) {
     const[user,setUser] = useState(null);
     const[isSaved, setSave] = useState(false)
     const[allSaved, setAllSaved] = useState(null)
+    const[isLiked, setLike] = useState(false)
+    const[allLiked, setAllLiked] = useState(null)
     const[postId, setPostId] = useState(null)
     const[inputComment, setInputComment] = useState('');
     const[load,setLoad] = useState(false);
@@ -40,7 +44,10 @@ export default function Topic(props) {
       setPostId(id);
       getTopicData(id);
       SetSaved(id);
+      setLike(id);
+      SetLiked(id);
     },[])
+    
     async function SetSaved(id){
       try{
         db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
@@ -51,6 +58,31 @@ export default function Topic(props) {
           else{
             db.collection('users').doc(currentUser.uid).update({
               saved:[],
+            })
+          }
+        })
+      } catch{
+        console.log('error in getting saved')
+      }
+    }
+
+    async function SetLiked(id){
+      try{
+        db.collection('posts').doc(id).onSnapshot(snap=>{
+          setAllLiked(snap.data().liked);
+          if(snap.data().liked){
+            if(!snap.data().liked.length){
+              console.log('salaksjdflkjasdlk')
+              setLike(false)
+            }
+            else{
+              console.log(snap.data().liked.includes(currentUser.uid))
+              setLike(snap.data().liked.includes(currentUser.uid));
+            }
+          }
+          else{
+            db.collection('posts').doc(id).update({
+              liked:[],
             })
           }
         })
@@ -104,6 +136,34 @@ export default function Topic(props) {
         }
     }
     }
+
+    async function likeClick(){
+      if(isLiked){
+        let index = allLiked.indexOf(currentUser.uid)
+         setAllLiked(allLiked.splice(index,1));
+        try{
+           await db.collection('posts').doc(postId).update({
+               liked: allLiked
+           })
+           setLike(false);
+        }catch{
+            console.log('something went wrong')
+        }
+    }
+    else{
+        setAllLiked(allLiked.push(currentUser.uid))
+        try{
+            await db.collection('posts').doc(postId).update({
+                liked:allLiked,
+            })
+            setLike(true);
+        }
+        catch{
+            console.log('something went wrong!')
+        }
+    }
+    }
+
     async function handleComment(e){
       setLoad(true)
       e.preventDefault();
@@ -200,7 +260,20 @@ export default function Topic(props) {
                         </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
                       
                  </div>  
-      
+                 <div onClick={()=>likeClick()}>
+                 <div style={{marginLeft:'10px',color:'blueviolet',fontSize:'15px',display:'flex'}}>
+                     {isLiked ? 
+                      <div className={'like-button'} >
+                      <ThumbUpAltIcon style={{fontSize:'22px'}}/>Liked
+                      </div>
+                     : 
+                     <div className={'like-button'} >
+                       <ThumbUpAltOutlinedIcon style={{fontSize:'22px'}}/>Like
+                     </div>
+                    }
+                    </div>
+                   
+                 </div>
            </div>
            <div className={'comment-box'}>
                 <div className={'comment-reply-box'}>
