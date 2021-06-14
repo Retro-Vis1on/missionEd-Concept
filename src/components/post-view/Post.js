@@ -23,7 +23,7 @@ import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
 import {Helmet} from "react-helmet";
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-
+import Modal from 'react-modal'
 export default function Topic(props) {
     const {currentUser} = useAuth()
     const[loading,setLoading] = useState(true)
@@ -37,6 +37,7 @@ export default function Topic(props) {
     const[postId, setPostId] = useState(null)
     const[inputComment, setInputComment] = useState('');
     const[load,setLoad] = useState(false);
+    const[likeModal, setLikeModal] = useState(false);
     const commentRef = useRef();
     useEffect(()=>{
       const path = window.location.pathname;
@@ -188,6 +189,11 @@ export default function Topic(props) {
         UpdateCoins(currentUser.uid, 2);
         UpdateNotificationForCoins(currentUser.uid, 2, 'commenting !!');
     }
+
+    const onCancelLikeModal =()=>{
+      setLikeModal(false);
+    }
+
     return(
         <div>
            <Helmet>
@@ -272,7 +278,9 @@ export default function Topic(props) {
                      </div>
                     }
                     </div>
-                   
+                 </div>
+                 <div style={{marginTop:'5px'}}>
+                    <text onClick={()=>setLikeModal(true)} style={{fontSize:'14px',marginLeft:'12px',color:'blue',textDecorationLine:'underline',cursor:'pointer'}}>{topic.liked==null ? 0 : topic.liked.length} Likes</text>
                  </div>
            </div>
            <div className={'comment-box'}>
@@ -321,6 +329,32 @@ export default function Topic(props) {
            </div>
         </div>
         }
+        <Modal isOpen={likeModal} onRequestClose={()=>onCancelLikeModal()} 
+                           style={{
+                            content : {
+                                borderRadius: '20px',
+                                top                   : '50%',
+                                left                  : '50%',
+                                right                 : 'auto',
+                                bottom                : 'auto',
+                                marginRight           : '-50%',
+                                transform             : 'translate(-50%, -50%)',
+                                backgroundColor:  'white',
+                              },
+                          }}>
+                    <div>
+
+                        {allLiked && allLiked.length ? 
+                           <div>
+                           {allLiked.map(data=>{
+                            return <text>{data}</text>
+                           })}
+                           </div>
+                        :
+                         <div>No likes</div>
+                     }
+                    </div>
+            </Modal>
         </div>
     );
 }
