@@ -113,7 +113,7 @@ export default function Feed() {
       <div className={'feed-section'}>
             <div className={'feed'}>   
                       <div className={'topic-item-box'}>
-                          <h4>Posts</h4>
+                          <h5>Posts</h5>
                       <hr style={{height:'3px',backgroundColor:'#7C7E7F'}}/>
                       {loading ? 
                         <div className='loading-box'>
