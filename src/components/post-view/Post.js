@@ -49,7 +49,6 @@ export default function Topic(props) {
       setPostId(id);
       getTopicData(id);
       SetSaved(id);
-      setLike(id);
       SetLiked(id);
     },[])
     
@@ -74,6 +73,7 @@ export default function Topic(props) {
     async function SetLiked(id){
       try{
         db.collection('posts').doc(id).onSnapshot(snap=>{
+        if(snap.exists){ 
           setAllLiked(snap.data().liked);
           if(snap.data().liked){
             if(!snap.data().liked.length){
@@ -90,6 +90,7 @@ export default function Topic(props) {
               liked:[],
             })
           }
+        }
         })
       } catch{
         console.log('error in getting saved')
