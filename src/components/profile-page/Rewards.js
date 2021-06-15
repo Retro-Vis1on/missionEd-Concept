@@ -20,7 +20,11 @@ export default function Rewards(){
       const{currentUser} = useAuth();
       const[coins ,setCoins] = useState(null);
       const [open, setOpen] = useState(false);
-      const { width, height } = useWindowSize()
+      const { width, height } = useWindowSize();
+      const message=()=>{
+        console.log("Redeem starts at 500 coins.")
+      }
+
       useEffect(()=>{
          GetCoins();
       },[])
@@ -39,7 +43,9 @@ export default function Rewards(){
             console.log('error');
         }
     }
- /*    
+ /*    const message = () => {
+ console.log("Hello World!") 
+}
 useEffect(()=>{
         GetConfetti();
      },[])
@@ -98,7 +104,11 @@ useEffect(()=>{
            size='large'
            onClick={()=>handleClickOpen()}
            >
+            { coins>=500?
           <Link to='/store'  style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
+          :
+          <Link to='#' onClick={message} style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
+             }
           </Button>
          
         </div>
