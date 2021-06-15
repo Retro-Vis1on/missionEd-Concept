@@ -143,34 +143,45 @@
   border-bottom: 1px solid;
 }
 
-  .left img{
+.left img {
+  width: 100%;
+}
+.right action-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-number h1 {
+  font-size: 60px;
+  color: rgb(131, 131, 131);
+  text-shadow: 0 1px 0 hsl(174, 5%, 80%), 0 2px 0 hsl(174, 5%, 75%),
+    0 3px 0 hsl(174, 5%, 70%), 0 4px 0 hsl(174, 5%, 66%),
+    0 5px 0 hsl(174, 5%, 64%), 0 6px 0 hsl(174, 5%, 62%),
+    0 7px 0 hsl(174, 5%, 61%), 0 8px 0 hsl(174, 5%, 60%),
+    0 0 5px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.2),
+    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.2),
+    0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 768px) {
+  .bg_image {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+  }
+  .bg_image .left {
     width: 100%;
   }
-  .right action-button{
-    display:flex;
+  .bg_image .right {
+    width: 100%;
+  }
+
+  .left img {
+    width: 100%;
+  }
+  .right action-button {
+    display: flex;
     flex-direction: column;
   }
-
-
-  
-  @media screen and (max-width: 768px) {
-    .bg_image {
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     height: 80%;
-    }
-  .bg_image .left{
-width: 100%;
-  }
-  .bg_image .right{
-    width: 100%;}
-
-    .left  img {
-      width: 100%;
-    }
-    .right action-button {
-      display:flex;
-      flex-direction: column;
-    }}
-    
+}
