@@ -155,10 +155,11 @@ export default function CreatePost(props) {
                                <Form.Group controlId="exampleForm.ControlSelect1">
                                   <Form.Label style={{fontWeight:'bold'}}>Category</Form.Label>
                                   <Form.Control as="select" defaultValue={props.post.tag} ref={tagRef}>
-                                     <option>General</option>
-                                     <option>Internship</option>
-                                     <option>Question</option>
-                                      <option>Experience</option>
+                                    <option>General</option>
+                                    <option>Internship</option>
+                                    <option>Question</option>
+                                    <option>Placement</option>
+                                    <option>Project</option>
                                       </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">
