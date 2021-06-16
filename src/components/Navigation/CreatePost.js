@@ -258,7 +258,8 @@ async function fileVideoUpload(file){
                                      <option>General</option>
                                      <option>Internship</option>
                                      <option>Question</option>
-                                      <option>Placement</option>
+                                     <option>Placement</option>
+                                      <option>Project</option>
                                       </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlTextarea1">

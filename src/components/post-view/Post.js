@@ -19,7 +19,7 @@ import React from 'react'
 import {UpdateCoins} from './../../apis/API'
 import parse from 'html-react-parser';
 import { Redirect } from 'react-router'
-import { UpdateNotificationForCoins } from '../../apis/NotificationApi'
+import { NotificationForLike, UpdateNotificationForCoins } from '../../apis/NotificationApi'
 import {Helmet} from "react-helmet";
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -166,6 +166,9 @@ export default function Topic(props) {
         }
         catch{
             console.log('something went wrong!')
+        }
+        if(topic.user!= currentUser.uid){
+          NotificationForLike(currentUser.uid, topic.user)
         }
     }
     }
