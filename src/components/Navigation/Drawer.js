@@ -41,7 +41,7 @@ import {RiCoinsLine} from 'react-icons/ri'
 import CoinLogo from './../../assets/coin.svg' 
 import { Redirect } from 'react-router';
 import { withRouter } from 'react-router';
-
+import NotificationItem from './NotificationItem'
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -341,7 +341,7 @@ const useStyles = makeStyles({
                               :
                               null
                             } 
-                             <text>{data.msg}</text>
+                             <NotificationItem data={data}/>
                             </div>
                             </Link>
                           );

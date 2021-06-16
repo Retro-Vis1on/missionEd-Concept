@@ -16,6 +16,7 @@ import firebase from 'firebase'
 import {Link} from 'react-router-dom'
 export default function NotificationItem(props) {
     const {currentUser} = useAuth();
+    const[username, setUsername] = useState(null);
     const[image, setImage] = useState(null,GetImage());
     const[time, setTime] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -45,6 +46,7 @@ export default function NotificationItem(props) {
            try{
                await userdb.doc(props.data.follower).get().then(data=>{
                    setImage(data.data().profile_image);
+                   setUsername(data.data().username);
                })
             }  
             catch{
@@ -96,7 +98,7 @@ export default function NotificationItem(props) {
                 :
                 <img src={image==null ? Default : image==''? Default : image} width='40px' height='40px'/>
             } 
-                <text>{props.data.msg}</text>
+                <text>{username? username: null}{' '+props.data.msg}</text>
             </Link>
             </div>
                 <div className='notification-item-left'>
