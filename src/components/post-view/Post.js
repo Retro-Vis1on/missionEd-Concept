@@ -108,7 +108,7 @@ export default function Topic(props) {
           }
         });
         await db.collection(`posts/${id}/comments`).orderBy('timestamp','desc').onSnapshot(snap=>{
-          setTopicComment(snap.docs.map(data=>{return data.data()}));
+          setTopicComment(snap.docs.map(data=>{return {id:data.id,data: data.data()}}));
         });
       } catch{
         console.log('something went wrong, please check your internaet connection!')
@@ -326,7 +326,7 @@ export default function Topic(props) {
                   {topicComment!==null ?
                        <div>
                            {topicComment.map(data=>{
-                             return <Comment currentUser = {currentUser} data={data}/>
+                             return <Comment currentUser = {currentUser} data={data.data} commentId={data.id} postId={postId}/>
                            })}
                        </div>
                        :
