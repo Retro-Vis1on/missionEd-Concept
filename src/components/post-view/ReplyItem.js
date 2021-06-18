@@ -47,7 +47,7 @@ export default function ReplyItem(props) {
               console.log('salaksjdflkjasdlk')
               setLike(false)
             }
-            else{
+            else if(currentUser){
               console.log(snap.data().liked.includes(currentUser.uid))
               setLike(snap.data().liked.includes(currentUser.uid));
             }
@@ -125,11 +125,11 @@ export default function ReplyItem(props) {
                     <div style={{display:'flex',flexDirection:'row',paddingTop:'5px',paddingLeft:'10%'}}>
                       <text onClick={()=>setLikeModal(true)} style={{color:'blueviolet',cursor:'pointer'}}>{allLiked? allLiked.length : 0}</text>
                     {isLiked ?
-                       <div className={'reply-button'} onClick={()=>likeClick()}>
+                       <div className={'reply-button'} onClick={()=>{if(currentUser) return likeClick()}}>
                       <ThumbUpAltIcon style={{marginRight:'3px',fontSize:'16px'}}/>Liked
                       </div>
                       :
-                      <div className={'reply-button'} onClick={()=>likeClick()} >
+                      <div className={'reply-button'} onClick={()=>{if(currentUser) return likeClick()}} >
                       <ThumbUpAltOutlinedIcon style={{marginRight:'3px',fontSize:'16px'}}/>Like
                       </div>
                     }
