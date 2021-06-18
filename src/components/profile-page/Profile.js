@@ -29,12 +29,12 @@ export default function Profile() {
         setActiveTab(tab)
     }
     return (
-            <div className={'profile-page'}>
+            <div className={'profile-page'} >
                 {currentUser==null ? <Redirect to="/welcome" /> : null}
-            <div className={'profile-page-section'}>
+            <div className={'profile-page-section'} >
            {user==null ? <div></div>
            :
-            <div className={'profile-user-card'}>
+            <div className={'profile-user-card'} >
               <img src={user.profile_image==null ? Default : user.profile_image}/>
               <div>
                   <h3>{user.name}</h3>
@@ -42,17 +42,18 @@ export default function Profile() {
               </div>  
             </div>
             }
-            <div className={'profile-tabs-section'}>
-                <div className={'tabs-options'}>
+            <div className={'profile-tabs-section'} >
+                <div className={'tabs-options'} style={{backgroundColor:"#f1f4ff"}}>
                     <text style={{marginBottom : '5px'}} onClick={()=>handleTab('general')} className={activeTab==='general'? 'active-tab':null}>General</text>
                     <text style={{marginBottom : '5px'}} onClick={()=>handleTab('rewards')} className={activeTab==='rewards'? 'active-tab':null}>Rewards</text>
                     <text style={{marginBottom : '5px'}} onClick={()=>handleTab('account')} className={activeTab==='account'? 'active-tab':null}>Account</text>
                 </div>
-                <div className={'active-tab-page'}>
+                <div className={'active-tab-page'} style={{backgroundColor:"white"}}>
                      {activeTab==='general'? <General/>:null}
                      {activeTab==='rewards'? <Rewards/>:null}
                      {activeTab==='account'? <Account/>:null}
                 </div>
+
             </div>
 
             </div>

@@ -89,7 +89,7 @@ useEffect(()=>{
                    :
                    <div className={'reward-content'}>
           
-          <div className={'coins-section'}   style={{fontWeight:'600',marginTop : '2px',color:'white'}}>
+          <div className={'coins-section'}   style={{fontWeight:'600',marginTop : '2px',color:'black'}}>
                  <text>My Coins</text>
                  <text className={'coins'}  style={{fontWeight:'600',paddingTop : '2px'}}>
                  <RiCoinsLine/>= {coins}
@@ -98,6 +98,18 @@ useEffect(()=>{
           </div>
         }
         <div className={'reward-content'}>
+        { coins>=500?
+          <Button
+           variant='contained'
+           style={{fontWeight:'600',marginTop : '30px',color:'white',borderWidth:'4px',backgroundColor:'#ff7824',marginInline:'30%'}}
+           disabled={false}
+           fullWidth
+           size='large'
+           //onClick={()=>handleClickOpen()}
+           >
+          <Link to='/store'  style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
+          </Button>
+          :
           <Button
            variant='contained'
            style={{fontWeight:'600',marginTop : '30px',color:'white',borderWidth:'4px',backgroundColor:'#ff7824',marginInline:'30%'}}
@@ -106,13 +118,23 @@ useEffect(()=>{
            size='large'
            onClick={()=>handleClickOpen()}
            >
-            { coins>=500?
-          <Link to='/store'  style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
-          :
-          <Link to='#' onClick={message} style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
-        }
+          <Link to='#'  style={{ color:"white" , textDecoration: 'none'}}> Redeem</Link>
+             
+          </Button>}
+          <Dialog open={open} onClose={handleClose}>
+        <DialogTitle style={{  textAlign: "center"}} >{"Earn Coins"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Collect 500 coins to unlock amazing gifts!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} 
+            style={{ backgroundColor:'#ff7824', color:"white" }}autoFocus>
+            Close
           </Button>
-         
+        </DialogActions>
+      </Dialog>
         </div>
      {       
       /*userdb.doc(currentUser.uid).onSnapshot(snap=>{
@@ -132,3 +154,20 @@ useEffect(()=>{
     );
   
 }
+/*
+background: linear-gradient(-45deg, #ee7752, #e7cd3c, #d59723, #fffb04);
+	
+animation: gradients 15s ease infinite;
+
+
+@keyframes gradients {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}*/
