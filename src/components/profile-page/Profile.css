@@ -6,17 +6,7 @@
   background-color: #f1f4ff;
 
 }
-@keyframes gradients {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+
 .profile-page-section {
   min-width: 70%;
 }
@@ -75,9 +65,7 @@
   padding: 20px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   /* width: fit-content; */
-  background: linear-gradient(-45deg, #ee7752, #e7cd3c, #d59723, #fffb04);
-	
-	animation: gradients 15s ease infinite;
+ 
 }
 .general-section {
   display: flex;
