@@ -81,8 +81,9 @@ export default function Topic(props) {
               setLike(false)
             }
             else{
-              console.log(snap.data().liked.includes(currentUser.uid))
-              setLike(snap.data().liked.includes(currentUser.uid));
+              if(currentUser){
+                setLike(snap.data().liked.includes(currentUser.uid));
+              }
             }
           }
           else{
@@ -274,7 +275,7 @@ export default function Topic(props) {
                         </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
                       
                  </div>  
-                 <div onClick={()=>likeClick()}>
+                 <div onClick={()=>{if(currentUser) return likeClick()}}>
                  <div style={{marginLeft:'10px',color:'blueviolet',fontSize:'15px',display:'flex'}}>
                      {isLiked ? 
                       <div className={'like-button'} >

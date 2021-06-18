@@ -65,8 +65,10 @@ export default function Comment(props) {
               setLike(false)
             }
             else{
-              console.log(snap.data().liked.includes(currentUser.uid))
-              setLike(snap.data().liked.includes(currentUser.uid));
+              if(currentUser){
+                console.log(snap.data().liked.includes(currentUser.uid))
+                setLike(snap.data().liked.includes(currentUser.uid));
+              }
             }
           }
           else{
@@ -166,11 +168,11 @@ export default function Comment(props) {
                     <div style={{display:'flex',flexDirection:'row',paddingTop:'5px',paddingLeft:'10%'}}>
                       <text onClick={()=>setLikeModal(true)} style={{color:'blueviolet',cursor:'pointer'}}>{allLiked? allLiked.length : 0}</text>
                     {isLiked ?
-                       <div className={'reply-button'} onClick={()=>likeClick()}>
+                       <div className={'reply-button'} onClick={()=>{if(currentUser) return likeClick()}}>
                       <ThumbUpAltIcon style={{marginRight:'3px',fontSize:'16px'}}/>Liked
                       </div>
                       :
-                      <div className={'reply-button'} onClick={()=>likeClick()} >
+                      <div className={'reply-button'} onClick={()=>{if(currentUser) return likeClick()}} >
                       <ThumbUpAltOutlinedIcon style={{marginRight:'3px',fontSize:'16px'}}/>Like
                       </div>
                     }

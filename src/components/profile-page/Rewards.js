@@ -79,13 +79,15 @@ useEffect(()=>{
 
     
       return(
+        <div className={'golden'}>
+
       <div className={'profile-content'}>
        {coins==null?
          <div className={'loading-box'}>
              <div className={'loader'}></div>    
          </div>
                    :
-        <div className={'reward-content'}>
+                   <div className={'reward-content'}>
           
           <div className={'coins-section'}   style={{fontWeight:'600',marginTop : '2px',color:'black'}}>
                  <text>My Coins</text>
@@ -137,16 +139,17 @@ useEffect(()=>{
      {       
       /*userdb.doc(currentUser.uid).onSnapshot(snap=>{
         setCoins(snap.data().coins)
-         snap.data().coins>=15 ?*/
-coins>=500?
-<Confetti
+        snap.data().coins>=15 ?*/
+        coins>=500?
+           <Confetti
           width={width}
           height={height}/>
-        
-
-      :
-      <div></div>}
-</div>
+          
+          
+          :
+          <div></div>}
+          </div>
+          </div>
 
     );
   
