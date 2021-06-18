@@ -1,23 +1,23 @@
 .footer-social-icon span {
     color:white;
     font-weight: 600;
-    font-size: x-large;
+    font-size: large;
 }
 
 .footer-widget-heading h3{
     color: white;
 }
 
-.cta-text h4{
+.cta-text h5{
 color: white;
 }
 
 .cta-text span{
-    color: rgb(87, 89, 95);
+    color: rgb(167, 169, 173);
     }
 
 .footer-text p{
-    color: rgb(68,71,83);
+    color: rgb(167, 169, 173);
 }
 
 .mt-3 a{
@@ -30,6 +30,7 @@ color: white;
 }
 .copyright-text {
     height: 12px;
+    margin-bottom: 1px;
 }
 
 .text-right{
