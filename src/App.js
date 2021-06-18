@@ -11,6 +11,8 @@ import Post from './components/post-view/Post'
 import User from './components/user-view/User'
 import Store from './components/profile-page/Store'
 import Notification from './components/notification-page/Notification'
+import Footer from './components/Footer-pg/Footer'
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path='/notifications' component={Notification} />
         </Switch>
       </AuthProvider>
+      <Footer/>
     </Router>
   );
 }
