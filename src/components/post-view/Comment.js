@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {RiAccountCircleFill} from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import Default from '../../assets/default.jpg'
@@ -28,11 +28,11 @@ export default function Comment(props) {
         const[isLiked, setLike] = useState(false)
         const[allLiked, setAllLiked] = useState(null)
         const[likeModal, setLikeModal] = useState(false);
-       useState(()=>{
+       useEffect(()=>{
          getUser();
          GetReplies();
          SetLiked();
-       },[]);
+       },[props.commentId]);
     async function getUser(){
      try{
         await userdb.doc(props.data.user).onSnapshot(snap=>{
@@ -99,6 +99,7 @@ export default function Comment(props) {
         }
         setShowReply(false);
         setReply('');
+        setShowReplies(true);
     }
 
     const replyClick = ()=>{
@@ -200,7 +201,7 @@ export default function Comment(props) {
                      {replies && showReplies ?
                      <div>
                        {replies.map(data=>{
-                         return <ReplyItem data={data.data}/>
+                         return <ReplyItem data={data.data} postId={props.postId} commentId={props.commentId} replyId={data.id}/>
                        })}
                      </div>
                     :
