@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {RiAccountCircleFill} from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import Default from '../../assets/default.jpg'
@@ -9,14 +9,23 @@ import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import {TextField} from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send';
+import Modal from 'react-modal'
+import LikeProfile from './LikeProfile'
+import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
+import {useAuth} from './../../contexts/AuthContext'
+import {db} from './../../firebase'
 
 export default function ReplyItem(props) {
         const[user, setUser] = useState(null);
-        
-       useState(()=>{
-         getUser()
-       },[]);
-
+        const[isLiked, setLike] = useState(false)
+        const[allLiked, setAllLiked] = useState(null)
+        const[likeModal, setLikeModal] = useState(false);
+        const {currentUser} = useAuth();
+        useEffect(()=>{
+          getUser();
+          SetLiked();
+        },[props.replyId]);
     async function getUser(){
      try{
         await userdb.doc(props.data.user).onSnapshot(snap=>{
@@ -25,6 +34,70 @@ export default function ReplyItem(props) {
       } catch{
         console.log('something went wrong')
       }
+    }
+
+
+    async function SetLiked(){
+      try{
+        db.collection(`posts/${props.postId}/comments/${props.commentId}/reply`).doc(props.replyId).onSnapshot(snap=>{
+        if(snap.exists){ 
+          setAllLiked(snap.data().liked);
+          if(snap.data().liked){
+            if(!snap.data().liked.length){
+              console.log('salaksjdflkjasdlk')
+              setLike(false)
+            }
+            else{
+              console.log(snap.data().liked.includes(currentUser.uid))
+              setLike(snap.data().liked.includes(currentUser.uid));
+            }
+          }
+          else{
+            db.collection(`posts/${props.postId}/comments/${props.commentId}/reply`).doc(props.replyId).update({
+              liked:[],
+            })
+          }
+        }
+        })
+
+      } catch{
+        console.log('error in getting saved')
+      }
+    }
+
+    async function likeClick(){
+      if(isLiked){
+        let index = allLiked.indexOf(currentUser.uid)
+         setAllLiked(allLiked.splice(index,1));
+        try{
+           await  db.collection(`posts/${props.postId}/comments/${props.commentId}/reply`).doc(props.replyId).update({
+               liked: allLiked
+           })
+           setLike(false);
+        }catch{
+            console.log('something went wrong')
+        }
+    }
+    else{
+        setAllLiked(allLiked.push(currentUser.uid))
+        try{
+            await  db.collection(`posts/${props.postId}/comments/${props.commentId}/reply`).doc(props.replyId).update({
+                liked:allLiked,
+            })
+            setLike(true);
+        }
+        catch{
+            console.log('something went wrong!')
+        }
+        // if(topic.user!= currentUser.uid){
+        //   NotificationForLike(currentUser.uid, topic.user)
+        // }
+    }
+    }
+
+
+    const onCancelLikeModal =()=>{
+      setLikeModal(false);
     }
     
   return(
@@ -49,11 +122,56 @@ export default function ReplyItem(props) {
                           <text style={{fontSize:'15px',whiteSpace:'pre-wrap'}}>{props.data.comment}</text>
                         </div>
                     </div>
+                    <div style={{display:'flex',flexDirection:'row',paddingTop:'5px',paddingLeft:'10%'}}>
+                      <text onClick={()=>setLikeModal(true)} style={{color:'blueviolet',cursor:'pointer'}}>{allLiked? allLiked.length : 0}</text>
+                    {isLiked ?
+                       <div className={'reply-button'} onClick={()=>likeClick()}>
+                      <ThumbUpAltIcon style={{marginRight:'3px',fontSize:'16px'}}/>Liked
+                      </div>
+                      :
+                      <div className={'reply-button'} onClick={()=>likeClick()} >
+                      <ThumbUpAltOutlinedIcon style={{marginRight:'3px',fontSize:'16px'}}/>Like
+                      </div>
+                    }
+                    </div>
             <div>
             <hr/>
         </div>
     </div>
     }
+    <Modal isOpen={likeModal} onRequestClose={()=>onCancelLikeModal()} 
+                           style={{
+                            content : {
+                                borderRadius: '20px',
+                                top                   : '50%',
+                                left                  : '50%',
+                                right                 : 'auto',
+                                bottom                : 'auto',
+                                marginRight           : '-50%',
+                                transform             : 'translate(-50%, -50%)',
+                                backgroundColor:  'white',
+                              },
+                          }}>
+                    <div className='like-modal'>
+                      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',borderBottom:'solid 1px',marginBottom:'5px'}}>
+                      <text style={{fontSize:'18px',fontWeight:'bold',alignSelf:'center'}}>Likes</text>
+                      <IconButton onClick={()=>onCancelLikeModal()}>
+                        <ClearIcon/>
+                      </IconButton>
+                      </div>
+                        {allLiked && allLiked.length ? 
+                           <div style={{maxHeight:'450px',overflow:'scroll',overflowX:'hidden'}}>
+                           {allLiked.map(data=>{
+                            return <LikeProfile id={data}/>
+                           })}
+                           </div>
+                        :
+                         <div style={{textAlign:'center',paddingBlock:"20px"}}>
+                           No likes yet!
+                          </div>
+                     }
+                    </div>
+            </Modal>
 </div>
   );    
 }
