@@ -13,6 +13,18 @@ import {db} from './../../firebase'
 import Feedback from './../Navigation/FeedBack'
 import CreateTopic from '../Navigation/CreatePost';
 import { Redirect } from 'react-router';
+import styled from 'styled-components';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuList from '@material-ui/core/MenuList';
+
+const options = ['likes', 'date', 'my post','saved posts'];
 
 const BootstrapInput = withStyles((theme) => ({  
   root: {
@@ -67,10 +79,32 @@ export default function Feed() {
     const classes = useStyles();
     const [age, setAge] = React.useState('');
     const {currentUser} = useAuth();
-
+    const [likedButton, setLikedButton] = useState('');
+    const [dateButton, setDateButton] = useState('');
+    const [myPostButton, setMyPostButton] = useState('');
+    const [savePostButton, seSavePostButton] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
     useEffect(() => {
       GetPosts();
     }, [])
+  
+    const handleMenuItemClick = (event, index) => {
+      setSelectedIndex(index);
+      setOpen(false);
+    };
+    const handleToggle = () => {
+      setOpen((prevOpen) => !prevOpen);
+    };
+  
+    const handleClose = (event) => {
+      if (anchorRef.current && anchorRef.current.contains(event.target)) {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
     async function GetPosts(){
       try{
@@ -113,8 +147,81 @@ export default function Feed() {
       <div className={'feed-section'}>
             <div className={'feed'}>   
                       <div className={'topic-item-box'}>
-                          <h5>Posts</h5>
-                      <hr style={{height:'3px',backgroundColor:'#7C7E7F'}}/>
+                        <div className="topic-header"> 
+                          <div className="heading-grid">
+                            <h5 style={{marginTop : '-3px'}}>Posts</h5>
+                          </div>
+                          <div className="search-field search-grid">
+                              <input type="text"
+                                     placeholder="Search Posts...." 
+                              ></input>
+                              <img src="/images/search-icon.svg"/>
+                          </div>
+                          <div className="filter filter-grid">
+                            <Grid container direction="column" alignItems="center" className="filter-field">
+                              <Grid item xs={12}>
+                                <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+                                  <Button className="filter-button" 
+                                  color="primary"
+                                  size="small"
+                                  aria-controls={open ? 'split-button-menu' : undefined}
+                                  aria-expanded={open ? 'true' : undefined}
+                                  aria-label="select merge strategy"
+                                  aria-haspopup="menu"
+                                  onClick={handleToggle}
+                                  
+                                  >
+                                    Filter By
+                
+                                    <ArrowDropDownIcon />
+                                  </Button>
+                                </ButtonGroup>
+                                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                                  {({ TransitionProps, placement }) => (
+                                    <Grow
+                                      {...TransitionProps}
+                                      style={{
+                                        transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                                      }}
+                                    >
+                                      <Paper>
+                                        <ClickAwayListener onClickAway={handleClose}>
+                                          <MenuList id="split-button-menu">
+                                            {options.map((option, index) => (
+                                              <MenuItem
+                                                key={option}
+                                                disabled={index === 2}
+                                                selected={index === selectedIndex}
+                                                onClick={(event) => handleMenuItemClick(event, index)}
+                                              >
+                                                {option}
+                                              </MenuItem>
+                                            ))}
+                                          </MenuList>
+                                        </ClickAwayListener>
+                                      </Paper>
+                                    </Grow>
+                                  )}
+                                </Popper>
+                              </Grid>
+                            </Grid>
+
+                            {/* <button className="filter-button">
+                              likes
+                            </button>
+                            <button className="filter-button">
+                              date
+                            </button>
+                            <button className="filter-button">
+                              saved posts
+                            </button>
+                            <button className="filter-button">
+                              my posts
+                            </button> */}
+                          </div>
+                        </div>
+                        
+                      <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
                       {loading ? 
                         <div className='loading-box'>
                         <div className='loader'></div>
@@ -145,3 +252,53 @@ export default function Feed() {
       </div>
     );
   }
+
+//   const SearchField = styled.div`
+//   position : relative;
+//   margin-left : 15px;
+//   margin-top : -15px;
+//   input {
+//       display : block;
+//       width : 250px;
+//       background: #e6e6ff;
+//       padding : 5px;
+//       padding-left : 30px;
+//       border : none;
+//       @media (max-width : 1030px) {
+//           width: 85%;
+//           margin-right : 15px;
+//       }
+//       @media (max-width : 500px) {
+//           width: 75%;
+//           margin-right : 15px;
+//       }
+//   }
+//   img {
+//       position: absolute;
+//       top : 10px;
+//       margin-left : 10px
+//   }
+//   @media (max-width : 1030px) {
+//       width: 100%;
+//   }
+  
+  
+// `;
+// const Filter = styled.div`
+//   display: flex;
+//   align-items: center;
+//   width : 100%;
+//   align-items : center;
+//   margin-left : 20px;
+// `;
+// const FilterButton = styled.button`
+//   padding : 5px 10px;
+//   border-radius: 25px;
+//   border : 2px solid black;
+//   margin-top : -15px;
+//   margin-left : 10px;
+//   /* background-color : #ff8533;
+//   color : white; */
+// `;
+// const Likes = styled(FilterButton)``;
+// const Comments = styled(FilterButton)``;
