@@ -13,23 +13,23 @@ export default function Footer() {
 
 
     return (
-<footer class="footer-section" style={{backgroundColor:"black"}}>
+<footer class="footer-section" style={{backgroundColor:"#30343f"}}>
 <div class="container" >
-<div class="footer-cta pt-5 pb-1"><div class="row">
+<div class="footer-cta pt-3 pb-0"><div class="row">
 <div class="col-xl-5  col-md-5 mb-30 footer-info ">
 <div class="single-cta">
-<div class="cta-text"><h4>< LocationOnIcon style={{fontSize:'30px',color:'#ff6200'}}/>Find Us</h4><span>Goa Institute of Management, Goa, 202010</span></div></div>
+<div class="cta-text"><h5>< LocationOnIcon style={{fontSize:'30px',color:'#ff6200'}}/>Find Us</h5><span>Goa Institute of Management, Goa, 202010</span></div></div>
 </div>
 <div class="col-xl-4 col-md-4 mb-30 footer-info">
 <div class="single-cta pl-4">
-<div class="cta-text"><h4><PhoneEnabledIcon style={{fontSize:'30px',color:'#ff6200'}}/>Call Us</h4><span>+91-9674037142</span></div></div></div>
+<div class="cta-text"><h5><PhoneEnabledIcon style={{fontSize:'30px',color:'#ff6200'}}/>Call Us</h5><span>+91-9674037142</span></div></div></div>
 <div class="col-xl-3 col-md-4 mb-30 ">
 <div class="single-cta pl-4">
-<div class="cta-text"><h4><MailIcon style={{fontSize:'30px',color:'#ff6200'}}/>Mail Us</h4><span>missioned@gmail.com</span></div></div></div></div>
+<div class="cta-text"><h5><MailIcon style={{fontSize:'30px',color:'#ff6200'}}/>Mail Us</h5><span>missioned@gmail.com</span></div></div></div></div>
 </div>
 
 
-<div class="footer-content pt-3 pb-5">
+<div class="footer-content pt-1 pb-1">
 <div class="row">
 <div class="col-xl-4 pt-4 pl-4 col-lg-4 mb-50">
 <div class="footer-widget">
@@ -37,14 +37,14 @@ export default function Footer() {
 <div class="footer-text"><p> Welcome to MissionEd Forum <br/>Platform For Discussion and Learning</p>
 
 <div class="footer-social-icon footer-info"><span>Follow Us</span><br/>
-<a href="https://www.facebook.com/MissionEd2020/"><FacebookIcon  style={{fontSize:'50px',color:'#ff6200'}}/></a>
-<a href="https://www.instagram.com/mission_ed/"><InstagramIcon style={{fontSize:'50px',color:'#ff6200'}}/></a>
-<a href="https://www.linkedin.com/company/missioned"><LinkedInIcon style={{fontSize:'50px',color:'#ff6200'}}/></a>
-<a href="https://missioned.in/blog/"><FormatBoldIcon style={{fontSize:'50px',color:'#ff6200'}}/></a>
+<a href="https://www.facebook.com/MissionEd2020/"><FacebookIcon  style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://www.instagram.com/mission_ed/"><InstagramIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://www.linkedin.com/company/missioned"><LinkedInIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://missioned.in/blog/"><FormatBoldIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
 </div></div></div>
 
 </div>
-
+{/*
 <div class="col-xl-4  col-lg-4 col-md-6 mt-3 pt-3 pl-5">
 <div class="footer-widget">
 <div class="footer-widget-heading"><h3>Useful Links</h3></div>
@@ -67,7 +67,9 @@ export default function Footer() {
 <li>Placement</li>
 <li>Experience</li>
 </ul>
-</div></div></div>
+</div></div>
+*/}
+</div>
 
 </div>
 </div>

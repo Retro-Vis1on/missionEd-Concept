@@ -34,7 +34,7 @@ function App() {
           <Route path='/notifications' component={Notification} />
         </Switch>
       </AuthProvider>
-      <Footer/>
+      {/*<Footer/>*/}
     </Router>
   );
 }
