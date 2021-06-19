@@ -88,12 +88,12 @@
   background: white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
-  border-bottom : 3px solid black;
+  border-bottom: 3px solid black;
 }
 .message-section-heading text {
   font-size: 22px;
   margin-left: 12px;
-  color : black;
+  color: black;
 }
 .message-chat-box {
   display: flex;
@@ -141,7 +141,7 @@
   white-space: pre-wrap;
   color: white;
   align-self: flex-end;
-  background-color: black;
+  background-color: rgb(85, 85, 85);
   /* background: linear-gradient(300deg, #248a52, #257287); */
   width: fit-content;
   max-width: 85%;
