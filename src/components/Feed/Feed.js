@@ -24,7 +24,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuList from '@material-ui/core/MenuList';
 
-const options = ['likes', 'date', 'my post','saved posts'];
+const options = ['likes', 'date', 'my post','saved posts',];
 
 const BootstrapInput = withStyles((theme) => ({  
   root: {
