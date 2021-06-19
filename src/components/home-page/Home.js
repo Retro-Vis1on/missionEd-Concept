@@ -6,6 +6,7 @@ import Feed from './../Feed/Feed'
 import Footer from './../Footer-pg/Footer'
 import Feedback from './../Navigation/FeedBack'
 import {FeedProvider} from './../../contexts/FeedContext'
+import CreateTopic from '../Navigation/CreatePost';
 
 export default function Home() {
     const {currentUser} = useAuth()
@@ -14,6 +15,7 @@ export default function Home() {
         
         <div className={'feed-page'}>
         {currentUser==null ? <Redirect to="/welcome"/>: null}
+            <CreateTopic />
             <Feed/>
             <Feedback/>
             <Footer/>
