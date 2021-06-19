@@ -37,10 +37,10 @@ export default function Footer() {
 <div class="footer-text"><p> Welcome to MissionEd Forum <br/>Platform For Discussion and Learning</p>
 
 <div class="footer-social-icon footer-info"><span>Follow Us</span><br/>
-<a href="https://www.facebook.com/MissionEd2020/"><FacebookIcon  style={{fontSize:'40px',color:'#ff6200'}}/></a>
-<a href="https://www.instagram.com/mission_ed/"><InstagramIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
-<a href="https://www.linkedin.com/company/missioned"><LinkedInIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
-<a href="https://missioned.in/blog/"><FormatBoldIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://www.facebook.com/MissionEd2020/" target="_blank" ><FacebookIcon  style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://www.instagram.com/mission_ed/" target="_blank" ><InstagramIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://www.linkedin.com/company/missioned" target="_blank" ><LinkedInIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
+<a href="https://missioned.in/blog/" target="_blank" ><FormatBoldIcon style={{fontSize:'40px',color:'#ff6200'}}/></a>
 </div></div></div>
 
 </div>
@@ -84,11 +84,11 @@ export default function Footer() {
 <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
 <div class="footer-menu">
 <ul id="menu"  style={{listStyleType:"none"}}>
-<li><a href="/" style={{textDecoration:"none"}}>Home</a></li>
-<li><a href="#" >Terms</a></li>
-<li><a href="#" >Privacy</a></li>
-<li><a href="#">Policy</a></li>
-<li><a href="#">Contact</a></li></ul>
+<li><a style={{textDecoration:"none"}}>Home</a></li>
+<li><a target='_blank' >Terms</a></li>
+<li><a target='_blank'>Privacy</a></li>
+<li><a target='_blank'>Policy</a></li>
+<li><a target='_blank'>Contact</a></li></ul>
 </div></div>
 </div></div></div>
 </footer>

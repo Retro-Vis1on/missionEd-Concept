@@ -71,7 +71,7 @@ export default function Chats(props) {
                        :
                        <div style={{display:'flex'}}>
                          <div className={'backButton'}>
-                         <ArrowBackIcon onClick={()=>props.actions()} style={{color:'white',fontSize:'35px'}} />
+                         <ArrowBackIcon onClick={()=>props.actions()} style={{color:'black',fontSize:'35px'}} />
                          </div>
                          <img style={{border : '2px solid black' }} src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                          <Link to={`/user/${props.id}`} style={{textDecorationLine:'none',display:'flex',flexDirection:'column',justifyContent:'center'}}>

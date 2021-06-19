@@ -5,7 +5,6 @@ import './Network.css'
 // import Profile from './Profile'
 // import {FaInbox} from 'react-icons/fa'
 import {Link} from 'react-router-dom'
-import Tab from './Tab'
 import Profile from './Profile'
 import {userdb} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
@@ -59,12 +58,12 @@ export default function Network(){
             userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
               let b = data.docs.map((data)=>{return data.data().username})
               if(b.length==0){
-                userdb.onSnapshot(snap=>{
+                userdb.limit(10).onSnapshot(snap=>{
                   setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
                  }) 
               } 
               else{
-                userdb.where('username','not-in', b ).onSnapshot(snap=>{
+                userdb.limit(15).where('username','not-in', b ).onSnapshot(snap=>{
                   setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
                  })  
               }   
