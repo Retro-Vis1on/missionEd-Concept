@@ -11,11 +11,14 @@ import Post from './components/post-view/Post'
 import User from './components/user-view/User'
 import Store from './components/profile-page/Store'
 import Notification from './components/notification-page/Notification'
+import Footer from './components/Footer-pg/Footer'
+import {FeedProvider} from './contexts/FeedContext'
 
 function App() {
   return (
     <Router>
       <AuthProvider>
+      <FeedProvider>
           <Navigation/>
         <Switch>
           <Route path='/'  component={Home} exact/>
@@ -31,7 +34,9 @@ function App() {
 
           <Route path='/notifications' component={Notification} />
         </Switch>
+      </FeedProvider>
       </AuthProvider>
+      {/*<Footer/>*/}
     </Router>
   );
 }

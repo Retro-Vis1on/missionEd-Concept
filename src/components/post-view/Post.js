@@ -81,8 +81,9 @@ export default function Topic(props) {
               setLike(false)
             }
             else{
-              console.log(snap.data().liked.includes(currentUser.uid))
-              setLike(snap.data().liked.includes(currentUser.uid));
+              if(currentUser){
+                setLike(snap.data().liked.includes(currentUser.uid));
+              }
             }
           }
           else{
@@ -108,7 +109,7 @@ export default function Topic(props) {
           }
         });
         await db.collection(`posts/${id}/comments`).orderBy('timestamp','desc').onSnapshot(snap=>{
-          setTopicComment(snap.docs.map(data=>{return data.data()}));
+          setTopicComment(snap.docs.map(data=>{return {id:data.id,data: data.data()}}));
         });
       } catch{
         console.log('something went wrong, please check your internaet connection!')
@@ -274,7 +275,7 @@ export default function Topic(props) {
                         </a>)} ><p style={{whiteSpace:'pre-wrap',paddingTop : '10px',paddingLeft : '8px'}}  className={'topic-description'}>{parse(topic.description)}</p></Linkify>
                       
                  </div>  
-                 <div onClick={()=>likeClick()}>
+                 <div onClick={()=>{if(currentUser) return likeClick()}}>
                  <div style={{marginLeft:'10px',color:'blueviolet',fontSize:'15px',display:'flex'}}>
                      {isLiked ? 
                       <div className={'like-button'} >
@@ -326,7 +327,7 @@ export default function Topic(props) {
                   {topicComment!==null ?
                        <div>
                            {topicComment.map(data=>{
-                             return <Comment currentUser = {currentUser} data={data}/>
+                             return <Comment currentUser = {currentUser} data={data.data} commentId={data.id} postId={postId}/>
                            })}
                        </div>
                        :

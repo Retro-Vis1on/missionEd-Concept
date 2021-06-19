@@ -10,6 +10,15 @@ import Feedback from './../Navigation/FeedBack'
 import { userdb } from '../../firebase';
 import Card from '@material-ui/core/Card';
 import PersonIcon from '@material-ui/icons/Person';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import PhoneEnabledIcon from '@material-ui/icons/PhoneEnabled';
+import MailIcon from '@material-ui/icons/Mail';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import Footer from './../Footer-pg/Footer'
+import './../Footer-pg/Footer.css';
 
 const Welcome = (props) =>{
      const {currentUser} = useAuth()
@@ -75,6 +84,10 @@ const Welcome = (props) =>{
        </div>
          </div>
     <Feedback/> 
+
+
+
+
       </div>
         <div style={{display:'flex',marginTop:'200px',marginBottom:'100px',flexDirection:'row',justifyContent:'center'}}>
             <div className={'user-number'} style={{paddingBlock:'20px',paddingInline:'80px',boxShadow:'0px 0px 7px 0px rgba(0,0,0,0.75)',display:'flex',flexDirection:'column',alignItems:'center',borderRadius:'10px',backgroundColor: '#0cbaba',backgroundImage: 'linear-gradient(315deg, #eec0c6 0%, #7ee8fa 74%)',
@@ -84,7 +97,8 @@ const Welcome = (props) =>{
                 <h1>{userCount}</h1>
             </div>
       </div>
-    </div>
+      <Footer/>
+      </div>
     );
  } 
 

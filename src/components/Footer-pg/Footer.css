@@ -1,0 +1,63 @@
+.footer-social-icon span {
+    color:white;
+    font-weight: 600;
+    font-size: large;
+}
+
+.footer-widget-heading h3{
+    color: white;
+}
+
+.cta-text h5{
+color: white;
+}
+
+.cta-text span{
+    color: rgb(167, 169, 173);
+    }
+
+.footer-text p{
+    color: rgb(167, 169, 173);
+}
+
+.mt-3 a{
+    color: rgb(68,71,83);
+    text-decoration: none;
+}
+
+.mt-3 a:hover{
+    color: #ff6200;
+}
+.copyright-text {
+    height: 12px;
+    margin-bottom: 1px;
+}
+
+.text-right{
+    padding-left: 20%;
+}
+
+.copyright-text a{
+    color: #ff6200;
+    text-decoration: none;
+}
+
+
+ .footer-menu ul#menu li{
+    display: inline;
+    float: left;
+    text-decoration: none;
+    margin-inline-end: 5%;
+    margin-top: -3%;
+
+
+}
+.footer-menu a{
+    color: #878787;
+    text-decoration: none;
+}
+
+.footer-menu a:hover{
+    color: #ff6200;
+    text-decoration: none;
+}
