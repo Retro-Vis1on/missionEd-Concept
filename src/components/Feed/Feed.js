@@ -14,57 +14,9 @@ import Feedback from './../Navigation/FeedBack'
 import CreateTopic from '../Navigation/CreatePost';
 import { Redirect } from 'react-router';
 
-const BootstrapInput = withStyles((theme) => ({  
-  root: {
-      'label + &': {
-        marginTop: theme.spacing(3),
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 15,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-    menuStyle:{
-        border: "1px solid black",
-        borderRadius: "5%",
-        backgroundColor: 'lightgrey',
-      },
-  }))(InputBase);
-
-
-  const useStyles = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-  }));
-  
 export default function Feed() {
     const [loading, setLoading] = useState(true);
     const [Posts, setPosts] = useState([]);
-    const classes = useStyles();
     const [age, setAge] = React.useState('');
     const {currentUser} = useAuth();
 
@@ -89,25 +41,6 @@ export default function Feed() {
     return (
       <div>
         {!currentUser ? <Redirect to="/welcome" /> : null}
-      {/* <div>
-        <FormControl className={classes.margin}>
-          <NativeSelect
-            id="demo-customized-select-native"
-            value={age}
-            onChange={handleChange}
-            option
-            input={<BootstrapInput />}
-            
-            >
-            <option value={10}>All Categories</option>
-            <option value={20}>General</option>
-            <option value={30}>Internship</option>
-            <option value={40}>Experience</option>
-            <option value={50}>Suggestions</option>
-            <option value={60}>Questions</option>
-          </NativeSelect>
-        </FormControl>
-      </div> */}
       <CreateTopic />
       <div>
       <div className={'feed-section'}>
