@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext, useRef} from 'react'
 import './Feed.css'
 import {useAuth} from './../../contexts/AuthContext'
 import FeedItem from './Feed-item'
@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
+import SearchItem from './SearchItem'
 
 const options = ['likes', 'date', 'my post','saved posts','comments'];
 export default function Feed() {
@@ -25,7 +26,9 @@ export default function Feed() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-
+  const [searchActive, setSearchActive] = useState(false);
+  const [search, setSearch] = useState('');
+  const [searchPost, setSearchPost] = useState(null);
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setOpen(false);
@@ -42,6 +45,18 @@ export default function Feed() {
     setOpen(false);
   };
   
+  async function GetSearchData(value){
+    setSearch(value)
+    try{
+      db.collection('posts').where('title','==',value).limit(10).get().then(data=>{
+        setSearchPost(data.docs.map(snap=>{return{id:snap.id,data:snap.data()}}));
+        console.log(data.docs.length)
+      })
+    }
+    catch{
+      console.log('somthing went wrong')
+    }
+  }
    
     return (
       <div>
@@ -54,12 +69,38 @@ export default function Feed() {
                           <div className="heading-grid">
                             <h5 style={{marginTop : '-3px'}}>Posts</h5>
                           </div>
-                          <div className="search-field search-grid">
-                              <input type="text"
+                          <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
+                          <div className={searchActive? 'search-field search-field-active search-grid':"search-field search-grid"}>
+                              <input onClick={()=>setSearchActive(true)} value={searchActive? search : ''} onChange={(e)=>GetSearchData(e.target.value)}  type="text"
                                      placeholder="Search Posts...." 
-                              ></input>
+                                     ></input>
                               <img src="/images/search-icon.svg"/>
+                              <div>
+                                {searchActive? 
+                                   <div className='result-box'>
+                                     {searchPost && search?
+                                      <div>
+                                        {searchPost.length>0?
+                                        <div>
+                                         {searchPost.map(post=>{
+                                           return <SearchItem data={post}/>
+                                          })}
+                                        </div>
+                                        :
+                                        <div><text>Not Found</text></div>}
+                                      </div>
+                                      :
+                                      <div>
+                                        <text >Search Posts by Title</text>
+                                      </div> 
+                                    }
+                                   </div>
+                                   :
+                                   null
+                                  }
+                              </div>
                           </div>
+                          </ClickAwayListener>
                           <div className="filter filter-grid">
                             <Grid container direction="column" alignItems="center" className="filter-field">
                               <Grid item xs={12}>

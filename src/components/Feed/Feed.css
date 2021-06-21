@@ -18,22 +18,69 @@
   padding-block: 20px;
 }
 .search-field {
-  position : relative;
-  margin-left : 15px;
-  margin-top : -9px;
+  position: relative;
+  transition: all 0.3s;
+  margin-left: 15px;
+  width: 20%;
+  margin-top: -9px;
 }
 .search-field input {
-  display : block;
-  width : 100%;
+  border-radius: 10px;
+  display: block;
+  outline: none;
+  width: 100%;
+  min-width: 150px;
   background: #e6e6ff;
-  padding : 5px;
-  padding-left : 30px;
-  border : none; 
+  padding: 5px;
+  padding-left: 30px;
+  border: none;
+  transition: all 0.3s;
+}
+.search-field-active input {
+  width: 100%;
+  font-size: 20px;
+  padding-left: 40px;
+  box-shadow: 5px 0px 23px 3px rgba(0, 0, 0, 0.56);
+}
+.search-field-active {
+  width: 100%;
+  transition: 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 0 0 5000px rgba(0, 0, 0, 0.3);
 }
 .search-field img {
+  width: 18px;
   position: absolute;
-  top : 10px;
-  margin-left : 10px
+  top: 10px;
+  margin-left: 10px;
+  transition: all 0.3s;
+}
+.search-field-active img {
+  position: absolute;
+  top: 10px;
+  width: 22px;
+  margin-left: 10px;
+}
+.result-box {
+  position: absolute;
+  background-color: white;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 5px 0px 23px 3px rgba(0, 0, 0, 0.56);
+  padding: 10px;
+}
+.search-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.search-item text {
+  color: rgb(99, 99, 99);
+  font-weight: bold;
+  font-size: 15px;
 }
 /* .filter {
   display: flex;
@@ -55,9 +102,9 @@
   width : 100%;
   margin-bottom: 3px; */
   display: grid;
-  grid-template-columns:1fr 8fr 3fr;
+  grid-template-columns: 1fr 8fr 3fr;
 }
-@media (max-width : 990px) {
+@media (max-width: 990px) {
   .topic-header {
     grid-template-columns: 1fr 6fr 5fr;
   }
@@ -68,7 +115,7 @@
 .filter-field {
   margin-top: -10px;
   align-self: center;
-  padding-left : auto;
+  padding-left: auto;
 }
 .nav-link {
   text-decoration: none;
@@ -207,6 +254,5 @@
     margin-left: 20%;
   }
 }
-@media (max-width : 962px) {
-
+@media (max-width: 962px) {
 }
