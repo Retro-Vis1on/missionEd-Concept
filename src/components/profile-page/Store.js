@@ -1,19 +1,8 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from "@material-ui/core/Button";
-import CardDeck from 'react-bootstrap/CardDeck'
-import { useRef } from 'react';
-import Flippy, { FrontSide, BackSide } from 'react-flippy';
 import './Store.css';
 
 export default function Store() {
-  const ref = useRef();
-
+  
   return (
     
     <div className="content">
@@ -31,13 +20,13 @@ export default function Store() {
         {/* first card*/ }
         <div class="card"> 
           <div>
-            <img src="https://vlebazaar.in/image/cache/catalog/apple%204s/apple%206psg-550x550h.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://vlebazaar.in/image/cache/catalog/apple%204s/apple%206psg-550x550h.jpg" alt='product' style={{height:90 , width:200}}></img>
           </div>
           <div id="one" style={{paddingTop:5}}>
                         <h5>Hurray!You won Rs.150 Discount</h5>
                         <h6>Apple iPhone 6s</h6>
                         <h5>MISSIONEDHX2021</h5>
-                        <button class="btn btn-info"><a target="_blank" href="https://www.hxkart.com/smartphones/apple-iphone-6s-silver-64gb-offer" style={{ color:"white" , textDecoration: 'none'}}>Buy</a></button> 
+                        <button class="btn btn-info"><a target="_blank" href="https://www.hxkart.com/smartphones/apple-iphone-6s-silver-64gb-offer" style={{ color:"white" , textDecoration: 'none'}} >Buy</a></button> 
                       </div>
                       </div>
 
@@ -46,7 +35,7 @@ export default function Store() {
         <div class="column">
        <div class="card">
           <div>
-          <img src="https://vlebazaar.in/image/cache/catalog//-Apple-iPhone-7-Black-256-GB-p/-Apple-iPhone-7-Black-256-GB-p-550x550h.jpg" style={{height:90 , width:200}}></img>
+          <img src="https://vlebazaar.in/image/cache/catalog//-Apple-iPhone-7-Black-256-GB-p/-Apple-iPhone-7-Black-256-GB-p-550x550h.jpg" style={{height:90 , width:200}} alt='image'></img>
  
           </div>
           <div id="second" style={{paddingTop:5}}>
@@ -62,7 +51,7 @@ export default function Store() {
         <div class="column">
         <div class="card">
           <div>
-            <img src="https://s3.ap-south-1.amazonaws.com/lowestrate.in/wp-content/uploads/2020/10/08140932/lowest.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://s3.ap-south-1.amazonaws.com/lowestrate.in/wp-content/uploads/2020/10/08140932/lowest.jpg" style={{height:90 , width:200}} alt='image' ></img>
           </div>
           <div id="third" style={{paddingTop:5}}>
                         <h5>Hurray!You won Rs.150 Discount on</h5>
@@ -75,7 +64,7 @@ export default function Store() {
         <div class="column">
         <div class="card">
           <div>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/71fJozIQZ3L._SY450_.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/71fJozIQZ3L._SY450_.jpg" style={{height:90 , width:200}} alt='image'></img>
           </div>
           <div id="four" style={{paddingTop:5}}>
                         <h5>Hurray!You won Rs.150 Discount on</h5>
@@ -94,7 +83,7 @@ export default function Store() {
         {/* 5 card*/ }
         <div class="card"> 
           <div>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/61tuQdl2yLL._SX522_.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/61tuQdl2yLL._SX522_.jpg" style={{height:90 , width:200}} alt='image'></img>
           </div>
           <div id="five" style={{paddingTop:5}}>
                         <h5>Hurray!You won Rs.150 Discount on</h5>
@@ -109,7 +98,7 @@ export default function Store() {
         <div class="column">
         <div class="card">
           <div>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/61SJu997CCL._SL1500_.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/61SJu997CCL._SL1500_.jpg" style={{height:90 , width:200}} alt='image'></img>
           </div>
           <div id="six" style={{paddingTop:5}}>
                         <h5>Hurray! You won Rs.150 Discount on</h5>
@@ -124,13 +113,13 @@ export default function Store() {
         <div class="column">
         <div class="card">
           <div>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/61n6Ovq6EdL._SL1500_.jpg" style={{height:90 , width:200}}></img>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/61n6Ovq6EdL._SL1500_.jpg" style={{height:90 , width:200}} alt='image'></img>
           </div>
           <div id="seven" style={{paddingTop:5}}>
                         <h5>Hurray!You won Rs.150 Discount on</h5>
                         <h6>OnePlus 8</h6>
                         <h5>MISSIONEDHX2021</h5>
-                        <button class="btn btn-info"><a target="_blank" href="https://www.hxkart.com/smartphones/oneplus-8-glacial-green-8gb-ram-128gb-storage-un" style={{ color:"white" , textDecoration: 'none'}}>Buy</a></button> 
+                        <button class="btn btn-info"><a target="_blank" href="https://www.hxkart.com/smartphones/oneplus-8-glacial-green-8gb-ram-128gb-storage-un" style={{ color:"white" , textDecoration: 'none'}} alt='image' >Buy</a></button> 
                       </div>
         </div></div>
         {/* 8 card*/ }

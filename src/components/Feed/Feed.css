@@ -17,6 +17,114 @@
   padding-left: 10px;
   padding-block: 20px;
 }
+.search-field {
+  position: relative;
+  transition: all 0.3s;
+  margin-left: 15px;
+  width: 20%;
+  margin-top: -9px;
+}
+.search-field input {
+  border-radius: 10px;
+  display: block;
+  outline: none;
+  width: 100%;
+  min-width: 150px;
+  background: #e6e6ff;
+  padding: 5px;
+  padding-left: 30px;
+  border: none;
+  transition: all 0.3s;
+}
+.search-field-active input {
+  width: 100%;
+  font-size: 20px;
+  padding-left: 40px;
+  box-shadow: 5px 0px 23px 3px rgba(0, 0, 0, 0.56);
+}
+.search-field-active {
+  width: 100%;
+  transition: 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 0 0 5000px rgba(0, 0, 0, 0.3);
+}
+.search-field img {
+  width: 18px;
+  position: absolute;
+  top: 10px;
+  margin-left: 10px;
+  transition: all 0.3s;
+}
+.search-field-active img {
+  position: absolute;
+  top: 10px;
+  width: 22px;
+  margin-left: 10px;
+}
+@media screen and (max-width: 760px) {
+  .search-field-active {
+    width: 240px;
+  }
+  .search-field-active .filter {
+    display: none;
+  }
+}
+.result-box {
+  position: absolute;
+  background-color: white;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 5px 0px 23px 3px rgba(0, 0, 0, 0.56);
+  padding: 10px;
+}
+.search-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.search-item text {
+  color: rgb(99, 99, 99);
+  font-weight: bold;
+  font-size: 15px;
+}
+/* .filter {
+  display: flex;
+  align-items: center;
+  width : 100%;
+  align-items : center;
+  margin-left : 20px;
+} */
+/* .filter-button {
+  padding : 5px 10px;
+  border-radius: 25px;
+  border : 2px solid black;
+  margin-top : -15px;
+  margin-left : 10px;
+} */
+.topic-header {
+  /* display: flex;
+  align-items: center;
+  width : 100%;
+  margin-bottom: 3px; */
+  display: grid;
+  grid-template-columns: 1fr 8fr 3fr;
+}
+@media (max-width: 990px) {
+  .topic-header {
+    grid-template-columns: 1fr 6fr 5fr;
+  }
+  /* .filter-button {
+    padding : 5px;
+  } */
+}
+.filter-field {
+  margin-top: -10px;
+  align-self: center;
+  padding-left: auto;
+}
 .nav-link {
   text-decoration: none;
 }
@@ -153,4 +261,6 @@
   .post-likes {
     margin-left: 20%;
   }
+}
+@media (max-width: 962px) {
 }

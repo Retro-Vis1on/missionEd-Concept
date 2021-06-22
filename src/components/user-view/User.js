@@ -1,16 +1,10 @@
 import './User.css'
-import More from './../../assets/more.svg'
-import followIcon from './../../assets/connect.svg'
-import message from './../../assets/messenger.svg'
-import friends from './../../assets/friends.svg'
-import dots from './../../assets/dots-verticle.svg'
 import Default from './../../assets/default.jpg'
 import {Button} from '@material-ui/core'
 import { useEffect, useState } from 'react'
 import {userdb, db} from './../../firebase'
 import {useAuth} from './../../contexts/AuthContext'
 import { Link } from 'react-router-dom'
-import Icon from '@material-ui/core/Icon';
 import {MdLocationOn} from 'react-icons/md'
 import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
@@ -19,8 +13,6 @@ import { Redirect } from 'react-router'
 import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
-    const[buttonvarient, setButtonVarient] = useState('outlined')
-    const[follow, setFollow] = useState('follow')
     const[loading, setLoading] = useState(true);
     const[username, setUsername] = useState('someone')
     const[user,setUser] = useState(null);
@@ -36,6 +28,7 @@ const Main = (props) =>{
         setUserId(id);
         messageExist(id);
         SetFollowing(id);
+        // eslint-disable-next-line
     },[])
     async function SetFollowing(id){
         try{
@@ -72,6 +65,7 @@ const Main = (props) =>{
     async function messageExist(id){
         try{
              await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
+                 // eslint-disable-next-line
                  snap.docs.map(data=>{ if(data.data().users.includes(id)){
                       setmsgexist(true)
                    }
@@ -136,7 +130,7 @@ const Main = (props) =>{
                  : 
             <div>
             <div className='user-card'>
-                   <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} alt='' />
+                   <img src={user.profile_image===null ? Default : user.profile_image==='' ? Default : user.profile_image} alt='' />
                    <div className='user-card-user'>
                    <text>{user.username}</text>
                    <h4 style={{borderBottom:'solid 1px'}}>{user.name}</h4>
@@ -148,11 +142,13 @@ const Main = (props) =>{
             </div>
             <div className='user-menucard'>
                        <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
+                          { /* eslint-disable-next-line*/}
                             <a>
                                 <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
                             </a>
                         </div>
                         <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
+                        { /* eslint-disable-next-line*/}
                             <a>
                             <Link to='/messages' style={{textDecorationLine:'none'}}>
                                 <Button size='small' endIcon={<BsChatDotsFill/>} variant='outlined' onClick={()=>handleMessage()} color='primary' >Message</Button>
