@@ -14,8 +14,10 @@ export default function FeedItem(props) {
     async function GetUser(){
         try{
           userdb.doc(props.data.user).onSnapshot(snap=>{
-              setUsername(snap.data().username) 
-            setProfile_img(snap.data().profile_image);
+            if(snap.exists){
+                setUsername(snap.data().username) 
+                setProfile_img(snap.data().profile_image);
+            }
               
           })
         }catch{
