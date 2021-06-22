@@ -62,7 +62,7 @@ const Menu = withStyles((theme)=>({
 }))
 
 export default function Feed() {
-  const {posts, loading}  = useFeedContext();
+  const {posts, loading, TagPosts}  = useFeedContext();
   const {currentUser} = useAuth();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -74,6 +74,7 @@ export default function Feed() {
   
   const handleChange = (event) => {
     setTag(event.target.value);
+    TagPosts(event.target.value);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -151,7 +152,7 @@ export default function Feed() {
                           <div className="filter filter-grid">
                             <Grid container direction="column" alignItems="center" className="filter-field">
                               <Grid item xs={12}>
-                                <ButtonGroup variant="outlined"  color="primary" ref={anchorRef} aria-label="split button">
+                                {/* <ButtonGroup variant="outlined"  color="primary" ref={anchorRef} aria-label="split button">
                                   <Button className="filter-button" 
                                   color="primary"
                                   size="small"
@@ -194,7 +195,7 @@ export default function Feed() {
                                       </Paper>
                                     </Grow>
                                   )}
-                                </Popper>
+                                </Popper> */}
                             <NativeSelect
                               id="demo-customized-select-native"
                               value={tag}
@@ -203,11 +204,11 @@ export default function Feed() {
                               style={{marginLeft:'10px'}}
                             >
                               <option value={'alltag'} >All</option>
-                              <option value={'general'}>General</option>
-                              <option value={'internship'}>Internship</option>
-                              <option value={"question"}>Question</option>
-                              <option value={'placement'} >Placement</option>
-                              <oprion value={'project'} >Project</oprion>
+                              <option value={'General'}>General</option>
+                              <option value={'Internship'}>Internship</option>
+                              <option value={"Question"}>Question</option>
+                              <option value={'Placement'} >Placement</option>
+                              <oprion value={'Project'} >Project</oprion>
                             </NativeSelect>
                               </Grid>
                             </Grid>
@@ -240,10 +241,16 @@ export default function Feed() {
                            </div>
                            :
                            <div>
+                          {posts.length>0 ?
+                           <div>
                            {
                              posts.map(data=>{
                                return <FeedItem id={data.id} data={data.data}/>
                               })
+                            }
+                            </div>
+                            :
+                            <div>No Posts Found!</div>
                             }
                             </div>
                            }

@@ -61,6 +61,14 @@
   width: 22px;
   margin-left: 10px;
 }
+@media screen and (max-width: 760px) {
+  .search-field-active {
+    width: 240px;
+  }
+  .search-field-active .filter {
+    display: none;
+  }
+}
 .result-box {
   position: absolute;
   background-color: white;
