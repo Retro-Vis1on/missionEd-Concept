@@ -1,6 +1,3 @@
-import { keys } from '@material-ui/core/styles/createBreakpoints';
-import { Public } from '@material-ui/icons';
-import firebase from 'firebase'
 import {userdb, db} from '../firebase'
 
 export async function UpdateCoins(uid, coins){
