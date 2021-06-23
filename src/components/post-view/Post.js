@@ -255,7 +255,7 @@ export default function Topic(props) {
                     {user==null? null:
                     <div className={'auther'}>
                         <div className={'auther-icon'}>
-                            <img src={user.profile_image==null ? Default : user.profile_image=''? Default : user.profile_image} />
+                            <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} />
                         </div>
                         {currentUser ? 
                         <Link to={`/user/${topic.user}`} className="link-user" style={{textDecorationLine:'none'}}>

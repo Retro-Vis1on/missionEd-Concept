@@ -107,7 +107,7 @@ export default function ReplyItem(props) {
     <div className={'reply'}>
                     <div className={'commenter-auther'} style={{display : 'flex'}}>
                         <div className={'commenter-icon'}>
-                            <img src={user.profile_image==null ? Default : user.profile_image}/>
+                            <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                         </div>
                         <div className="commenter-content" style={{border : '2px solid white',backgroundColor : '#e6e6e6',borderRadius : '10px',marginLeft : '10px',width : '80%',padding : '5px'}}>
                           {props.currentUser? 
