@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import {userdb, db} from '../firebase'
+import {db} from '../firebase'
 //condition for notification 
 // 1. getting coins by commenting , creating post, messsaging someone
 // 2. when someone started following you

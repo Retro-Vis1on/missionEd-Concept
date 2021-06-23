@@ -3,20 +3,10 @@ import './Welcome.css'
 import {useAuth} from '../../contexts/AuthContext'
 import {Redirect} from 'react-router-dom'
 import Typewriter from "typewriter-effect";
-import {Button,TextField} from '@material-ui/core'
 import learning from './../../assets/learning.jpg'
-import MediaQuery from 'react-responsive'
 import Feedback from './../Navigation/FeedBack'
 import { userdb } from '../../firebase';
-import Card from '@material-ui/core/Card';
 import PersonIcon from '@material-ui/icons/Person';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import PhoneEnabledIcon from '@material-ui/icons/PhoneEnabled';
-import MailIcon from '@material-ui/icons/Mail';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import Footer from './../Footer-pg/Footer'
 import './../Footer-pg/Footer.css';
 
@@ -64,7 +54,7 @@ const Welcome = (props) =>{
               .start();
             }}
             />
-         <img className='images' src={learning}/>
+         <img className='images' src={learning} alt='learning'/>
 
          </div>      
          <div className="right">

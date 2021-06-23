@@ -49,7 +49,7 @@ const Navigation = () =>{
     async function handleSignUp(e){
       e.preventDefault()
       setError('')
-      if(regUsernameRef.current.value == '' || regEmailRef.current.value == '' || regPasswordRef.current.value == ''){
+      if(regUsernameRef.current.value.trim() == '' || regEmailRef.current.value == '' || regPasswordRef.current.value == ''){
         return setError('please fill all required field!')
       }
       if(regPasswordRef.current.value.length<8){

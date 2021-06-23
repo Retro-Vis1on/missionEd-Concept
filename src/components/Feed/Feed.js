@@ -7,6 +7,7 @@ import Feedback from './../Navigation/FeedBack'
 import CreateTopic from '../Navigation/CreatePost';
 import { Redirect } from 'react-router';
 import {useFeedContext} from './../../contexts/FeedContext'
+import {withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -18,10 +19,50 @@ import Popper from '@material-ui/core/Popper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import SearchItem from './SearchItem'
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
 
 const options = ['likes', 'date', 'my post','saved posts','comments'];
+
+const BootstrapInput = withStyles((theme) => ({
+  input: {
+    borderRadius: 15,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 14,
+    padding: '8px 24px 8px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 15,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.1rem rgba(0,0,0,.25)',
+    },
+  },
+}))(InputBase);
+
+const Menu = withStyles((theme)=>({
+  selectMenu:{
+
+  }
+}))
+
 export default function Feed() {
-  const {posts, loading}  = useFeedContext();
+  const {posts, loading, TagPosts}  = useFeedContext();
   const {currentUser} = useAuth();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -29,6 +70,13 @@ export default function Feed() {
   const [searchActive, setSearchActive] = useState(false);
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState(null);
+  const [tag, setTag] = React.useState('All');
+  
+  const handleChange = (event) => {
+    setTag(event.target.value);
+    TagPosts(event.target.value);
+  };
+
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setOpen(false);
@@ -104,16 +152,17 @@ export default function Feed() {
                           <div className="filter filter-grid">
                             <Grid container direction="column" alignItems="center" className="filter-field">
                               <Grid item xs={12}>
-                                <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+                                {/* <ButtonGroup variant="outlined"  color="primary" ref={anchorRef} aria-label="split button">
                                   <Button className="filter-button" 
                                   color="primary"
                                   size="small"
+                                  variant='outlined'
                                   aria-controls={open ? 'split-button-menu' : undefined}
                                   aria-expanded={open ? 'true' : undefined}
                                   aria-label="select merge strategy"
                                   aria-haspopup="menu"
                                   onClick={handleToggle}
-                                  
+                                  style={{paddingBottom:'3px',paddingTop:'6px',borderRadius:'15px'}}
                                   >
                                     Filter By
                 
@@ -146,7 +195,21 @@ export default function Feed() {
                                       </Paper>
                                     </Grow>
                                   )}
-                                </Popper>
+                                </Popper> */}
+                            <NativeSelect
+                              id="demo-customized-select-native"
+                              value={tag}
+                              onChange={handleChange}
+                              input={<BootstrapInput/>}
+                              style={{marginLeft:'10px'}}
+                            >
+                              <option value={'alltag'} >All</option>
+                              <option value={'General'}>General</option>
+                              <option value={'Internship'}>Internship</option>
+                              <option value={"Question"}>Question</option>
+                              <option value={'Placement'} >Placement</option>
+                              <oprion value={'Project'} >Project</oprion>
+                            </NativeSelect>
                               </Grid>
                             </Grid>
 
@@ -178,10 +241,16 @@ export default function Feed() {
                            </div>
                            :
                            <div>
+                          {posts.length>0 ?
+                           <div>
                            {
                              posts.map(data=>{
                                return <FeedItem id={data.id} data={data.data}/>
                               })
+                            }
+                            </div>
+                            :
+                            <div>No Posts Found!</div>
                             }
                             </div>
                            }
