@@ -55,6 +55,7 @@ const Main = (props) =>{
         try{
           userdb.doc(id).onSnapshot(snap=>{
               setUser(snap.data())
+              console.log(snap.data().profile_image)
           })
         }catch{
             alert('something went wrong!')
@@ -130,7 +131,7 @@ const Main = (props) =>{
                  : 
             <div>
             <div className='user-card'>
-                   <img src={user.profile_image===null ? Default : user.profile_image==='' ? Default : user.profile_image} alt='' />
+                   <img src={user.profile_image===undefined ? Default : user.profile_image==='' ? Default : user.profile_image} alt='' />
                    <div className='user-card-user'>
                    <text>{user.username}</text>
                    <h4 style={{borderBottom:'solid 1px'}}>{user.name}</h4>
