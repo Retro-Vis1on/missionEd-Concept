@@ -154,18 +154,27 @@ const Main = (props) =>{
                             </div>
                         </UserTop>
                         <Details>
-                            <Email>
+                            
+                            {/* <Email>
                                 <h5>Email</h5>
                                 <p>{user.email}</p>
-                            </Email>
-                            <Bio>
-                                <h5>Bio</h5>
-                                <p>{user.bio}</p>
-                            </Bio>
-                            <Education>
-                                <h5>Education</h5>
-                                <p>{user.education}</p>
-                            </Education>
+                            </Email> */}
+                            {user.bio ? 
+                                <Bio>
+                                    <h5>Bio</h5>
+                                    <p>{user.bio}</p>
+                                </Bio>
+                            :
+                            null
+                            }
+                            {user.education ? 
+                                <Education>
+                                    <h5>Education</h5>
+                                    <p>{user.education}</p>
+                                </Education>
+                            :
+                            null
+                            }
                             <Coins>
                                 <h5>Coins</h5>
                                 <p>{user.coins}</p>
@@ -205,14 +214,14 @@ const Main = (props) =>{
                             <Title>
                                 Recent Activity
                             </Title>
-                            <Feed>
+                            {/* <Feed>
                                 <h4>Posts</h4>
                                 <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
                                 {posts.map(data=>{
                                  return <FeedItem id={data.id} data={data.data}/>
                                     })
                                 }
-                            </Feed>
+                            </Feed> */}
                         </Activity>
                     </Post>
                 </MainPage>
