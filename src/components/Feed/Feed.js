@@ -22,6 +22,9 @@ import SearchItem from './SearchItem'
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+import Pagination from '@material-ui/lab/Pagination';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const options = ['likes', 'date', 'my post','saved posts','comments'];
 
@@ -62,7 +65,7 @@ const Menu = withStyles((theme)=>({
 }))
 
 export default function Feed() {
-  const {posts, loading, TagPosts}  = useFeedContext();
+  const {posts, loading, TagPosts, pageCount, GetCount,currentPage, SetPageNo}  = useFeedContext();
   const {currentUser} = useAuth();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -70,11 +73,12 @@ export default function Feed() {
   const [searchActive, setSearchActive] = useState(false);
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState(null);
-  const [tag, setTag] = React.useState('All');
+  const [tag, setTag] = React.useState('alltag');
   
   const handleChange = (event) => {
     setTag(event.target.value);
     TagPosts(event.target.value);
+    GetCount(event.target.value);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -105,7 +109,14 @@ export default function Feed() {
       console.log('somthing went wrong')
     }
   }
-   
+   const onNext = () =>{
+     window.scroll(0,0);
+     SetPageNo(currentPage+1);
+   }
+   const OnPrev = () =>{
+    window.scroll(0,0);
+     SetPageNo(currentPage-1);
+   }
     return (
       <div>
         {!currentUser ? <Redirect to="/welcome" /> : null}
@@ -256,7 +267,19 @@ export default function Feed() {
                            }
                         </div> 
                       }
-                         
+                      </div>
+                      <div style={{display:tag=='alltag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
+                       <div onClick={()=>OnPrev()} className={'pagination-button'} style={{display:currentPage-1>0? null:'none'}}>
+                          <ArrowBackIosIcon style={{fontSize:'20px'}}/>Back
+                       </div>
+                       <div className='pages'>
+                         <text onClick={()=>OnPrev()} style={{display:currentPage-1>0? null:'none'}} className='page-number' >{currentPage-1}</text>
+                         <text className='page-number page-number-active'>{currentPage}</text>
+                         <text style={{display:currentPage===pageCount? 'none':null}} onClick={()=>onNext()} className='page-number'>{currentPage+1}</text>
+                       </div>
+                       <div className='pagination-button' onClick={()=>onNext()} style={{display:currentPage===pageCount? 'none':null}}>
+                         Next<ArrowForwardIosIcon style={{fontSize:'20px'}}/>
+                       </div>
                       </div>
                  </div>
         </div>
