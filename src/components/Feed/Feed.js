@@ -142,7 +142,7 @@ export default function Feed() {
                               <option value={'Internship'}>Internship</option>
                               <option value={"Question"}>Question</option>
                               <option value={'Placement'} >Placement</option>
-                              <oprion value={'Project'} >Project</oprion>
+                              <option value={'Project'} >Project</option>
                             </NativeSelect>
                             </div>
                           {/* <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
