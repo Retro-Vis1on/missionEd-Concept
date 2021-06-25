@@ -18,7 +18,7 @@ export function FeedProvider({children}){
 
     async function GetPosts(){
             try{
-                await db.collection('posts').orderBy('timestamp','desc').onSnapshot(snap=>{
+                await db.collection('posts').orderBy('timestamp','desc').limit(20).onSnapshot(snap=>{
                     setPosts(snap.docs.map(doc=>({id:doc.id,data:doc.data()})));
                     setAllPosts(snap.docs.map(doc=>({id:doc.id,data:doc.data()})));
                 })

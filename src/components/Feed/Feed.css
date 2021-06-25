@@ -109,12 +109,17 @@
   align-items: center;
   width : 100%;
   margin-bottom: 3px; */
-  display: grid;
-  grid-template-columns: 1fr 8fr 3fr;
+  /* display: grid; */
+  display: flex;
+  justify-content: space-between;
+  padding-right: 3%;
+  width: 100%;
+  /* grid-template-columns: 1fr 8fr 3fr; */
 }
 @media (max-width: 990px) {
   .topic-header {
-    grid-template-columns: 1fr 6fr 5fr;
+    /* grid-template-columns: 1fr 6fr 5fr; */
+    width: 100%;
   }
   /* .filter-button {
     padding : 5px;

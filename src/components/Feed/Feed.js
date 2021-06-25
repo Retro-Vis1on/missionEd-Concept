@@ -117,7 +117,24 @@ export default function Feed() {
                           <div className="heading-grid">
                             <h5 style={{marginTop : '-3px'}}>Posts</h5>
                           </div>
-                          <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
+                          <div style={{marginTop:'-10px',display:'flex',justifyContent:'flex-end'}}>
+                          <NativeSelect
+                              id="demo-customized-select-native"
+                              value={tag}
+                              onChange={handleChange}
+                              input={<BootstrapInput/>}
+                              style={{marginLeft:'10px'}}
+                              
+                              >
+                              <option value={'alltag'} >All</option>
+                              <option value={'General'}>General</option>
+                              <option value={'Internship'}>Internship</option>
+                              <option value={"Question"}>Question</option>
+                              <option value={'Placement'} >Placement</option>
+                              <oprion value={'Project'} >Project</oprion>
+                            </NativeSelect>
+                            </div>
+                          {/* <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
                           <div className={searchActive? 'search-field search-field-active search-grid':"search-field search-grid"}>
                               <input onClick={()=>setSearchActive(true)} value={searchActive? search : ''} onChange={(e)=>GetSearchData(e.target.value)}  type="text"
                                      placeholder="Search Posts...." 
@@ -151,7 +168,7 @@ export default function Feed() {
                           </ClickAwayListener>
                           <div className="filter filter-grid">
                             <Grid container direction="column" alignItems="center" className="filter-field">
-                              <Grid item xs={12}>
+                              <Grid item xs={12}> */}
                                 {/* <ButtonGroup variant="outlined"  color="primary" ref={anchorRef} aria-label="split button">
                                   <Button className="filter-button" 
                                   color="primary"
@@ -196,7 +213,7 @@ export default function Feed() {
                                     </Grow>
                                   )}
                                 </Popper> */}
-                            <NativeSelect
+                            {/* <NativeSelect
                               id="demo-customized-select-native"
                               value={tag}
                               onChange={handleChange}
@@ -211,7 +228,7 @@ export default function Feed() {
                               <oprion value={'Project'} >Project</oprion>
                             </NativeSelect>
                               </Grid>
-                            </Grid>
+                            </Grid> */}
 
                             {/* <button className="filter-button">
                               likes
@@ -225,7 +242,7 @@ export default function Feed() {
                             <button className="filter-button">
                               my posts
                             </button> */}
-                          </div>
+                          {/* </div> */}
                         </div>
                         
                       <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
