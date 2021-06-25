@@ -9,7 +9,7 @@ export function useFeedContext() {
 export function FeedProvider({ children }) {
     const [allPosts, setAllPosts] = useState(null);
     const [posts, setPosts] = useState(null);
-    const feedSize = 5;
+    const feedSize = 20;
     const [loading, setLoading] = useState(true);
     const [pageCount, setPageCount] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,13 +17,13 @@ export function FeedProvider({ children }) {
 
     useEffect(() => {
         GetPosts();
-        GetCount('alltag');
+        GetCount('all');
     }, []);
      
-    async function GetCount(tag){
+    async function GetCount(){
         try{
           await db.collection('counts').doc('posts').onSnapshot(snap=>{
-              let total = snap.data()[tag];
+              let total = snap.data()['all'];
               if(total/feedSize >1){
                   let pages = parseInt(total/feedSize)
                   pages += total%feedSize ? 1:0;
@@ -57,13 +57,13 @@ export function FeedProvider({ children }) {
             return setPosts(allPosts);
         }
         try {
-            await db.collection('posts').orderBy('timestamp', 'desc').get().then(snap => {
-                setPosts(snap.docs.map(doc => { return ({ id: doc.id, data: doc.data() }) }).filter(value => value.data.tag == tag));
+            await db.collection('posts').where('tag','==',tag).limit(10).get().then(snap => {
+                setPosts(snap.docs.map(doc => { return ({ id: doc.id, data: doc.data() }) }));
             }).catch(error => console.log(error))
         } catch {
             alert('something went wrong')
         }
-        GetCount(tag);
+        // GetCount(tag);
     }
 
     const SetPageNo = (num) =>{
