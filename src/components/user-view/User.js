@@ -10,6 +10,9 @@ import {BsChatDotsFill} from 'react-icons/bs'
 import {RiUserFollowFill} from 'react-icons/ri'
 import {UpdateCoins} from './../../apis/API'
 import { Redirect } from 'react-router'
+import styled from 'styled-components';
+import FeedItem from './../Feed/Feed-item';
+import {useFeedContext} from './../../contexts/FeedContext';
 import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
@@ -20,6 +23,7 @@ const Main = (props) =>{
     const[msgexist,setmsgexist] = useState(false);
     const[following, setFollowing] = useState(false);
     const[allFollowing, setAllFollowing] = useState(null);
+    const {posts}  = useFeedContext();
    
     useEffect(()=>{
         const path = window.location.pathname;
@@ -129,41 +133,223 @@ const Main = (props) =>{
             {user==null?
                  <div></div>
                  : 
-            <div>
-            <div className='user-card'>
-                   <img src={user.profile_image===undefined ? Default : user.profile_image==='' ? Default : user.profile_image} alt='' />
-                   <div className='user-card-user'>
-                   <text>{user.username}</text>
-                   <h4 style={{borderBottom:'solid 1px'}}>{user.name}</h4>
-                   {/* <hr/> */}
-                   <text>{user.bio}</text>
-                   <text>{user.education}</text>
-                   <div className={'profile-location'}><MdLocationOn style={{alignSelf:'center'}}/><text>{user.location}</text></div>
-                   </div>
-            </div>
-            <div className='user-menucard'>
-                       <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
-                          { /* eslint-disable-next-line*/}
-                            <a>
-                                <Button  size='small' endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant='outlined' color='primary' >{following? 'following':'follow'}</Button>
-                            </a>
-                        </div>
-                        <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
-                        { /* eslint-disable-next-line*/}
-                            <a>
-                            <Link to='/messages' style={{textDecorationLine:'none'}}>
-                                <Button size='small' endIcon={<BsChatDotsFill/>} variant='outlined' onClick={()=>handleMessage()} color='primary' >Message</Button>
-                             </Link>
-                            </a>
-                        </div>
-            </div>
-            </div>
+            <Container>
+                <Background>
+
+                </Background>
+                <MainPage>
+                    <UserInfo>
+                        <UserTop>
+                            <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} alt=''/>
+                            <p>{user.name}</p>
+                            <span>{user.username}</span>
+                            <div>
+                                <MdLocationOn style={{alignSelf:'center'}}/>
+                                <text>{user.location}</text>
+                            </div>
+                        </UserTop>
+                        <Details>
+                            
+                            {/* <Email>
+                                <h5>Email</h5>
+                                <p>{user.email}</p>
+                            </Email> */}
+                            {user.bio ? 
+                                <Bio>
+                                    <h5>Bio</h5>
+                                    <p>{user.bio}</p>
+                                </Bio>
+                            :
+                            null
+                            }
+                            {user.education ? 
+                                <Education>
+                                    <h5>Education</h5>
+                                    <p>{user.education}</p>
+                                </Education>
+                            :
+                            null
+                            }
+                            <Coins>
+                                <h5>Coins</h5>
+                                <p>{user.coins}</p>
+                            </Coins>
+                        </Details>
+                    </UserInfo>
+                    <Post>
+                        <Top>
+                            <PostNumber>
+                                <span>Posts</span>
+                                <h4>00</h4>
+                            </PostNumber>
+                            <FollowerNumber>
+                                <span>Followers</span>
+                                <h4>00</h4>
+                            </FollowerNumber>
+                            <FollowingNumber>
+                                <span>Following</span>
+                                <h4>{user.following ? user.following.length : '00'}</h4>
+                            </FollowingNumber>
+                        </Top>
+                        <Buttons>
+                            <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
+                                <a>
+                                <Button   endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant="contained" style={{backgroundColor : '#ff471a'}}  >{following? 'following':'follow'}</Button>
+                                </a>
+                            </div>
+                            <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
+                                <a>
+                                <Link to='/messages' style={{textDecorationLine:'none'}}>
+                                    <Button  endIcon={<BsChatDotsFill/>}  onClick={()=>handleMessage()} variant="contained" style={{backgroundColor : '#ff471a'}} >Message</Button>
+                                </Link>
+                                </a>
+                            </div>
+                        </Buttons>   
+                        <Activity>
+                            <Title>
+                                Recent Activity
+                            </Title>
+                            {/* <Feed>
+                                <h4>Posts</h4>
+                                <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
+                                {posts.map(data=>{
+                                 return <FeedItem id={data.id} data={data.data}/>
+                                    })
+                                }
+                            </Feed> */}
+                        </Activity>
+                    </Post>
+                </MainPage>
+            </Container>
             }
             </div>
             }
         </div>
     )
 }
+const Container = styled.div`
+    max-width: 1200px;
+    margin-left : auto;
+    margin-right: auto;
+    
+`;
+const Background = styled.div`
+    height : 170px;
+    background-color: #ff471a;
+`;
+const MainPage = styled.div`
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    @media (max-width : 860px) {
+        grid-template-columns: 12fr;
+    }
+`;
+const UserInfo = styled.div`
+    padding : 10px;
+    background-color: #f2f2f2;
+    @media (max-width : 860px) {
+        text-align : center;
+    }
+`;
+const Post = styled.div`
+    height : 60px;
+    padding-left : 15px;
+    margin-top : 15px;
+`;
+const UserTop = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top : -60px;
+    img {
+        width : 170px;
+        border-radius: 50%;
+    }   
+    p {
+        margin-top : 10px;
+        font-size: x-large;
+    }
+    span {
+        margin-top : -20px;
+    }
+    div {
+        margin-top : -5px;
+    }
+`;
+const Details = styled.div`
+    @media (max-width : 768px) {
+        display : none;
+    }
+`;
+const Bio = styled.div`
+`;
+const Education = styled.div``;
+const Email=styled.div`
+    margin-top : 15px;
+`;
+const Coins=styled.div``;
+
+const Top = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+const PostNumber = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size : 24px;
+    font-weight: 500;
+    h4 {
+        color : #ff471a;
+    }
+    @media (max-width : 450px) {
+        
+    }
+`;
+const FollowerNumber = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size : 24px;
+    font-weight: 500;
+    h4 {
+        color : #ff471a;
+    }
+`;
+const FollowingNumber = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size : 24px;
+    font-weight: 500;
+    h4 {
+        color : #ff471a;
+    }
+`;
+const Buttons = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top : 10px;
+`;
+const Activity = styled.div`
+    margin-top : 40px;
+`;
+const Title = styled.h2``;
+
+const Feed = styled.div`
+    margin-top: 30px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    h4 {
+        margin-left: 15px;
+        padding-top : 10px;
+    }
+`;
 // const Container = styled.div`
 //    padding-top: 100px;
 //    padding-inline: 15%;
@@ -312,9 +498,4 @@ const Main = (props) =>{
 //        }
 //    }
 // `;
-// const mapStateToProps = (state) =>{
-//     return{
-//         user: state.userState.user,
-//     }
-// }
 export default Main;
