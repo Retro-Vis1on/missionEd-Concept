@@ -37,7 +37,7 @@ export default function NotificationItem(props) {
     return (
         <div style={{display:'flex'}}>
            {props.data.follower?
-              <img src={user? user.profile_image: null} style={{marginBlock:'3px'}} style={{alignSelf:'center'}}/>
+              <img src={user==null ? Default : user.profile_image==null ? Default : user.profile_image==''? Default : user.profile_image} style={{marginBlock:'3px',alignSelf:'center'}}/>
               :
               null
             }
