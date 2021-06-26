@@ -194,13 +194,13 @@ const Main = (props) =>{
                         <Buttons>
                             <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                                 <a>
-                                <Button   endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} variant="contained" style={{backgroundColor : '#ff471a'}}  >{following? 'following':'follow'}</Button>
+                                <Button   endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} size='small' variant="contained" disableElevation={true} style={{backgroundColor : '#ff471a'}}  >{following? 'following':'follow'}</Button>
                                 </a>
                             </div>
                             <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                                 <a>
                                 <Link to='/messages' style={{textDecorationLine:'none'}}>
-                                    <Button  endIcon={<BsChatDotsFill/>}  onClick={()=>handleMessage()} variant="contained" style={{backgroundColor : '#ff471a'}} >Message</Button>
+                                    <Button  endIcon={<BsChatDotsFill/>}  onClick={()=>handleMessage()} size='small' variant="contained" style={{backgroundColor : '#ff471a'}} >Message</Button>
                                 </Link>
                                 </a>
                             </div>
@@ -208,6 +208,7 @@ const Main = (props) =>{
                         <Activity>
                             <Title>
                                 Recent Activity
+                                <hr/>
                             </Title>
                             {/* <Feed>
                                 <h4>Posts</h4>
@@ -228,10 +229,11 @@ const Main = (props) =>{
     )
 }
 const Container = styled.div`
-    max-width: 1200px;
+    max-width: 950px;
     margin-left : auto;
     margin-right: auto;
-    
+    box-shadow: 0px -13px 2px 0px rgba(0,0,0,0.75);
+    padding-inline: 3px;
 `;
 const Background = styled.div`
     height : 170px;
@@ -265,6 +267,8 @@ const UserTop = styled.div`
     img {
         width : 170px;
         border-radius: 50%;
+        box-shadow: 1px 1px 13px 0px rgba(0, 0, 0, 0.75);
+        border: solid 2px white;
     }   
     p {
         margin-top : 10px;
@@ -299,7 +303,7 @@ const PostNumber = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size : 24px;
+    font-size : 20px;
     font-weight: 500;
     h4 {
         color : #ff471a;
@@ -313,7 +317,7 @@ const FollowerNumber = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size : 24px;
+    font-size : 20px;
     font-weight: 500;
     h4 {
         color : #ff471a;
@@ -324,7 +328,7 @@ const FollowingNumber = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size : 24px;
+    font-size : 20px;
     font-weight: 500;
     h4 {
         color : #ff471a;
@@ -338,7 +342,7 @@ const Buttons = styled.div`
 const Activity = styled.div`
     margin-top : 40px;
 `;
-const Title = styled.h2``;
+const Title = styled.h4``;
 
 const Feed = styled.div`
     margin-top: 30px;
