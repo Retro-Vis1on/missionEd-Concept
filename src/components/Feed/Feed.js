@@ -22,6 +22,9 @@ import SearchItem from './SearchItem'
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+import Pagination from '@material-ui/lab/Pagination';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const options = ['likes', 'date', 'my post','saved posts','comments'];
 
@@ -62,7 +65,7 @@ const Menu = withStyles((theme)=>({
 }))
 
 export default function Feed() {
-  const {posts, loading, TagPosts}  = useFeedContext();
+  const {posts, loading, TagPosts, pageCount, GetCount,currentPage, SetPageNo}  = useFeedContext();
   const {currentUser} = useAuth();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -70,11 +73,12 @@ export default function Feed() {
   const [searchActive, setSearchActive] = useState(false);
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState(null);
-  const [tag, setTag] = React.useState('All');
+  const [tag, setTag] = React.useState('alltag');
   
   const handleChange = (event) => {
     setTag(event.target.value);
     TagPosts(event.target.value);
+    GetCount(event.target.value);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -105,7 +109,14 @@ export default function Feed() {
       console.log('somthing went wrong')
     }
   }
-   
+   const onNext = () =>{
+     window.scroll(0,0);
+     SetPageNo(currentPage+1);
+   }
+   const OnPrev = () =>{
+    window.scroll(0,0);
+     SetPageNo(currentPage-1);
+   }
     return (
       <div>
         {!currentUser ? <Redirect to="/welcome" /> : null}
@@ -117,7 +128,24 @@ export default function Feed() {
                           <div className="heading-grid">
                             <h5 style={{marginTop : '-3px'}}>Posts</h5>
                           </div>
-                          <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
+                          <div style={{marginTop:'-10px',display:'flex',justifyContent:'flex-end'}}>
+                          <NativeSelect
+                              id="demo-customized-select-native"
+                              value={tag}
+                              onChange={handleChange}
+                              input={<BootstrapInput/>}
+                              style={{marginLeft:'10px'}}
+                              
+                              >
+                              <option value={'alltag'} >All</option>
+                              <option value={'General'}>General</option>
+                              <option value={'Internship'}>Internship</option>
+                              <option value={"Question"}>Question</option>
+                              <option value={'Placement'} >Placement</option>
+                              <option value={'Project'} >Project</option>
+                            </NativeSelect>
+                            </div>
+                          {/* <ClickAwayListener onClickAway={()=>setSearchActive(false)}>
                           <div className={searchActive? 'search-field search-field-active search-grid':"search-field search-grid"}>
                               <input onClick={()=>setSearchActive(true)} value={searchActive? search : ''} onChange={(e)=>GetSearchData(e.target.value)}  type="text"
                                      placeholder="Search Posts...." 
@@ -151,7 +179,7 @@ export default function Feed() {
                           </ClickAwayListener>
                           <div className="filter filter-grid">
                             <Grid container direction="column" alignItems="center" className="filter-field">
-                              <Grid item xs={12}>
+                              <Grid item xs={12}> */}
                                 {/* <ButtonGroup variant="outlined"  color="primary" ref={anchorRef} aria-label="split button">
                                   <Button className="filter-button" 
                                   color="primary"
@@ -196,7 +224,7 @@ export default function Feed() {
                                     </Grow>
                                   )}
                                 </Popper> */}
-                            <NativeSelect
+                            {/* <NativeSelect
                               id="demo-customized-select-native"
                               value={tag}
                               onChange={handleChange}
@@ -211,7 +239,7 @@ export default function Feed() {
                               <oprion value={'Project'} >Project</oprion>
                             </NativeSelect>
                               </Grid>
-                            </Grid>
+                            </Grid> */}
 
                             {/* <button className="filter-button">
                               likes
@@ -225,7 +253,7 @@ export default function Feed() {
                             <button className="filter-button">
                               my posts
                             </button> */}
-                          </div>
+                          {/* </div> */}
                         </div>
                         
                       <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
@@ -256,7 +284,19 @@ export default function Feed() {
                            }
                         </div> 
                       }
-                         
+                      </div>
+                      <div style={{display:tag=='alltag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
+                       <div onClick={()=>OnPrev()} className={'pagination-button'} style={{display:currentPage-1>0? null:'none'}}>
+                          <ArrowBackIosIcon style={{fontSize:'20px'}}/>Back
+                       </div>
+                       <div className='pages'>
+                         <text onClick={()=>OnPrev()} style={{display:currentPage-1>0? null:'none'}} className='page-number' >{currentPage-1}</text>
+                         <text className='page-number page-number-active'>{currentPage}</text>
+                         <text style={{display:currentPage===pageCount? 'none':null}} onClick={()=>onNext()} className='page-number'>{currentPage+1}</text>
+                       </div>
+                       <div className='pagination-button' onClick={()=>onNext()} style={{display:currentPage===pageCount? 'none':null}}>
+                         Next<ArrowForwardIosIcon style={{fontSize:'20px'}}/>
+                       </div>
                       </div>
                  </div>
         </div>

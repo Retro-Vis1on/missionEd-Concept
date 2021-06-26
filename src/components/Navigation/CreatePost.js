@@ -106,6 +106,9 @@ export default function CreatePost() {
            description: descriptionRef.current.value,
            timestamp: firebase.firestore.FieldValue.serverTimestamp()    
         })
+        db.collection('counts').doc('all').update({
+          all: firebase.firestore.FieldValue.increment(1)
+      })
      }catch{
        alert('something went wront, please check your internet connection!!')
      }

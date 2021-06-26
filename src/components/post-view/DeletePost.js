@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { db } from '../../firebase';
 import {Link} from 'react-router-dom'
+import firebase from 'firebase';
+
 export default function DeletePost(props) {
     const [open, setOpen] = React.useState(false);
 
@@ -21,6 +23,9 @@ export default function DeletePost(props) {
     async function Delete(){
        try{
            await db.collection('posts').doc(props.id).delete();
+           db.collection('counts').doc('all').update({
+               all: firebase.firestore.FieldValue.increment(-1)
+           })
        }catch{
            console.log('something went wrong!')
        }
