@@ -12,7 +12,6 @@ import {UpdateCoins} from './../../apis/API'
 import { Redirect } from 'react-router'
 import styled from 'styled-components';
 import FeedItem from './../Feed/Feed-item';
-import {useFeedContext} from './../../contexts/FeedContext';
 import {UpdateNotificationForFollowers} from './../../apis/NotificationApi'
 const Main = (props) =>{
     const{currentUser} = useAuth();
@@ -23,8 +22,8 @@ const Main = (props) =>{
     const[msgexist,setmsgexist] = useState(false);
     const[following, setFollowing] = useState(false);
     const[allFollowing, setAllFollowing] = useState(null);
-    const {posts}  = useFeedContext();
-   
+    const [posts, setPosts] = useState(null);
+    const[follower, setFollower] = useState(null);
     useEffect(()=>{
         const path = window.location.pathname;
         const id = path.substring(path.lastIndexOf('/')+1);
@@ -32,8 +31,9 @@ const Main = (props) =>{
         setUserId(id);
         messageExist(id);
         SetFollowing(id);
-        // eslint-disable-next-line
-    },[])
+        GetPosts(id);
+        GetFollwers(id);
+    },[window.location.pathname])
     async function SetFollowing(id){
         try{
             await db.collection('users').doc(currentUser.uid).onSnapshot(snap=>{
@@ -67,6 +67,24 @@ const Main = (props) =>{
         setLoading(false)
     }
 
+    async function GetPosts(id){
+        try{
+          await db.collection('posts').where('user','==',id).get().then(snap=>{
+              if(!snap.empty) setPosts(snap.docs.map(data=>{return {id:data.id, data:data.data()}}))
+          })
+        }catch(e){
+            console.log(e);
+        }
+    }
+    async function GetFollwers(id){
+        try{
+           await db.collection('users').where('following','array-contains',id).get().then(data=>{
+               if(!data.empty) setFollower(data.docs.map(data=>{return {id:data.id, data: data.data()}}))
+           })
+        }catch(e){
+            console.log(e);
+        }
+    }
     async function messageExist(id){
         try{
              await db.collection('chats').where('users','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
@@ -180,15 +198,15 @@ const Main = (props) =>{
                         <Top>
                             <PostNumber>
                                 <span>Posts</span>
-                                <h4>00</h4>
+                                <h5>{posts? posts.length: '00'}</h5>
                             </PostNumber>
                             <FollowerNumber>
                                 <span>Followers</span>
-                                <h4>00</h4>
+                                <h5>{follower? follower.length: '00'}</h5>
                             </FollowerNumber>
                             <FollowingNumber>
                                 <span>Following</span>
-                                <h4>{user.following ? user.following.length : '00'}</h4>
+                                <h5>{user.following ? user.following.length : '00'}</h5>
                             </FollowingNumber>
                         </Top>
                         <Buttons>
@@ -208,16 +226,23 @@ const Main = (props) =>{
                         <Activity>
                             <Title>
                                 Recent Activity
-                                <hr/>
+                            <hr style={{height:'1.5px',backgroundColor:'#7C7E7F',marginTop : '4px'}}/>
                             </Title>
-                            {/* <Feed>
-                                <h4>Posts</h4>
-                                <hr style={{height:'3px',backgroundColor:'#7C7E7F',marginTop : '1px'}}/>
+                            {posts?
+                            <Feed>
                                 {posts.map(data=>{
-                                 return <FeedItem id={data.id} data={data.data}/>
-                                    })
+                                    return (
+                                        <Link to={`/post/${data.id}`} style={{textDecorationLine:'none'}}>
+                                         <PostItem>
+                                         <text>{data.data.title}</text>
+                                         <text style={{color:'rgb(92, 185, 5)',marginLeft:'5px'}}>{data.data.tag}</text>
+                                         </PostItem>
+                                     </Link>
+                                 )
+                                })
                                 }
-                            </Feed> */}
+                            </Feed>
+                            :<text style={{color:'rgb(92, 185, 5)'}}>No activity </text>}
                         </Activity>
                     </Post>
                 </MainPage>
@@ -232,7 +257,7 @@ const Container = styled.div`
     max-width: 950px;
     margin-left : auto;
     margin-right: auto;
-    box-shadow: 0px -13px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px -200px 2px 0px rgba(0,0,0,0.75);
     padding-inline: 3px;
 `;
 const Background = styled.div`
@@ -266,6 +291,7 @@ const UserTop = styled.div`
     margin-top : -60px;
     img {
         width : 170px;
+        height : 170px;
         border-radius: 50%;
         box-shadow: 1px 1px 13px 0px rgba(0, 0, 0, 0.75);
         border: solid 2px white;
@@ -305,8 +331,9 @@ const PostNumber = styled.div`
     align-items: center;
     font-size : 20px;
     font-weight: 500;
-    h4 {
+    h5 {
         color : #ff471a;
+        cursor: pointer;
     }
     @media (max-width : 450px) {
         
@@ -319,8 +346,9 @@ const FollowerNumber = styled.div`
     align-items: center;
     font-size : 20px;
     font-weight: 500;
-    h4 {
+    h5 {
         color : #ff471a;
+        cursor: pointer;
     }
 `;
 const FollowingNumber = styled.div`
@@ -330,8 +358,9 @@ const FollowingNumber = styled.div`
     align-items: center;
     font-size : 20px;
     font-weight: 500;
-    h4 {
+    h5 {
         color : #ff471a;
+        cursor: pointer;
     }
 `;
 const Buttons = styled.div`
@@ -342,18 +371,37 @@ const Buttons = styled.div`
 const Activity = styled.div`
     margin-top : 40px;
 `;
-const Title = styled.h4``;
+const Title = styled.h5``;
 
 const Feed = styled.div`
     margin-top: 30px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    /* background-color: rgb(255, 255, 255); */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
     h4 {
         margin-left: 15px;
         padding-top : 10px;
     }
 `;
+
+const PostItem = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-inline: 1rem;
+    padding-block: 10px;
+    background-color: rgba(0 ,0,0,0.1);
+    margin-block: 2px;
+    border-radius: 4px;
+    text{
+        color: black;
+        font-size: 15px;
+        font-weight: 500;
+    }
+    &:hover{
+        background-color: rgba(0 ,0,0,0.12);
+    }
+`
 // const Container = styled.div`
 //    padding-top: 100px;
 //    padding-inline: 15%;
