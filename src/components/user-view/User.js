@@ -69,7 +69,7 @@ const Main = (props) =>{
 
     async function GetPosts(id){
         try{
-          await db.collection('posts').where('user','==',id).get().then(snap=>{
+          await db.collection('posts').where('user','==',id).limit(5).get().then(snap=>{
               if(!snap.empty) setPosts(snap.docs.map(data=>{return {id:data.id, data:data.data()}}))
           })
         }catch(e){
@@ -196,10 +196,10 @@ const Main = (props) =>{
                     </UserInfo>
                     <Post>
                         <Top>
-                            <PostNumber>
+                            {/* <PostNumber>
                                 <span>Posts</span>
                                 <h5>{posts? posts.length: '00'}</h5>
-                            </PostNumber>
+                            </PostNumber> */}
                             <FollowerNumber>
                                 <span>Followers</span>
                                 <h5>{follower? follower.length: '00'}</h5>
@@ -212,13 +212,13 @@ const Main = (props) =>{
                         <Buttons>
                             <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                                 <a>
-                                <Button   endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} size='small' variant="contained" disableElevation={true} style={{backgroundColor : '#ff471a'}}  >{following? 'following':'follow'}</Button>
+                                <Button   endIcon={<RiUserFollowFill/>} onClick={()=>handleFollow()} size='small' variant="contained" disableElevation={true} style={{backgroundColor : '#ff471a',color:'white'}}  >{following? 'following':'follow'}</Button>
                                 </a>
                             </div>
                             <div style={{display:currentUser.uid===userId?'none':'block'}} className='user-menucard-item'>
                                 <a>
                                 <Link to='/messages' style={{textDecorationLine:'none'}}>
-                                    <Button  endIcon={<BsChatDotsFill/>}  onClick={()=>handleMessage()} size='small' variant="contained" style={{backgroundColor : '#ff471a'}} >Message</Button>
+                                    <Button  endIcon={<BsChatDotsFill/>}  onClick={()=>handleMessage()} size='small' variant="contained" style={{backgroundColor : '#ff471a',color:'white'}} >Message</Button>
                                 </Link>
                                 </a>
                             </div>
@@ -322,7 +322,7 @@ const Coins=styled.div``;
 
 const Top = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 `;
 const PostNumber = styled.div`
     display: flex;
