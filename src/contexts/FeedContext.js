@@ -14,6 +14,7 @@ export function FeedProvider({ children }) {
     const [pageCount, setPageCount] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [PageData,setPageData] = useState([]);
+    const [currentTag, setTag] = useState('allTag');
 
     useEffect(() => {
         GetPosts();
@@ -104,6 +105,8 @@ export function FeedProvider({ children }) {
         GetCount,
         currentPage,
         SetPageNo,
+        currentTag,
+        setTag
     }
 
     return (

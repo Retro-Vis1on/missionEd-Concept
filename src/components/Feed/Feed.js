@@ -65,7 +65,7 @@ const Menu = withStyles((theme)=>({
 }))
 
 export default function Feed() {
-  const {posts, loading, TagPosts, pageCount, GetCount,currentPage, SetPageNo}  = useFeedContext();
+  const {posts, loading, TagPosts, pageCount, GetCount,currentPage, SetPageNo, currentTag, setTag}  = useFeedContext();
   const {currentUser} = useAuth();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -73,12 +73,12 @@ export default function Feed() {
   const [searchActive, setSearchActive] = useState(false);
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState(null);
-  const [tag, setTag] = React.useState('alltag');
+  // const [tag, setTag] = React.useState('alltag');
   
   const handleChange = (event) => {
     setTag(event.target.value);
     TagPosts(event.target.value);
-    GetCount(event.target.value);
+    // GetCount(event.target.value);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -131,7 +131,7 @@ export default function Feed() {
                           <div style={{marginTop:'-10px',display:'flex',justifyContent:'flex-end'}}>
                           <NativeSelect
                               id="demo-customized-select-native"
-                              value={tag}
+                              value={currentTag}
                               onChange={handleChange}
                               input={<BootstrapInput/>}
                               style={{marginLeft:'10px'}}
@@ -285,7 +285,7 @@ export default function Feed() {
                         </div> 
                       }
                       </div>
-                      <div style={{display:tag=='alltag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
+                      <div style={{display:currentTag=='alltag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
                        <div onClick={()=>OnPrev()} className={'pagination-button'} style={{display:currentPage-1>0? null:'none'}}>
                           <ArrowBackIosIcon style={{fontSize:'20px'}}/>Back
                        </div>
