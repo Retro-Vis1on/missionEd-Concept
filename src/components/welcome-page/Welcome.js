@@ -87,7 +87,7 @@ const Welcome = (props) =>{
                 <h1>{userCount}</h1>
             </div>
       </div>
-      <Footer/>
+      {/*<Footer/>*/}
       </div>
     );
  } 
