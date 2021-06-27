@@ -285,7 +285,7 @@ export default function Feed() {
                         </div> 
                       }
                       </div>
-                      <div style={{display:currentTag=='alltag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
+                      <div style={{display:currentTag=='allTag'?'flex':'none',justifyContent:'center',padding:'10px',alignItems:'center'}}>
                        <div onClick={()=>OnPrev()} className={'pagination-button'} style={{display:currentPage-1>0? null:'none'}}>
                           <ArrowBackIosIcon style={{fontSize:'20px'}}/>Back
                        </div>
