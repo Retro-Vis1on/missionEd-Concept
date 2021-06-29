@@ -223,3 +223,15 @@
     width: 300px;
   }
 }
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+}
+.comment-time {
+  font-size: 14px;
+}
