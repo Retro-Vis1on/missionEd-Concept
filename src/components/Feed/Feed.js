@@ -28,6 +28,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const options = ['likes', 'date', 'my post','saved posts','comments'];
 
+
 const BootstrapInput = withStyles((theme) => ({
   input: {
     borderRadius: 15,
@@ -73,6 +74,7 @@ export default function Feed() {
   const [searchActive, setSearchActive] = useState(false);
   const [search, setSearch] = useState('');
   const [searchPost, setSearchPost] = useState(null);
+
   // const [tag, setTag] = React.useState('alltag');
   
   const handleChange = (event) => {
@@ -96,6 +98,7 @@ export default function Feed() {
 
     setOpen(false);
   };
+  
   
   async function GetSearchData(value){
     setSearch(value)
@@ -122,7 +125,7 @@ export default function Feed() {
         {!currentUser ? <Redirect to="/welcome" /> : null}
       <div>
       <div className={'feed-section'}>
-            <div className={'feed'}>   
+            <div className={'feed'}> 
                       <div className={'topic-item-box'}>
                         <div className="topic-header"> 
                           <div className="heading-grid">
