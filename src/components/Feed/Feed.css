@@ -225,7 +225,7 @@
   align-items: center;
 }
 .post-tag {
-  width: 15%;
+  width: 10%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -241,12 +241,32 @@
 .post-likes {
   align-self: center;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   text-align: center;
-  /* width: m; */
+  margin-left: 5%;
+ /* width: m; */
   /* border: solid; */
   /* padding-inline: 1%; */
 }
+.likes {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.post-time {
+  display: flex;
+  align-items: center;
+  margin-left : 30px;
+}
+
+@media (max-width : 1000px) {
+  /* .post-likes {
+    margin-left: 2%;
+  } */
+  
+}
+
 @media screen and (max-width: 760px) {
   .feed {
     margin-inline: 2%;
@@ -264,9 +284,33 @@
     display: none;
   }
   .post-likes {
-    margin-left: 20%;
+    margin-left : 20%;
   }
 }
+@media (max-width : 550px) {
+  .post-likes {
+    margin-left: 15%;
+  }
+  .post-time {
+    margin-left : 20px; 
+  }
+}
+@media (max-width : 450px) {
+  /* .post-likes {
+    margin-left: 20px;
+  } */
+  
+}
+@media (max-width : 350px) {
+  .post-likes {
+    margin-left: 40px;
+  }
+ 
+  .post-time {
+    margin-left: 10px;
+  } 
+}
+
 .pagination-button {
   font-size: 18px;
   border-radius: 3px;
@@ -304,3 +348,10 @@
   background-color: blueviolet;
   color: white;
 }
+.header-new {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+

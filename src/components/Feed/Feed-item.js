@@ -2,14 +2,25 @@ import React, {useEffect, useState } from 'react'
 import { Link} from 'react-router-dom'
 import Default from './../../assets/default.jpg'
 import {userdb} from './../../firebase'
+import TimeDiff from './../../apis/TimeDiff';
 // import GetProfile from './../../../config/getProfile'
 export default function FeedItem(props) {
     const[profile_img,setProfile_img] = useState(Default);
     const[username, setUsername] = useState('');
+    const[time, setTime] = useState(null);
 
     useEffect(()=>{
        GetUser();
     },[props.data.user])
+
+    useEffect(()=>{
+        GetTime();
+      },[props.data.timestamp]);
+      
+      async function GetTime(){
+        let a =  await TimeDiff(props.data.timestamp);
+        setTime(a);
+      }
     
     async function GetUser(){
         try{
@@ -26,6 +37,7 @@ export default function FeedItem(props) {
     }
     return(
            <div className={'feed-item'}>
+               {console.log(time)}
             <Link  to={`post/${props.id}`} style={{textDecorationLine:'none'}} className={'feed-title'}>
                         
                           <text style={{textDecorationLine:'none'}}>{props.data.title}</text>
@@ -43,9 +55,16 @@ export default function FeedItem(props) {
                             <text>{props.data.tag}</text>
                     </div>
                     <div className={'post-likes'}>
-                        <text>{props.data.liked ? props.data.liked.length: 0}</text>
-                        <text style={{fontSize:'10px'}}>Likes</text>
+                        <div className="likes">
+                            <text>{props.data.liked ? props.data.liked.length: 0}</text>
+                            <text style={{fontSize:'10px'}}>Likes</text>
+                        </div>
+                        <div className={'post-time'}>
+                            <text>{time ? time: null}</text> 
+                        </div>
+                        
                     </div>
+                    
         </div>
     );
 }
