@@ -50,7 +50,6 @@ export default function Home() {
         {currentUser==null ? <Redirect to="/welcome"/>: null}
             <div className="create-post-intro" >
             <CreateTopic />
-<<<<<<< HEAD
             </div>
             <div className="feed-intro" >
             <Feed /> 
@@ -58,12 +57,10 @@ export default function Home() {
             <div className="feedback-intro">
             <Feedback  />
             </div>
-            <Footer/>
-=======
+            {/* <Footer/>
             <Feed/>
-            <Feedback/>
+            <Feedback/> */}
             {/*<Footer/>*/}
->>>>>>> origin
         </div>
         
     )
