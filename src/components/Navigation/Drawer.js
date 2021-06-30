@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
+import introJs from 'intro.js';
+import 'intro.js/introjs.css';
 import clsx from 'clsx';
 import {Link} from 'react-router-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -68,6 +70,83 @@ const useStyles = makeStyles({
   useEffect(()=>{
     GetNotificationCount();
     GetNotification();
+
+    // console.log(window.screen.width);
+
+    // Tutorial for large screen size
+    if(window.screen.width > 760 && localStorage.getItem('introNavState') != 'shown'){
+      introJs().setOptions({
+        disableInteraction: true,
+        steps: [{
+          title: 'Welcome',
+          intro: '<p>Welcome to MissionEd Forum! 👋</p>'
+        },
+        {
+          title: 'Network',  
+          element: document.querySelector('.network-intro '),
+          intro: '<p>Connect with potential recruiters. Collabrate with your friends.</p>'
+        },
+        {
+          title: 'Message',
+          element: document.querySelector('.messages-intro '),
+          intro: '<p>Keeps you connected with your friends and potential recruiters.</p>'
+        },
+        {
+          title: 'Notification',
+          element: document.querySelector('.notification-intro '),
+          intro: '<p>Check all new notifications. Use coins to get exciting offers.</p>'
+        },
+        {
+          title: 'Profile',
+          element: document.querySelector('.profile-intro '),
+          intro: '<p>Manage and update your profile.</p>'
+        }]
+      }).start().oncomplete(()=>{
+        localStorage.setItem('introNavState','shown');
+      }).onexit(()=>{
+        localStorage.setItem('introNavState','shown');
+      });
+      
+
+    // Tutorial for small screen size
+    }
+    if(window.screen.width <= 760 && localStorage.getItem('introNavSmallState') != 'shown'){
+      introJs().setOptions({
+        disableInteraction: true,
+        steps: [{
+          title: 'Welcome',
+          intro: '<p>Welcome to MissionEd Forum! 👋</p>'
+        },
+        {
+          title: 'Notification',
+          element: document.querySelector('.notification-intro-2 '),
+          intro: 'Check all new notifications. Use coins to get exciting offers.'
+        },
+        {
+          title: 'Network',  
+          element: document.querySelector('.dropdown-intro '),
+          intro: 'Connect with potential recruiters. Collabrate with your friends.'
+        },
+        {
+          title: 'Message',
+          element: document.querySelector('.dropdown-intro '),
+          intro: 'Keeps you connected with your friends and potential recruiters.'
+        },
+        {
+          title: 'Profile',
+          element: document.querySelector('.dropdown-intro '),
+          intro: 'Manage and update your profile.'
+        }]
+      }).start().oncomplete(()=>{
+        localStorage.setItem('introNavSmallState','shown');
+      }).onexit(()=>{
+        localStorage.setItem('introNavSmallState','shown');
+      });
+      
+
+    }
+ 
+
   },[])
   
   async function GetNotificationCount(){
@@ -209,7 +288,7 @@ const useStyles = makeStyles({
   return (
     <div>
       <div className={'drawer-class'}>
-              <div 
+              <div className={'notification-intro-2'}
               ref={notRef}
               onClick={handleToggleNot}>
               <Badge badgeContent={numberNote} color="secondary" style={{position:'absolute',marginLeft:'50px',marginTop:'5px'}}>
@@ -217,7 +296,7 @@ const useStyles = makeStyles({
               <MdNotifications href={'#'} className={'nav-icon'}/>    
             </div>
         <React.Fragment>
-           <div onClick={toggleDrawer()}  className={'navbar-icons'}>
+           <div onClick={toggleDrawer()}  className={'navbar-icons dropdown-intro'}>
              <MenuOpenIcon style={{ fontSize: 40, color:'#E3E3E3' }}/>
             </div> 
           <Drawer anchor={'right'} open={isOpen} onClose={toggleDrawer()}>
@@ -244,7 +323,7 @@ const useStyles = makeStyles({
                                   </Link>
                                 <Link to='/network'>
                                   <div
-                                  className={activeClassName==='network'? 'active-nav-links nav-links' : 'nav-links'} onClick={()=>handleClick('network')}>
+                                  className={activeClassName==='network'? 'active-nav-links nav-links network-intro' : 'nav-links network-intro'} onClick={()=>handleClick('network')}>
 
                                   <BsFillPeopleFill href={'#'} className={'nav-icon'}/>   
                                   <text className={'nav-text'}>
@@ -254,7 +333,7 @@ const useStyles = makeStyles({
                                 </Link>
                                 <Link to='/messages'>
                                     <div
-                                    className={activeClassName==='messages'? 'active-nav-links nav-links' : 'nav-links'} 
+                                    className={activeClassName==='messages'? 'active-nav-links nav-links messages-intro' : 'nav-links messages-intro'} 
                                     onClick={()=>handleClick('messages')}>
                                     <BsFillChatDotsFill href={'#'} className={'nav-icon'}/>   
                                     <text className={'nav-text'}>
@@ -267,7 +346,7 @@ const useStyles = makeStyles({
                                  onClick={handleToggleNot}
                               >
                                   <div
-                                  className={'nav-links'} 
+                                  className={'nav-links notification-intro'} 
                                 
                                   >
                                   <Badge badgeContent={numberNote} color="secondary" style={{position:'absolute',marginLeft:'50px',marginTop:'5px'}}>
@@ -278,7 +357,7 @@ const useStyles = makeStyles({
                                     </text>  
                                 </div>
                               </Link>
-                             <div>
+                             <div className={'profile-intro'}>
                              <img 
                                  style={{marginLeft:'30px'}}
                                  ref={anchorRef}
