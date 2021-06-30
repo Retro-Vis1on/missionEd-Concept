@@ -14,6 +14,7 @@ import Default from './../../assets/default.jpg'
 import TimeDiff from './../../apis/TimeDiff'
 import firebase from 'firebase'
 import {Link} from 'react-router-dom'
+import { CompareArrowsOutlined } from '@material-ui/icons';
 export default function NotificationItem(props) {
     const {currentUser} = useAuth();
     const[username, setUsername] = useState(null);
@@ -36,7 +37,7 @@ export default function NotificationItem(props) {
   },[props.data.timestamp]);
 
   async function GetTime(){
-    let a =  await TimeDiff(props.data.timestamp.toDate());
+    let a =  await TimeDiff(props.data.timestamp);
     setTime(a);
   }
 

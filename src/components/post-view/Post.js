@@ -202,6 +202,18 @@ export default function Topic(props) {
     const onCancelLikeModal =()=>{
       setLikeModal(false);
     }
+    const convertTimestamp = (timestamp) => {
+      if(timestamp) {
+        let date = timestamp.toDate();
+        let mm = date.getMonth();
+        let dd = date.getDate();
+        let yyyy = date.getFullYear();
+      
+        date = mm + '/' + dd + '/' + yyyy;
+        return date;
+      }
+      return '';
+    }
 
     return(
         <div>
@@ -251,23 +263,32 @@ export default function Topic(props) {
                            </div>
                            
                     <hr/>
-                    <text>Post created by :</text>
-                    {user==null? null:
-                    <div className={'auther'}>
-                        <div className={'auther-icon'}>
-                            <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} />
-                        </div>
-                        {currentUser ? 
-                        <Link to={`/user/${topic.user}`} className="link-user" style={{textDecorationLine:'none'}}>
-                          <text >{user.username}</text>
-                        </Link> 
-                        : 
-                        <div className="link-user" style={{textDecorationLine:'none'}}>
-                          <text >{user.username}</text>
-                        </div> }
+                    <div className="header-new">
+                      <div className="header-left">
+                        {user==null? null:
                         
+                        <div className={'auther'}>
+                            <div className={'auther-icon'}>
+                                <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image} />
+                            </div>
+                            {currentUser ? 
+                            <Link to={`/user/${topic.user}`} className="link-user" style={{textDecorationLine:'none'}}>
+                              <text >{user.username}</text>
+                            </Link> 
+                            : 
+                            <div className="link-user" style={{textDecorationLine:'none'}}>
+                              <text >{user.username}</text>
+                            </div> }
+                            
+                        </div>
+                        }
+                      </div>
+                      <div className="header-right">
+                        <text>{convertTimestamp(topic.timestamp)}</text>
+                      </div>
+                      
                     </div>
-                    }
+                    
                     
                       <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                         <a target="_blank" href={decoratedHref} key={key}>

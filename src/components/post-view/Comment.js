@@ -17,6 +17,7 @@ import Modal from 'react-modal'
 import LikeProfile from './LikeProfile'
 import IconButton from '@material-ui/core/IconButton';
 import ClearIcon from '@material-ui/icons/Clear';
+import TimeDiff from './../../apis/TimeDiff';
 
 export default function Comment(props) {
         const {currentUser} = useAuth();
@@ -28,11 +29,20 @@ export default function Comment(props) {
         const[isLiked, setLike] = useState(false)
         const[allLiked, setAllLiked] = useState(null)
         const[likeModal, setLikeModal] = useState(false);
+        const[time, setTime] = useState(null);
        useEffect(()=>{
          getUser();
          GetReplies();
          SetLiked();
        },[props.commentId]);
+       useEffect(()=>{
+        GetTime();
+      },[props.data.timestamp]);
+      
+      async function GetTime(){
+        let a =  await TimeDiff(props.data.timestamp);
+        setTime(a);
+      }
     async function getUser(){
      try{
         await userdb.doc(props.data.user).onSnapshot(snap=>{
@@ -153,15 +163,23 @@ export default function Comment(props) {
                             <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
                         </div>
                         <div className="commenter-content" style={{border : '2px solid white',backgroundColor : '#e6e6e6',borderRadius : '10px',marginLeft : '10px',width : '80%',padding : '5px'}}>
-                          {props.currentUser? 
-                            <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
-                              <text>{user.username}</text>
-                            </Link>
-                            :
-                            <div to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block',color : 'blue'}}>
-                              <text>{user.username}</text>
+                          <div className="user-info">
+                            {props.currentUser? 
+                            <div>
+                              <Link to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block'}}>
+                                <text>{user.username}</text>
+                              </Link>
                             </div>
-                            }
+                              :
+                              <div to={`/user/${props.data.user}`} style={{textDecorationLine:'none',display : 'block',color : 'blue'}}>
+                                <text>{user.username}</text>
+                              </div>
+                              }
+                              <div className="comment-time">
+                                <text>{time}</text>
+                              </div>
+                          </div>
+                          
                           <text style={{fontSize:'15px',whiteSpace:'pre-wrap'}}>{props.data.comment}</text>
                         </div>
                     </div>
