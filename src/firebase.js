@@ -8,14 +8,14 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID
-  };
+};
 
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics
-  const db = firebase.firestore();
-  const userdb = firebase.firestore().collection('users');
-  const auth = firebase.auth();
-  const provider = new firebase.auth.GoogleAuthProvider();
-  const storage = firebase.storage();
-export {auth,userdb,db,storage,provider}
+const app = firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics
+const db = firebase.firestore();
+const userdb = firebase.firestore().collection('users');
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+const storage = firebase.storage();
+export { auth, userdb, db, storage, provider }
 export default app;

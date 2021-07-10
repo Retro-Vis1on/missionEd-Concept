@@ -1,0 +1,188 @@
+.content {
+  box-shadow: 0px 2px 4px lightgray;
+  padding: 30px 50px;
+  border-radius: 6px;
+  margin-bottom: 40px;
+}
+
+.content a,
+.goHome {
+  text-decoration: none;
+  color: black;
+  transition: color 200ms ease-out;
+}
+.goHome span {
+  transition: color 200ms ease-out;
+  font-weight: 600;
+}
+.goHome {
+  margin-bottom: 40px;
+  display: block;
+  font-weight: 500;
+  width: fit-content;
+}
+.content a:hover,
+.goHome:hover span {
+  color: orange;
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+.heading a {
+  width: fit-content;
+}
+.postTitle time {
+  color: rgb(143, 143, 143);
+  font-weight: 600;
+}
+.author {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.author img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: lightgray;
+}
+
+.topBar {
+  display: grid;
+  grid-template-columns: calc(100% - 160px) 160px;
+  justify-content: space-between;
+}
+.topBar :last-child button {
+  width: 160px;
+}
+.postTitle h1 {
+  font-size: 2.4rem;
+  margin-bottom: 7px;
+}
+.postTitle div {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+}
+.content article {
+  font-size: 1.2rem;
+}
+.postActions {
+  margin-top: 30px;
+  font-size: 1.1rem;
+}
+.postActions p {
+  margin-left: 20px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: rgb(175, 175, 175);
+}
+.filterDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.postActions button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  margin-right: 20px;
+  font-weight: 600;
+  color: rgb(175, 175, 175);
+  transition: filter 200ms ease-out;
+}
+.postActions button:hover {
+  filter: brightness(80%);
+}
+.postActions .active {
+  color: orange;
+}
+.postActions .active i {
+  animation: pop 300ms ease-in-out forwards;
+}
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (max-width: 560px) {
+  .content {
+    padding: 30px 25px;
+  }
+  .postTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 10px;
+  }
+  .postTitle h1 {
+    font-size: 1.8rem;
+  }
+  .content * {
+    word-wrap: break-word;
+  }
+  .content article {
+    font-size: 1rem;
+  }
+  .content time {
+    word-break: keep-all;
+    word-wrap: normal;
+  }
+
+  .author {
+    font-size: 0.8rem;
+    column-gap: 10px;
+  }
+
+  .author img {
+    width: 50px;
+    height: 50px;
+  }
+  .filterDiv {
+    position: absolute;
+    right: 30px;
+  }
+  .topBar {
+    grid-template-columns: 100%;
+  }
+  .postActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .postActions button {
+    margin-right: 0;
+    font-size: 1rem;
+  }
+  .postActions p {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 290px) {
+  .content {
+    padding: 15px 15px;
+  }
+  .filterDiv {
+    position: absolute;
+    right: 15px;
+  }
+  .postTitle h1 {
+    font-size: 1.6rem;
+  }
+  .content article {
+    font-size: 0.9rem;
+  }
+}

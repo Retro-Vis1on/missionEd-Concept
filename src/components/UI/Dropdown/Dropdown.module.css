@@ -1,0 +1,60 @@
+.filters {
+  display: none;
+  position: absolute;
+  border-radius: 0px 0px 5px 5px;
+  width: 160px;
+  text-align: end;
+  z-index: 1;
+  box-shadow: 0px 2px 5px lightgray;
+  transition: all 200ms ease-out;
+}
+.filter p:last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+.filters p {
+  color: black;
+  padding: 12px 16px;
+  background-color: white;
+  margin: 0;
+  transition: display 200ms ease-out;
+  font-weight: 500;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+.filter:hover .filters {
+  display: block;
+}
+.filter:hover p:hover {
+  background-color: orange;
+  color: white;
+  transition: background-color 200ms ease-in;
+}
+.filter {
+  height: fit-content;
+  width: fit-content;
+}
+.filterBtn {
+  background-color: white;
+  color: black;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  text-align: end;
+  cursor: pointer;
+  z-index: 100;
+  outline: none;
+}
+@media (max-width: 560px) {
+  .filters,
+  .filter,
+  .filterBtn {
+    text-align: end;
+    width: 110px !important;
+    font-size: 0.9rem;
+  }
+  .filters p {
+    padding: 10px 15px;
+  }
+}

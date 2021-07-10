@@ -1,0 +1,61 @@
+.posts {
+  list-style: none;
+  padding: 0;
+}
+.feedControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 20px;
+}
+.createBtn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.noPosts {
+  color: rgb(143, 143, 143);
+  text-align: center;
+  font-size: 1.3rem;
+  text-align: center;
+}
+.createBtn:hover .add {
+  background-color: orange;
+  color: white;
+}
+.createBtn:hover .Create {
+  background-color: white;
+  color: orange;
+}
+.add {
+  background-color: white;
+  color: orange;
+  border-radius: 50%;
+  width: 34px;
+  height: 33px;
+  display: flex;
+  font-size: 25px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+}
+.Create {
+  width: 158px;
+  font-weight: 600;
+  border-radius: 50px;
+  color: white;
+  background-color: orange;
+  display: flex;
+  padding-right: 10px;
+  justify-content: space-around;
+  align-items: center;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+  height: 44px;
+}
+@media (max-width: 670px) {
+  .Create {
+    width: 120px;
+  }
+}

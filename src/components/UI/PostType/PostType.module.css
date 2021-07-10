@@ -1,0 +1,40 @@
+.tag {
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.tag p {
+  margin: 0;
+}
+.Project {
+  color: rgb(5, 156, 5);
+  background-color: rgba(0, 190, 0, 0.137);
+}
+.General {
+  color: rgb(189, 123, 0);
+  background-color: rgba(255, 166, 0, 0.137);
+}
+.Question {
+  color: rgb(223, 0, 0);
+  background-color: rgba(255, 0, 0, 0.137);
+}
+.Placement {
+  color: rgb(1, 98, 209);
+  background-color: rgba(0, 47, 255, 0.137);
+}
+.Internship {
+  color: rgb(66, 0, 128);
+  background-color: rgba(60, 0, 128, 0.137);
+}
+.Experience {
+  color: rgb(0, 161, 72);
+  background-color: rgba(39, 167, 45, 0.137);
+}
+@media (max-width: 560px) {
+  .tag {
+    font-size: 0.8rem;
+    padding: 6px 3px;
+  }
+}

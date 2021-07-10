@@ -1,0 +1,43 @@
+.userInfo {
+  display: flex;
+}
+.comment {
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 3px lightgray;
+  border-radius: 7px;
+}
+.comment > p {
+  font-size: 1.15rem;
+  margin-left: 10px;
+  font-weight: 500;
+}
+.userInfo img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: lightgray;
+}
+.userInfo a {
+  display: flex;
+  align-items: center;
+}
+.userInfo time {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: rgb(143, 143, 143);
+  font-weight: 600;
+}
+.userInfo p {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  margin-left: 10px;
+}
+@media (max-width: 560px) {
+  .comment {
+    padding: 20px 10px;
+    padding-top: 30px;
+  }
+}
