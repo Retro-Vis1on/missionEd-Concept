@@ -1,42 +1,47 @@
-import React from 'react'
-import { Button } from '@material-ui/core'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
+import { deletePost } from '../../apis/Post'
+import { CachingActions } from '../../redux/CachingSlice'
+import Button from '../UI/Button/Button'
+import LoadingSpinner from '../UI/LoadingSpinner/LoadingSpinner'
+import CustomModal from '../UI/Modal/Modal'
+import classes from './DeletePost.module.css'
+const DeletePost = (props) => {
+    const [isLoading, loadingStateUpdater] = useState(false)
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const postId = useParams().id
+    const saved = (useSelector(state => state.user)).saved
+    const deleteHandler = async () => {
+        try {
+            loadingStateUpdater(true)
+            await deletePost(postId, props.tag)
+            if (saved.saved.includes(postId))
+                await props.saveHandler()
+            if (props.isCached !== -1) {
+                dispatch(CachingActions.deletePost({ index: props.isCached }))
+                dispatch(CachingActions.netPostsUpdater({ type: "delPost", tag: props.tag }))
+            }
+            history.replace('/')
+        }
+        catch (err) {
+            loadingStateUpdater(false)
+            console.log(err)
+        }
+    }
+    return <CustomModal isOpen={props.open} className={classes.modal}>
+        <h2 className={classes.title}>
+            Are you sure you want to delete this post?
+        </h2>
+        {isLoading ?
+            <div style={{ textAlign: "center", marginTop: "10px" }}><LoadingSpinner /></div> :
+            <div className={classes.modalActions}>
+                <Button onClick={props.onClose}>Cancel</Button>
+                <Button onClick={deleteHandler}>Delete</Button>
+            </div>
+        }
 
-export default function DeletePost(props) {
-    return <Dialog
-        open={props.open}
-        onClose={props.onClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-    >
-        <DialogTitle id="alert-dialog-title">Do you really want to delete this post ?</DialogTitle>
-        <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-                The post will permanently remove after delete, do you still want to delete!
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button
-                onClick={props.onClose}
-                color="primary"
-                variant='outlined'>
-                Cancel
-            </Button>
-            <Link to='/' style={{ textDecorationLine: 'none' }}>
-                <Button
-                    onClick={() => props.deleteHandler()}
-                    color="primary"
-                    variant='contained'
-                    disabled={props.isLoading}
-                    autoFocus>
-                    Yes
-                </Button>
-            </Link>
-        </DialogActions>
-    </Dialog>
+    </CustomModal>
 }
+export default DeletePost

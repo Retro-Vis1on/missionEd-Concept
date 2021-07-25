@@ -1,157 +1,93 @@
-import React,{useEffect,useState} from 'react'
-import './Network.css'
-// import {FaPlusSquare} from 'react-icons/fa'
-// import {GiThreeFriends} from 'react-icons/gi'
-// import Profile from './Profile'
-// import {FaInbox} from 'react-icons/fa'
-import {Link} from 'react-router-dom'
+import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getFollowers, getRecommentdations, getUserData } from '../../apis/User'
+import { auth } from '../../firebase'
+import ObjCpy from '../../helpers/ObjCpy'
+import LoadingSpinner from '../UI/LoadingSpinner/LoadingSpinner'
+import classes from './Network.module.css'
 import Profile from './Profile'
-import {userdb} from './../../firebase'
-import {useAuth} from './../../contexts/AuthContext'
-import { Redirect } from 'react-router'
 
-
-export default function Network(){
-     const[activeTab,setActiveTab] = useState('followers');
-     const{currentUser}  = useAuth();
-     const [value, setValue] = React.useState(0);
-     const[allFollowing, setAllFollowing] = useState([]);
-     const[allFollower, setAllFollwer] = useState(null);
-     const[allUsers, setAllUsers] = useState([]);
-     useEffect(()=>{
-       GetFollower();
-       GetAllFollowing();
-       AllUsers();
-      },[])
-
-   async function GetFollower(){
-    try{
-      await userdb.where('following','array-contains-any',[currentUser.uid]).onSnapshot(snap=>{
-         setAllFollwer(snap.docs.map(data=>{return data.id}));
-        })
-    } catch{
-      console.log('something went wrong')
-    }
-   }
-   async function GetAllFollowing(){
-    try{
-      userdb.doc(currentUser.uid).onSnapshot(snap=>{
-        if(snap.exists){
-          setAllFollowing(snap.data().following)
-        }
-      })
-    } catch{
-      console.log('something went wrong!')
-    }
-   }
-   async function AllUsers(){
-     try{
-      userdb.doc(currentUser.uid).get().then(data=>{
-           let a = data.data().following;
-           if(a==undefined){
-               a = [currentUser.uid];
-           }
-           else{
-             a.push(currentUser.uid);
-           }
-           console.log(a);
-            userdb.where('following','array-contains-any',[currentUser.uid]).get().then(data=>{
-              let b = data.docs.map((data)=>{return data.data().username})
-              if(b.length==0){
-                userdb.limit(10).onSnapshot(snap=>{
-                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
-                 }) 
-              } 
-              else{
-                userdb.limit(15).where('username','not-in', b ).onSnapshot(snap=>{
-                  setAllUsers(snap.docs.map(data=>{if(!a.includes(data.id)) return data.id}));
-                 })  
-              }   
-            })
-           
-      })
-     }catch{
-       console.log('something went wrong!')
-     }
-   }
-    return(
-      <div className={'network-page'}>
-        {currentUser==null ? <Redirect to="/welcome"/> : null}
-        <div className='network-category-box'>
-          <div>
-            <button onClick={()=>setActiveTab('followers')} className={activeTab==='followers' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Followers</button>
-            <button onClick={()=>setActiveTab('following')} className={activeTab==='following' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Following</button>
-            <button onClick={()=>setActiveTab('recomended')} className={activeTab==='recomended' ? 'network-category-button network-category-button-active' : 'network-category-button'}>Recommended</button>
-          </div>
-        </div>
-        <div style={{height:'5px'}}>
-        </div>
-        <div className='network-tabs'>
-        <div style={{display:activeTab=='followers'? null:'none'}}>
-          {allFollower==null ?
-              <div className='loading-box'>
-              <p>No one is following you!</p>
-             </div>
-              :
-              <div>
-          {!allFollower.length?
-               <div className='loading-box'>
-               <p>No one is following you!</p>
-              </div>
-              :<div>
-                {allFollower.map(data=>{
-                  return(
-                    <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
-                    <Profile data={data}/>
-                    </Link>
-                  ) 
-                })}
-              </div>
-              }
-              </div>
-           }
-        </div>
-        <div style={{display:activeTab=='following'? null:'none'}}>
-              {allFollowing==null ?
-                      <div className='loading-box'>
-                        <p>you are not following anyone!</p>
-                       </div>
-                :
-                <div>
-                {allFollowing.length==0 ? 
-                   <div className='loading-box'>
-                   <p>you are not following anyone!</p>
-                  </div>
-                :<div>
-                  {allFollowing.map(data=>{
-                    return(
-                      <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
-                      <Profile data={data}/>
-                      </Link>
-                    ) 
-                  })}
-                </div>
-                }
-                 </div>}
-          </div>    
-          <div style={{display:activeTab=='recomended'? null:'none'}}>
-              {!allUsers.length ?
-                      <div className='loading-box'>
-                        <div className='loader'></div>
-                       </div>
-                :
-                <div>
-                  {allUsers.map(data=>{
-                    return(
-                      <Link style={{textDecorationLine:'none'}} to={`/user/${data}`}>
-                      <Profile data={data}/>
-                      </Link>
-                    ) 
-                  })}
-                 </div>}
-          </div> 
-          </div>   
-        </div>
-    );
-  
+const initialState = {
+  following: [],
+  follower: [],
+  recommended: []
 }
+
+const reducer = (state, action) => {
+  const updatedState = ObjCpy(state)
+  if (action.type === "Mount") {
+    updatedState.following = action.following
+    updatedState.follower = action.follower
+    updatedState.recommended = action.recommended
+  }
+  return updatedState
+}
+
+const Network = () => {
+  const followingIds = useSelector(state => state.user).following
+  const username = useSelector(state => state.user).username
+  const [network, dispatcher] = useReducer(reducer, ObjCpy(initialState))
+  const [isLoadingState, loadingStateUpdater] = useState(true)
+  const [networkState, networkStateUpdater] = useState(0)
+
+  const getNetwork = useCallback(async () => {
+    try {
+      let followingData = []
+      let filter = [username]
+      for (let id of followingIds) {
+        const data = await getUserData(id)
+        filter.push(data.username)
+        followingData.push({ data, id })
+      }
+      const followers = await getFollowers(auth.currentUser.uid)
+      const recommends = []
+      const followersData = []
+      for (let follower of followers) {
+        followersData.push({ data: follower.data(), id: follower.id })
+        if (!followingIds.includes(follower.id))
+          recommends.push({ data: follower.data(), id: follower.id })
+        filter.push(follower.data().username)
+      }
+      const extraRecommendations = 10 - recommends.length
+      const newRecommends = await getRecommentdations(filter, extraRecommendations)
+      for (let newRecommend of newRecommends) {
+        recommends.push({ data: newRecommend.data(), id: newRecommend.id })
+      }
+      dispatcher({ type: "Mount", following: followingData, follower: followersData, recommended: recommends })
+      loadingStateUpdater(false)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }, [followingIds, username])
+  useEffect(() => {
+    getNetwork()
+  }, [getNetwork])
+  let mode = null
+  if (networkState === 0) {
+    if (network.follower.length)
+      mode = network.follower.map(follower => <Profile data={follower.data} id={follower.id} key={follower.id} />)
+    else mode = <p className={classes.empty}>You don't have any followers</p>
+  }
+  else if (networkState === 1) {
+    if (network.following.length)
+      mode = network.following.map(following => <Profile data={following.data} id={following.id} key={following.id} />)
+    else mode = <p className={classes.empty}>You're not following anyone</p>
+  }
+  else if (networkState === 2) {
+    if (network.recommended.length)
+      mode = network.recommended.map(recommended => <Profile data={recommended.data} id={recommended.id} key={recommended.id} />)
+    else mode = <p className={classes.empty}>We don't have any recommendations at the moment</p>
+  }
+  return <><div className={classes.networkControls}>
+    <button onClick={networkStateUpdater.bind(this, 0)} className={`${classes.btn} ${networkState === 0 ? classes.activeBtn : ''}`}>Followers</button>
+    <button onClick={networkStateUpdater.bind(this, 1)} className={`${classes.btn} ${networkState === 1 ? classes.activeBtn : ''}`}>Following</button>
+    <button onClick={networkStateUpdater.bind(this, 2)} className={`${classes.btn} ${networkState === 2 ? classes.activeBtn : ''}`}>Discover</button>
+  </div>
+    {isLoadingState ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> : <ul className={classes.network}>
+      {mode}
+    </ul>}
+  </>
+
+}
+export default Network

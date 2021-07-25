@@ -1,86 +1,68 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import './Messages.css'
-import UserCard from './UserCard'
-import { useAuth } from './../../contexts/AuthContext'
-import { db } from './../../firebase'
-import { Redirect } from 'react-router'
-import Chats from './Chats'
-import SearchIcon from '@material-ui/icons/Search';
-export default function Messages() {
-    const { currentUser } = useAuth();
-    const [chatUsers, setChatUsers] = useState(null);
-    const [chatMessages, setChatMessages] = useState(null);
-    const [activeUser, setActiveUser] = useState(null);
-    const [chatId, setChatId] = useState(null);
-    const [ischatOpen, setChatOpen] = useState(false);
-
-    const GetUsers = useCallback(async () => {
-        if (currentUser) {
-            db.collection('chats').where('users', 'array-contains-any', [currentUser.uid]).onSnapshot(snap => {
-                setChatUsers(snap.docs.map(data => { return { id: data.id, data: data.data() } }));
-            })
-        }
-
-    }, [currentUser])
+import { useCallback, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { getUsers } from "../../apis/Chats"
+import LoadingSpinner from "../UI/LoadingSpinner/LoadingSpinner"
+import User from "./User"
+import Chat from "./Chat"
+import classes from './Messages.module.css'
+import ObjCpy from "../../helpers/ObjCpy"
+import useWindowDimensions from '../../hooks/useWindowDimensions'
+let messages = []
+const Messages = (props) => {
+    const [chats, chatsUpdater] = useState(null)
+    const [curChat, curChatUpdater] = useState(null)
+    const { width } = useWindowDimensions()
+    const cachedAuthors = useSelector(state => state.cache).authorData
+    const messagesAllocator = (data) => { messages = ObjCpy(data) }
+    const GetUsers = useCallback(() => {
+        let newPartner = null
+        if (props.location.state && props.location.state.partner)
+            newPartner = props.location.state.partner
+        getUsers(chatsUpdater, cachedAuthors, messagesAllocator, messages, newPartner)
+        if (newPartner)
+            curChatUpdater({ id: -1, partner: props.location.state.partner })
+    }, [cachedAuthors, props.location.state])
+    const updateCache = (updatedChat) => {
+        const indi = messages.findIndex(message => message.id === updatedChat.id)
+        if (indi === -1)
+            messages.push(updatedChat)
+        else
+            messages[indi] = updatedChat
+    }
+    const onConnect = (id, unsub) => {
+        let prevState = ObjCpy(messages)
+        const indi = prevState.findIndex(message => message.id === id)
+        prevState[indi].unsub = unsub
+        messages = ObjCpy(messages)
+    }
+    const changeChatHandler = (newId) => {
+        if (curChat)
+            updateCache(curChat)
+        curChatUpdater(messages.find(message => message.id === newId))
+    }
     useEffect(() => {
-        GetUsers();
+        GetUsers()
     }, [GetUsers])
-    async function SetChatBox(data) {
-        let id = currentUser.uid === data.data.users[0] ? data.data.users[1] : data.data.users[0];
-        setActiveUser(id);
-        ChatMessages(data.id)
-    }
-    async function ChatMessages(chatId) {
-        setChatId(chatId)
-        try {
-            db.collection(`chats/${chatId}/messages`).orderBy('timestamp', 'asc').onSnapshot(snap => {
-                setChatMessages(snap.docs.map(data => data.data()));
-            })
-        } catch {
-            console.log('something went wrong')
-        }
-        setChatOpen(true)
-    }
-    const handleLeftMenu = () => {
-        setChatOpen(!ischatOpen)
-    }
-
-    return (
-        <div className='message-page'>
-            {currentUser == null && <Redirect to='./welcome' />}
-            <div className='message-card'>
-                <div className={!ischatOpen ? 'chat-users-section' : 'chat-users-section chat-users-section-close'}>
-                    <div className='chat-user-heading'>
-
-                        <SearchIcon style={{ fontSize: '32px', color: 'black' }} />
-                        <input placeholder={'Search'} />
-                    </div>
-                    <div className='chat-usercards' style={{ backgroundColor: 'white' }}>
-                        {chatUsers == null ?
-                            <div className='loading-box'>
-                                <div className='loader'></div>
-                            </div>
-                            :
-                            <div>
-                                {currentUser ? chatUsers.map(data => {
-                                    let id = currentUser.uid === data.data.users[0] ? data.data.users[1] : data.data.users[0];
-                                    return (
-                                        <div style={{ backgroundColor: activeUser === id ? 'rgba(0,0,0,0.08)' : null }} onClick={() => SetChatBox(data)}>
-                                            <UserCard data={data.data} />
-                                        </div>
-                                    );
-                                }) : null}
-                            </div>}
-                    </div>
-                </div>
-                <div className={ischatOpen ? 'message-section' : 'message-section message-section-mobile'}>
-                    {chatMessages == null ?
-                        <div></div>
-                        :
-                        <Chats chatMessages={chatMessages} chatId={chatId} id={activeUser} actions={() => handleLeftMenu()} />
-                    }
-                </div>
+    if (chats === null)
+        return <div style={{ textAlign: "center" }}><LoadingSpinner /></div>
+    if (width > 670)
+        return <div className={classes.chatWindow}>
+            <div className={classes.chatsDiv}>
+                <h2>Chats</h2>
+                <ul className={classes.chats}>
+                    {chats.map(chat => <User key={chat.id} {...chat} onClick={changeChatHandler.bind(this, chat.id)} isActive={curChat && chat.id === curChat.id} />)}
+                </ul>
             </div>
+            {
+                curChat ? <Chat {...curChat} curChatUpdater={curChatUpdater} updateCache={updateCache} onConnect={onConnect} /> : null
+            }
         </div>
-    )
+    return !curChat ? <div className={classes.chatsDiv}>
+        <h2>Chats</h2>
+        <ul className={classes.chats}>
+            {chats.map(chat => <User key={chat.id} {...chat} onClick={changeChatHandler.bind(this, chat.id)} isActive={curChat && chat.id === curChat.id} />)}
+        </ul>
+    </div > : <Chat {...curChat} curChatUpdater={curChatUpdater} updateCache={updateCache} onConnect={onConnect} backToMenu={changeChatHandler.bind(this, null)} />
+
 }
+export default Messages

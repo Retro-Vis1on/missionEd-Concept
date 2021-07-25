@@ -15,6 +15,12 @@
   transition: color 200ms ease-out;
   font-weight: 600;
 }
+.article {
+  word-wrap: break-all;
+}
+.article a {
+  text-decoration: underline;
+}
 .goHome {
   margin-bottom: 40px;
   display: block;
@@ -38,6 +44,27 @@
   color: rgb(143, 143, 143);
   font-weight: 600;
 }
+.article * {
+  overflow-wrap: break-word;
+}
+
+.article table *,
+.article table,
+.article tbody {
+  width: auto !important;
+  overflow-y: auto !important;
+}
+.article table img {
+  object-fit: cover !important;
+}
+.article td {
+  overflow-wrap: break-word;
+}
+.article tr {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .author {
   display: flex;
   align-items: center;
@@ -74,13 +101,23 @@
   font-size: 1.2rem;
 }
 .postActions {
+  display: flex;
+  column-gap: 10px;
+  align-items: flex-end;
   margin-top: 30px;
   font-size: 1.1rem;
 }
-.postActions p {
-  margin-left: 20px;
+.error {
+  padding: 18px 20px;
+  text-align: center;
+  color: rgb(129, 129, 129);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.likeCount {
   margin-bottom: 5px;
   font-weight: 500;
+  display: block;
   color: rgb(175, 175, 175);
 }
 .filterDiv {
@@ -159,15 +196,14 @@
     grid-template-columns: 100%;
   }
   .postActions {
-    display: flex;
+    column-gap: 0;
     justify-content: space-between;
-    align-items: flex-end;
   }
   .postActions button {
     margin-right: 0;
     font-size: 1rem;
   }
-  .postActions p {
+  .likeCount {
     font-size: 1rem;
   }
 }

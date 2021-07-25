@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import {db} from '../firebase'
+import { db } from '../firebase'
 //condition for notification 
 // 1. getting coins by commenting , creating post, messsaging someone
 // 2. when someone started following you
@@ -10,48 +10,48 @@ import {db} from '../firebase'
 //     {msg:'hey you get 5 coins for messaging'},
 //     {msg:'Started following you!'},
 // ]
-export async function UpdateNotificationForCoins(uid, coins, reason){
-    try{
-       await db.collection(`users/${uid}/notifications`).add({
-           msg: `hey you got ${coins} coins for ${reason}`,
-           seen:false,
-           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-           coins:true,
-       })
+export async function UpdateNotificationForCoins(uid, coins, reason) {
+    try {
+        await db.collection(`users/${uid}/notifications`).add({
+            msg: `Hey, you got ${coins} coins for ${reason}`,
+            seen: false,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            coins: true,
+        })
     }
-    catch{
+    catch {
         console.log('error in updating coins');
         return 'error in updating coins'
     }
 }
 
-export async function UpdateNotificationForFollowers(uid, username, uid2){
-    try{
-       await db.collection(`users/${uid2}/notifications`).add({
-           msg: `started following you`,
-           seen:false,
-           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-           coins:false,
-           follower: uid,
-       })
+export async function UpdateNotificationForFollowers(uid, username, uid2) {
+    try {
+        await db.collection(`users/${uid2}/notifications`).add({
+            msg: `started following you`,
+            seen: false,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            coins: false,
+            follower: uid,
+        })
     }
-    catch{
+    catch {
         console.log('error in updating coins');
         return 'error in updating coins'
     }
 }
 
-export async function NotificationForLike(uid, uid2){
-    try{
-       await db.collection(`users/${uid2}/notifications`).add({
-           msg: `Liked your Post !`,
-           seen:false,
-           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-           coins:false,
-           follower: uid,
-       })
+export async function NotificationForLike(uid, uid2) {
+    try {
+        await db.collection(`users/${uid2}/notifications`).add({
+            msg: `liked your post!`,
+            seen: false,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            coins: false,
+            follower: uid,
+        })
     }
-    catch{
+    catch {
         console.log('error in updating coins');
         return 'error in updating coins'
     }

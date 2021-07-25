@@ -1,0 +1,107 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 17px;
+}
+.credentials {
+  display: flex;
+  column-gap: 5px;
+}
+.starDiv {
+  text-align: center;
+}
+.credentials :first-child {
+  border-radius: 20px 0px 0px 20px;
+}
+.credentials :last-child {
+  border-radius: 0px 20px 20px 0px;
+}
+.formActions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  column-gap: 5px;
+  align-items: center;
+}
+.formActions button {
+  width: calc(100% - 15px);
+}
+.formActions :first-child {
+  border-radius: 10px 0 0 10px;
+}
+.formActions :last-child {
+  border-radius: 0px 10px 10px 0px;
+}
+.star {
+  background-color: transparent;
+  border: none;
+  font-size: 1.7rem;
+  color: lightgray;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+}
+.unMarked {
+  color: rgba(255, 0, 0, 0.425);
+}
+.activeStar {
+  color: orange;
+}
+.heading {
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.form textarea {
+  border: none;
+  border-bottom: 2px solid transparent;
+  outline: none;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif1;
+  font-size: 1.2rem;
+  background-color: rgba(223, 223, 223, 0.432);
+  border-radius: 17px;
+  transition: background-color 200ms ease-out !important;
+  transition: border-color 200ms ease-out;
+  transition: color 200ms ease-out;
+}
+
+.heading span {
+  color: orange;
+}
+.form textarea:hover,
+.form textarea:focus {
+  background-color: white;
+  border-bottom: 2px solid orange;
+}
+.form textarea::placeholder {
+  color: rgba(143, 143, 143, 0.61);
+}
+.form textarea.invalid {
+  background-color: rgba(255, 0, 0, 0.425);
+  border-color: red;
+}
+.form textarea.invalid:hover,
+.form textarea.invalid:focus {
+  background-color: rgba(233, 0, 0, 0.719);
+  color: white;
+}
+.form button {
+  padding: 12px 15px;
+}
+
+@media (max-width: 670px) {
+  .modal {
+    width: calc(100% - 35px);
+
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .heading {
+    font-size: 1.45rem;
+  }
+  .star {
+    font-size: 1.5rem;
+  }
+}

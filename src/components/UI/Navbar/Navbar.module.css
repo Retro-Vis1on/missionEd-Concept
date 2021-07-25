@@ -1,0 +1,192 @@
+.nav {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  z-index: 50;
+  color: orange;
+  transition: color 200ms ease-out, background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+.nav.active {
+  color: white;
+  background-color: orange;
+  box-shadow: 0 1px 4px darkgray;
+}
+.brand {
+  display: flex;
+  padding-left: 30px;
+}
+.brand h1 {
+  font-size: 1.8rem;
+  margin: 10px 0;
+}
+.brand img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+.links {
+  display: flex;
+  padding-right: 30px;
+  column-gap: 20px;
+}
+.links i {
+  font-size: 1.6rem;
+}
+.link {
+  text-align: center;
+  transition: filter 200ms ease-out, color 200ms ease-out;
+  text-decoration: none;
+  font-weight: 500;
+  color: rgb(175, 175, 175);
+}
+
+.link p {
+  margin: 0;
+  margin-top: 3px;
+}
+.btn {
+  background-color: transparent;
+  color: rgb(175, 175, 175);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: filter 200ms ease-out, color 200ms ease-out;
+}
+.btn:hover,
+.link:hover,
+.notifications:hover p {
+  filter: brightness(90%);
+  cursor: pointer;
+}
+
+.btn p {
+  font-size: 1.1rem;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.hasNotifi {
+  color: red;
+}
+.link.active,
+.btn.active {
+  color: white;
+}
+.activeLink {
+  color: orange !important;
+}
+.activeLink.active {
+  filter: brightness(80%);
+}
+.profilePic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: lightgray;
+}
+.profilePic img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.notifications:hover {
+  filter: brightness(100%);
+}
+.filters {
+  display: none;
+  position: absolute;
+  border-radius: 0px 0px 5px 5px;
+  width: 300px;
+  text-align: end;
+  z-index: 1;
+  list-style: none;
+  background-color: white;
+  max-height: 440px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  margin-left: 60px;
+  top: 75px;
+  box-shadow: 0px 2px 5px lightgray;
+  transition: all 200ms ease-out;
+}
+.filters > :last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+.filters li {
+  color: black;
+  padding: 12px 16px;
+  background-color: white;
+  margin: 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: block;
+  transition: background-color 200ms ease-in, color 200ms ease-out;
+}
+.notifications:hover + .filters,
+.filters:hover {
+  display: block;
+}
+.seen {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  font-weight: 600;
+  padding: 10px;
+}
+.seeAll a {
+  text-decoration: none;
+  color: black;
+  transition: color 200ms ease-out;
+}
+.seen:hover {
+  color: orange;
+}
+.seeAll:hover {
+  background-color: orange;
+  color: white;
+  cursor: pointer;
+}
+.seeAll:hover a {
+  color: white;
+  cursor: pointer;
+}
+.message {
+  display: flex;
+  column-gap: 5px;
+  text-align: start;
+  align-items: center;
+}
+.message a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  transition: color 200ms ease-out;
+}
+.message a:hover {
+  color: orange;
+}
+.message img {
+  width: 40px;
+  height: 40px;
+  background-color: lightgray;
+  border-radius: 50%;
+}
+@media (max-width: 760px) {
+  .links i {
+    font-size: 1.4rem;
+  }
+  .links {
+    padding-right: 15px;
+    column-gap: 10px;
+  }
+  .brand {
+    padding-left: 15px;
+  }
+}

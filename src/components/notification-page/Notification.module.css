@@ -1,0 +1,65 @@
+.notifications {
+  list-style: none;
+  padding: 0;
+}
+.content h2 {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.content a {
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 200ms ease-out;
+}
+.content img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: lightgray;
+}
+.empty {
+  padding: 18px 20px;
+  text-align: center;
+  color: rgb(129, 129, 129);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.notification {
+  padding: 15px 20px;
+  color: darkgray;
+  display: flex;
+  width: calc(100% - 30px);
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 5px rgb(221, 221, 221);
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+.notification a {
+  color: darkgray;
+}
+.message a:hover {
+  color: orange;
+}
+.message {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.new h2,
+.new a {
+  color: black !important;
+}
+@media (max-width: 670px) {
+  .notification {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+  }
+  .content {
+    font-size: 1.1rem;
+  }
+  .notification button {
+    width: 100%;
+  }
+}

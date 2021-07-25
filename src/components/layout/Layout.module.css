@@ -2,13 +2,22 @@
   padding-top: 100px;
   width: 76%;
   margin: 0 auto;
+  min-height: 201px;
 }
-@media (max-width: 770px) {
+.noPadding {
+  padding: 0;
+}
+@media (max-width: 670px) {
+  .main {
+    padding-top: 20px;
+  }
+}
+@media (max-width: 870px) {
   .main {
     width: 90%;
   }
 }
-@media (max-width: 560px) {
+@media (max-width: 780px) {
   .main {
     width: 93%;
   }

@@ -1,0 +1,153 @@
+.footer {
+  background-color: rgb(49, 49, 49);
+  padding: 30px 80px;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.noMargin {
+  margin-bottom: 0 !important;
+}
+.footer > p {
+  margin: 0;
+  text-align: end;
+  color: white;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  align-items: center;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.info h2 {
+  font-size: 1.8rem;
+  margin: 5px 0px;
+}
+.info p {
+  margin: 0;
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+}
+.name :nth-child(2) {
+  margin-top: 15px;
+}
+.name :last-child {
+  margin-bottom: 15px;
+}
+.links {
+  display: grid;
+  height: 137px;
+  grid-template-columns: 49% 49%;
+}
+.communication a {
+  text-decoration: none;
+  color: rgb(255, 136, 0);
+  font-size: 1.8rem;
+  padding: 10px;
+  outline: none;
+  transition: color 200ms ease-out;
+}
+.communication :first-child {
+  padding-left: 0px;
+}
+.communication a:hover,
+.communication a:focus {
+  color: white;
+}
+.links a {
+  overflow: hidden;
+  position: relative;
+  padding: 0.4em 0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  height: 100%;
+  font-weight: 500;
+  color: white;
+  outline: none;
+  transition: color 200ms ease-out;
+}
+.links a:hover,
+.links a:focus {
+  color: rgb(255, 136, 0);
+}
+.forms {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  row-gap: 20px;
+  width: 35%;
+  height: 100%;
+}
+.subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+.subscribe input {
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+  color: rgb(233, 233, 233);
+}
+.subscribe input::placeholder {
+  color: rgba(255, 255, 255, 0.61);
+}
+.subscribe button {
+  border: none;
+  padding-top: 12.5px;
+  padding-bottom: 11px;
+  border-radius: 0px 20px 20px 0;
+  align-items: center;
+}
+.centeredDiv {
+  margin: 0 auto;
+}
+.thankyou {
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  height: 50px;
+  align-items: center;
+}
+.thankyou span {
+  color: rgb(255, 136, 0);
+}
+@media (max-width: 920px) {
+  .footer {
+    padding: 30px 32px;
+  }
+  .communication a {
+    font-size: 1.45rem;
+  }
+}
+@media (max-width: 670px) {
+  .footer {
+    margin-bottom: 45px;
+  }
+}
+@media (max-width: 750px) {
+  .content {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 20px;
+    text-align: center;
+  }
+  .content div {
+    width: 100%;
+    row-gap: 10px;
+  }
+  .communication {
+    text-align: center;
+  }
+  .communication a {
+    font-size: 1.7rem;
+  }
+  .footer > p {
+    text-align: center;
+  }
+}

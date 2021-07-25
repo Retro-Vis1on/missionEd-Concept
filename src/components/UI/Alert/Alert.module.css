@@ -1,0 +1,9 @@
+.alert h2 {
+  font-weight: 400;
+}
+.alert {
+  text-align: center;
+}
+.alert button {
+  width: 80%;
+}

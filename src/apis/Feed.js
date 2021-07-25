@@ -50,15 +50,49 @@ export const getFeed = async (tag, changeFilter, dispatch, cache) => {
             else
                 dispatch(CachingActions.updateCache({ posts: newData, authors }))
         }
+
     }
     catch (err) {
         throw err
     }
 }
+
+export const createNewPost = async (data) => {
+    try {
+        const response = await db.collection('posts').add(data)
+        let tags = {
+            all: firebase.firestore.FieldValue.increment(+1)
+        }
+        tags[data.tag] = firebase.firestore.FieldValue.increment(+1)
+        await db.collection('counts').doc('posts').update({ ...tags })
+        return response.id
+    }
+    catch (err) {
+        throw err
+    }
+
+}
+
 export const getNetCount = async (dispatch) => {
     try {
         const count = await db.collection('counts').doc('posts').get()
         dispatch(CachingActions.netPostsUpdater({ type: "firstRun", value: count.data() }))
+    }
+    catch (err) {
+        throw err
+    }
+}
+export const sendFeedback = async (data) => {
+    try {
+        await db.collection('feedbacks').add(data)
+    }
+    catch (err) {
+        throw err
+    }
+}
+export const newsletterSub = async (email) => {
+    try {
+        await db.collection('newsletterSub').doc().set({ email })
     }
     catch (err) {
         throw err

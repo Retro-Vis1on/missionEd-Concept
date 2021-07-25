@@ -1,0 +1,26 @@
+.modalActions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  column-gap: 10px;
+  justify-content: center;
+}
+.modalActions button {
+  width: 40%;
+}
+.modalActions :first-child {
+  border-radius: 10px 0 0 10px;
+}
+.modalActions :last-child {
+  border-radius: 0 10px 10px 0;
+}
+.title {
+  text-align: center;
+  font-weight: 500;
+}
+@media (max-width: 670px) {
+  .modal {
+    width: calc(96% - 70px);
+  }
+}

@@ -1,0 +1,88 @@
+.modal {
+  width: 60%;
+}
+.title {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.title span {
+  color: orange;
+}
+.vanillaInput {
+  display: grid;
+  grid-template-columns: 73% 25%;
+  column-gap: 7px;
+  margin-bottom: 10px;
+}
+.vanillaInput input {
+  border-radius: 20px 0 0 20px;
+}
+.vanillaInput select {
+  border-radius: 0px 20px 20px 0px;
+}
+.formActions {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  column-gap: 10px;
+  justify-content: center;
+}
+.formActions button {
+  width: 40%;
+}
+.formActions :first-child {
+  border-radius: 10px 0 0 10px;
+}
+.formActions :last-child {
+  border-radius: 0 10px 10px 0;
+}
+.textarea {
+  border-bottom: 2px solid transparent;
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.invalid {
+  border-color: rgba(255, 0, 0, 0.808);
+  box-shadow: 0px 10px 8px -5px rgb(255, 0, 0);
+}
+
+@media (max-width: 1024px) {
+  .vanillaInput {
+    padding: 0 5px;
+    grid-template-columns: 100%;
+    row-gap: 10px;
+  }
+  .vanillaInput select,
+  .vanillaInput input {
+    border-radius: 20px;
+  }
+  .modal {
+    width: 80%;
+  }
+}
+@media (max-width: 678px) {
+  .modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+  }
+  .title {
+    margin-bottom: 10px;
+  }
+  .formActions {
+    margin-top: 15px;
+  }
+}
+@media (max-height: 568px) {
+  .title {
+    font-size: 2rem;
+  }
+  .modal {
+    justify-content: flex-start;
+  }
+}

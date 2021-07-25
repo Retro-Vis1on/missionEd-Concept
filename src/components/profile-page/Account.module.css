@@ -1,0 +1,96 @@
+.title {
+  text-align: center;
+}
+.title span {
+  color: orange;
+}
+.intro {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+}
+.imageAndControls {
+  text-align: center;
+}
+.imageControls {
+  margin-top: 10px;
+}
+.imageAndControls button {
+  border-radius: 20px;
+}
+.confirm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+}
+.confirm :first-child {
+  width: 35%;
+  border-radius: 20px 0 0 20px;
+}
+.confirm :last-child {
+  width: 35%;
+  border-radius: 0px 20px 20px 0px;
+}
+.image {
+  border-radius: 50%;
+}
+.image img {
+  border-radius: 50%;
+  width: 140px;
+  height: 140px;
+  background-color: lightgray;
+}
+.identity h2 {
+  margin: 0;
+}
+.identity span {
+  color: orange;
+}
+.identity i {
+  color: rgb(131, 131, 131);
+  font-size: 1.2rem;
+}
+.infoActions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.infoActions :first-child {
+  border-radius: 20px 0 0 20px;
+}
+.infoActions :nth-child(2) {
+  border-radius: 0;
+}
+.infoActions :last-child {
+  border-radius: 0px 20px 20px 0px;
+}
+.details * {
+  font-weight: 500;
+}
+.details span {
+  color: orange;
+  display: block;
+  font-weight: 600;
+}
+
+.empty {
+  color: lightgray;
+}
+@media (max-width: 670px) {
+  .intro {
+    grid-template-columns: 100%;
+    text-align: center;
+    row-gap: 10px;
+  }
+  .infoActions {
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .infoActions button {
+    border-radius: 20px !important;
+    width: 60%;
+  }
+}

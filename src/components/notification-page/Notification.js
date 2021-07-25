@@ -1,63 +1,25 @@
-import React,{ useState, useEffect, useRef} from 'react'
-import './Notification.css'
-import {userdb, db} from './../../firebase';
-import CoinLogo from './../../assets/coin.svg' 
-import {useAuth} from './../../contexts/AuthContext'
-import {animate, motion} from 'framer-motion'
-import NotificationItem from './Notification-Item'
-import { Redirect } from 'react-router';
-
- export default function Notification() {
-    const {currentUser} = useAuth();
-    const [numberNote, setNumberNote] = useState(0);
-    const [notifications, setNotifications] = useState(null);
-    
-    useEffect(()=>{
-        GetNotificationCount();
-        GetNotification();
-      },[])
-      
-      async function GetNotificationCount(){
-        try{
-            db.collection(`users/${currentUser.uid}/notifications`).where('seen','==', false).onSnapshot(snap=>{
-               setNumberNote(snap.docs.length);
-            })
-        }catch{
-          console.log('something went wrong!')
-        }
-      }
-    
-    
-      async function GetNotification(){
-        try{
-            db.collection(`users/${currentUser.uid}/notifications`).orderBy('timestamp','desc').onSnapshot(snap=>{
-               setNotifications(snap.docs.map((data)=>{return {id: data.id ,data:data.data()}}));
-            })
-        }catch{
-          console.log('something went wrong!')
-        }
-      }
-       
-     return (
-         <div className='notification-page'>
-           {currentUser==null ? <Redirect to="/welcome"/> : null}
-           <div className='notification-section'>
-           
-            {notifications==null?
-                      <div className={'loading-box'}>
-                        <div className={'loader'}></div>
-                      </div>
-                        :
-                      <div>
-                        {notifications.map((data)=>{
-                          return(
-                            <NotificationItem data={data.data} id={data.id}/>
-                          );
-                        })}
-                      </div>
-                    }
-           </div>
-         </div>
-     )
- }
- 
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+import { markAsSeen } from "../../apis/User"
+import NotificationItem from "./Notification-Item"
+import classes from './Notification.module.css'
+let isMounted = true
+const Notifications = () => {
+  useEffect(() => {
+    isMounted = true
+    return () => isMounted = false
+  }, [])
+  const { notifications, unseen } = useSelector(state => state.notifications)
+  useEffect(() => {
+    return () => {
+      if (!isMounted)
+        markAsSeen(unseen)
+    }
+  }, [unseen])
+  if (!notifications.length)
+    return <p className={classes.empty}>You have no notifications</p>
+  return <ul className={classes.notifications}>
+    {notifications.map(notification => <NotificationItem {...notification} key={notification.id} />)}
+  </ul>
+}
+export default Notifications

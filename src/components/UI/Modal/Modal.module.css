@@ -1,0 +1,67 @@
+.modal {
+  position: fixed;
+  width: 45%;
+  background-color: white;
+  padding: 35px 35px;
+  border-radius: 7px;
+  left: 50%;
+  top: 100%;
+  opacity: 0;
+  animation: open 250ms ease-out forwards;
+  transform: translate(calc(-50% + 0.5px), calc(-50% + 0.5px));
+  z-index: 101;
+  overflow: auto;
+  max-height: calc(100vh - 70px);
+}
+.overlay {
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  animation: openOverlay 250ms ease-out forwards;
+}
+@keyframes openOverlay {
+  0% {
+    backdrop-filter: brightness(100%);
+  }
+  100% {
+    backdrop-filter: brightness(30%);
+  }
+}
+.closeModal {
+  animation: close 250ms ease-out forwards;
+}
+.closeOverlay {
+  animation: closeOverlayAnim 250ms ease-out forwards;
+}
+@keyframes closeOverlayAnim {
+  0% {
+    backdrop-filter: brightness(30%);
+  }
+  100% {
+    backdrop-filter: brightness(100%);
+  }
+}
+@keyframes open {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    top: 50%;
+    opacity: 1;
+  }
+}
+@keyframes close {
+  0% {
+    top: 50%;
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}

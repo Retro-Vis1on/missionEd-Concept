@@ -25,6 +25,9 @@
 .commentForm input:focus {
   border-color: orange;
 }
+.invalid {
+  border-color: red;
+}
 .commentForm button {
   background-color: transparent;
   border: 2px solid transparent;

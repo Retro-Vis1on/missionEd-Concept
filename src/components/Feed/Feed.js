@@ -1,28 +1,23 @@
 
 import classes from './Feed.module.css'
-import { useAuth } from './../../contexts/AuthContext'
-import Feedback from './../Navigation/FeedBack'
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getFeed, getNetCount } from '../../apis/Feed';
-import { useHistory } from 'react-router-dom';
-import CenteredSpinner from '../UI/LoadingSpinner/CenteredLoader'
 import FeedItem from './FeedItem';
 import LoadingSpinner from '../UI/LoadingSpinner/LoadingSpinner';
 import { useDispatch, useSelector } from 'react-redux'
 import Dropdown from '../UI/Dropdown/Dropdown';
 import useWindowDimensions from '../../hooks/useWindowDimensions'
+import Button from '../UI/Button/Button';
+import CreatePost from './CreatePost';
 let firstRun = true
-let isSent = false
 let isSwitch = false
 export default function Feed() {
-  const history = useHistory()
   const { width } = useWindowDimensions()
-  const { currentUser } = useAuth();
   const dispatch = useDispatch()
   const [isLoading, loadingStateUpdater] = useState(false)
+  const [openNewPost, openStateUpdater] = useState(false)
   const [tag, tagUpdater] = useState('all')
   const cache = useSelector(state => state.cache)
-  const loader = useRef(null)
   const netCount = useCallback(async () => {
     try {
       await getNetCount(dispatch)
@@ -58,44 +53,14 @@ export default function Feed() {
     tagUpdater(newTag)
     await getPageData(true, newTag)
   }
-  const handleObserver = useCallback(async (entities) => {
-    const target = entities[0];
-    if (target.isIntersecting && (cache.posts.length < cache.netPosts[tag]) && !isSent) {
-      isSent = true
-      await getPageData(false, tag)
-      isSent = false
-    }
-  }, [getPageData, cache.posts.length, cache.netPosts, tag])
-  let observerSpan = null
-  if (!isLoading && cache.posts.length < cache.netPosts[tag] && !firstRun)
-    observerSpan = <span
-      id="observer"
-      ref={loader}
-    />
-  else {
-    observerSpan = null
-    loader.current = null
-  }
-  useEffect(() => {
-    let options = {
-      root: null,
-      rootMargin: "20px",
-      threshold: 1
-    };
-    const observer = new IntersectionObserver(handleObserver, options);
-    if (loader.current) {
-      observer.observe(loader.current)
-    }
-  }, [handleObserver, observerSpan, isLoading]);
-  if (!currentUser)
-    history.replace('/welcome')
   if (firstRun)
-    return <CenteredSpinner />
+    return null
   return (
     <>
+      <CreatePost isOpen={openNewPost} onClose={openStateUpdater.bind(this, false)} />
       <div className={classes.feedControls}>
         <Dropdown text="Filter by Categ." filters={["Show All", "General", "Internship", "Experience", "Placement", "Question"]} onClick={tagUpdaterHandler} />
-        <button className={classes.createBtn} >
+        <button className={classes.createBtn} onClick={openStateUpdater.bind(this, true)}>
           <div className={classes.Create}>
             <div className={classes.add}>+</div>
             {width > 670 ? "Create" : ""} New Post
@@ -111,10 +76,9 @@ export default function Feed() {
               }
             </ul> : !firstRun && !isLoading && <p className={classes.noPosts}>There are no posts available</p>
         }
-        {isLoading ? <div style={{ textAlign: "center", padding: "10px 0" }}><LoadingSpinner /></div> : observerSpan}
+        {cache.posts.length < cache.netPosts[tag] ? <div className={classes.loadMore}>{(isLoading ? <LoadingSpinner /> : <Button onClick={() => getPageData(false, tag)}>Load More</Button>)}</div> : null}
       </>
       }
-      {/* <Feedback /> */}
     </>
   );
 }

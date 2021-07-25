@@ -1,6 +1,7 @@
 .tag {
   text-align: center;
   border-radius: 5px;
+  width: 85px;
   padding: 8px 5px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -31,6 +32,18 @@
 .Experience {
   color: rgb(0, 161, 72);
   background-color: rgba(39, 167, 45, 0.137);
+}
+@media (max-width: 830px) {
+  .tag {
+    width: 65px;
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 670px) {
+  .tag {
+    width: 85px;
+    font-size: 0.9rem;
+  }
 }
 @media (max-width: 560px) {
   .tag {

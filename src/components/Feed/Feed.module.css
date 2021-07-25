@@ -54,8 +54,18 @@
   transition: color 200ms ease-out, background-color 200ms ease-out;
   height: 44px;
 }
+.loadMore {
+  text-align: center;
+  padding: 10px 0;
+}
+.loadMore button {
+  width: 70%;
+}
 @media (max-width: 670px) {
   .Create {
     width: 120px;
+  }
+  .feedControls {
+    column-gap: 10px;
   }
 }

@@ -1,0 +1,45 @@
+.bubble {
+  border-radius: 10px;
+  background: orange;
+  color: #fff;
+  padding: 5px 15px;
+  font-weight: 600;
+  font-family: arial;
+  position: relative;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  word-wrap: break-word;
+}
+
+.user {
+  text-align: end;
+  align-self: flex-end;
+  margin-right: 10px;
+}
+.partner {
+  margin-left: 10px;
+}
+.user:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid orange;
+  border-right: 10px solid transparent;
+  border-top: 10px solid orange;
+  border-bottom: 10px solid transparent;
+  right: -8px;
+  top: 0px;
+}
+.partner:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid orange;
+  border-top: 10px solid orange;
+  border-bottom: 10px solid transparent;
+  left: -8px;
+  top: 0px;
+}

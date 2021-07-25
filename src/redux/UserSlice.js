@@ -1,19 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
+import ObjCpy from "../helpers/ObjCpy";
+const InitialUserState = {
+    bio: null,
+    coins: 0,
+    education: null,
+    email: null,
+    following: [],
+    location: null,
+    name: null,
+    profile_image: null,
+    saved: [],
+    applied: [],
+    interested_products: [],
+    is_recruiter: false,
+    looking_for: [],
+    username: null,
+    isLoggedIn: -1
+}
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        bio: null,
-        coins: 0,
-        education: null,
-        email: null,
-        following: [],
-        location: null,
-        name: null,
-        profile_image: null,
-        saved: [],
-        username: null
-    },
+    initialState: ObjCpy(InitialUserState),
     reducers: {
+        onLoad(state, action) {
+            state.isLoggedIn = true
+        },
         userLogin(state, action) {
             for (let field in state) {
                 if (action.payload[field])
@@ -21,11 +31,11 @@ const userSlice = createSlice({
             }
         },
         userLogout(state, action) {
+            const freshState = ObjCpy(InitialUserState)
             for (let field in state) {
-                if (field === "following" || field === "saved")
-                    state[field] = []
-                else state[field] = null
+                state[field] = freshState[field]
             }
+            state.isLoggedIn = false
         },
         userDataUpdater(state, action) {
             for (let field in state) {

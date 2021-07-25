@@ -1,50 +1,73 @@
-// import Welcome from './components/welcome-page/Welcome'
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthProvider } from './contexts/AuthContext';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Welcome from './components/welcome-page/Welcome'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Home from './components/home-page/Home'
 import Layout from './components/layout/Layout';
-// import Navigation from './components/Navigation/Navigation'
-// import Network from './components/network/Network'
-// import Profile from './components/profile-page/Profile'
-// import Messages from './components/chat-page/Messages'
+import Network from './components/network/Network'
+import Profile from './components/profile-page/Profile'
+import Account from './components/profile-page/Account'
+import Messages from './components/chat-page/Messages'
 import Post from './components/post-view/Post'
+import ScrollToTop from './hooks/useScrollToTop'
 import { auth } from './firebase';
-import { useDispatch } from 'react-redux';
-import { getUserData } from './apis/User';
+import { useDispatch, useSelector } from 'react-redux';
+import { userProfile } from './apis/User';
 import { UserActions } from './redux/UserSlice';
-// import User from './components/user-view/User'
+import { useEffect } from 'react';
+import CenteredLoader from './components/UI/LoadingSpinner/CenteredLoader';
+import User from './components/user-view/User'
 // import Store from './components/profile-page/Store'
-// import Notification from './components/notification-page/Notification'
+import Notification from './components/notification-page/Notification'
+let userUnsub = null
+let isSubbed = false
 function App() {
-  const disptach = useDispatch()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    return () => {
+      if (userUnsub !== null)
+        userUnsub()
+    }
+  }, [])
+  const isLoggedIn = useSelector(state => state.user).isLoggedIn
   auth.onAuthStateChanged(user => {
     if (user) {
-      getUserData(user.uid).then(data => disptach(UserActions.userLogin({ ...data })))
+      if (!isSubbed) {
+        isSubbed = true
+        userUnsub = userProfile(user.uid, dispatch)
+      }
+    }
+    else {
+      if ((isLoggedIn === -1) || isSubbed)
+        dispatch(UserActions.userLogout({}))
+      if (isSubbed) {
+        userUnsub()
+        userUnsub = null
+        isSubbed = false
+      }
     }
   })
-  return (
-    <Router>
-      <AuthProvider>
-        {/* <Navigation /> */}
-        <Switch>
-          {/* <Route path='/welcome' component={Welcome} exact /> */}
-          <Layout>
-            <Route path='/' component={Home} exact />
-            {/* <Route path='/network' component={Network} exact />
-            <Route path='/messages' component={Messages} exact />
+  if (isLoggedIn === -1)
+    return <CenteredLoader />
+  return (<ScrollToTop>
+    <Switch>
+      <Layout>
+        <Route path='/welcome' component={Welcome} exact />
+        {isLoggedIn === false ? <Redirect to="/welcome" /> : null}
+        <Route path='/' component={Home} exact />
+        <Route path='/network' component={Network} exact />
+        <Route path='/user/:uid' render={(props) => <User {...props} />} />
+        <Route path='/profile' component={Profile} exact />
+        <Route path='/profile/settings' component={Account} exact />
+        <Route path='/messages' render={(props) => <Messages {...props} />} exact />
+        {/* 
             <Route path='/saved-post' component={Home} exact />
             <Route path='/my-post' component={Home} />
-            <Route path='/profile' component={Profile} exact />
-            <Route path='/user' component={User} />
           <Route path='/store' component={Store} /> */}
-            <Route path='/post/:id' component={Post} />
+        <Route path='/post/:id' component={Post} />
 
-            {/* <Route path='/notifications' component={Notification} /> */}
-          </Layout>
-        </Switch>
-      </AuthProvider>
-    </Router>
+        <Route path='/notifications' component={Notification} />
+      </Layout>
+    </Switch>
+  </ScrollToTop>
   );
 }
 

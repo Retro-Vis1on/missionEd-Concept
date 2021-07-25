@@ -32,7 +32,7 @@ const Comments = (props) => {
   useEffect(() => {
     return () => {
       firstLoad = true
-      if (unsubscribe)
+      if (unsubscribe !== null)
         unsubscribe()
     }
   }, [])

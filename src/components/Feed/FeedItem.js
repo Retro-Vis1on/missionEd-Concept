@@ -1,9 +1,9 @@
 import timeDifference from '../../helpers/DateChange'
 import classes from './FeedItem.module.css'
 import { Link } from 'react-router-dom'
-import Default from './../../assets/default.jpg'
 import PostType from '../UI/PostType/PostType'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
+import DefaultProfilePic from '../../helpers/DefaultProfilePic'
 const FeedItem = (props) => {
     const { width } = useWindowDimensions()
     const post = props.postData.post
@@ -19,7 +19,7 @@ const FeedItem = (props) => {
             <time>{time}</time>
             <Link to={authorLink}>
                 <div className={classes.profile}>
-                    <img src={author.profile_image ? author.profile_image : Default} alt={author.username} />
+                    <img src={author.profile_image ? author.profile_image : DefaultProfilePic(author.username)} alt={author.username} />
                     <p>{author.username}</p>
                 </div>
             </Link>
@@ -38,7 +38,7 @@ const FeedItem = (props) => {
 
             <Link to={authorLink}>
                 <div className={classes.profile}>
-                    <img src={author.profile_image ? author.profile_image : Default} alt={author.username} />
+                    <img src={author.profile_image ? author.profile_image : DefaultProfilePic(author.username)} alt={author.username} />
                     <p>{author.username}</p>
                 </div>
             </Link>

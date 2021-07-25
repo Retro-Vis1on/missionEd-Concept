@@ -1,61 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import {RiAccountCircleFill} from 'react-icons/ri'
-import {MdLocationOn} from 'react-icons/md'
-import Default from './../../assets/default.jpg'
-import {userdb} from './../../firebase'
-import {animate, motion} from 'framer-motion'
-import {Button} from '@material-ui/core'
-export default function Profile(props) {
-   const[user,setUser] = useState(null);
-
-    useEffect(() => {
-      GetUser();
-   }, [props.data])
-   
-   async function GetUser(){
-     try{
-         userdb.doc(props.data).onSnapshot(snap=>{
-             setUser(snap.data());
-         })
-     }catch{
-         console.log('something went wrong')
-     }
-   }
-    return(
-        <div>
-        {user==null ?
-               <div>
-               </div>
-            :
-        <motion.div initial={{x:-300,opacity:0}}
-        animate={{x:0, opacity:1}}
-        transition={{duration:0.5,}}>
-        <div className={'profile-box'}> 
-           <div className={'profile-icon-box'}>
-               {/* <RiAccountCircleFill size={90}/> */}
-               <img src={user.profile_image==null ? Default : user.profile_image=='' ? Default : user.profile_image}/>
-           </div>
-           <div className={'profile-text'}>
-                 <text className={'profile-username'}>{user.username}</text>
-                 <text className={'profile-name'}>{user.name}</text>
-                 <text className={'profile-company'}>{user.education}</text>
-                 <text className={'profile-about'}>{user.bio}</text>
-                <text className={'profile-location'}>
-                    {user.location ? <MdLocationOn style={{marginTop : '3px'}} /> : null}
-                    {user.location} 
-                </text>
-           </div>
-           <div className={'profile-button-box'}>
-           <Button 
-             style={{height:'fit-content',color:'white',borderColor:'white',borderWidth:'2px'}}
-             variant='outlined'>
-               message
-           </Button>
+import { Link, useHistory } from "react-router-dom"
+import DefaultProfilePic from "../../helpers/DefaultProfilePic"
+import classes from './Profile.module.css'
+import Button from '../UI/Button/Button'
+import { useSelector } from "react-redux"
+import ObjCpy from "../../helpers/ObjCpy"
+import { followingUpdater } from "../../apis/User"
+const Profile = (props) => {
+    const userUrl = `/user/${props.id}`
+    const following = useSelector(state => state.user).following
+    const history = useHistory()
+    const messageHandler = () => {
+        history.push({
+            pathname: "/messages",
+            state: {
+                partner: {
+                    userData: { ...props.data },
+                    id: props.id
+                }
+            }
+        })
+    }
+    const followingHandler = async () => {
+        const newFollowing = ObjCpy(following)
+        if (!newFollowing.includes(props.id))
+            newFollowing.push(props.id)
+        followingUpdater(newFollowing)
+    }
+    return <li className={classes.profile}>
+        <Link to={userUrl} className={classes.user}>
+            <img src={props.data.profile_image ? props.data.profile_image : DefaultProfilePic(props.data.username)} alt={props.data.username} />
+            <div className={classes.data}>
+                <h2>{props.data.username}</h2>
+                <p>{props.data.bio}</p>
             </div>
-        </div>
-       
-        </motion.div>
+        </Link>
+        {following.includes(props.id) ? <Button className={classes.btn} onClick={messageHandler}>Message</Button> : <Button className={classes.btn} onClick={followingHandler}>Follow</Button>
         }
-       </div>
-    );
+    </li>
 }
+export default Profile

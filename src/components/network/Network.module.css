@@ -1,0 +1,39 @@
+.network {
+  list-style: none;
+  padding: 0;
+}
+.networkControls {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.empty {
+  padding: 18px 20px;
+  text-align: center;
+  color: rgb(129, 129, 129);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.btn {
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-weight: 600;
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 200ms ease-out,
+    border-bottom-color 200ms ease-out, color 200ms ease-out;
+}
+.btn:hover {
+  background-color: rgba(255, 170, 0, 0.11);
+  border-bottom-color: orange;
+}
+.activeBtn {
+  border-bottom-color: orange;
+}
+@media (max-width: 670px) {
+  .btn {
+    font-size: 1.1rem;
+    padding: 10px 10px;
+  }
+}

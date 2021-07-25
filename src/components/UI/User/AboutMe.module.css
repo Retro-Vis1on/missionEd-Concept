@@ -1,0 +1,16 @@
+.modal button {
+  width: 100%;
+}
+.modal h2 {
+  color: orange;
+}
+.aboutMe {
+  overflow: auto;
+  max-height: calc(100vh - 120px);
+}
+@media (max-width: 670px) {
+  .modal {
+    padding: 20px;
+    width: calc(100% - 50px);
+  }
+}

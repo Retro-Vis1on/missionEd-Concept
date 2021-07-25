@@ -2,11 +2,7 @@ import React, { useEffect } from 'react'
 import './Home.css'
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
-import { useAuth } from './../../contexts/AuthContext'
-import { Redirect, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Feed from './../Feed/Feed'
-import Feedback from './../Navigation/FeedBack'
-// import CreateTopic from '../Navigation/CreatePost';
 
 export default function Home() {
 
@@ -38,24 +34,12 @@ export default function Home() {
     }
 
   }, [])
-
-
-  const { currentUser } = useAuth()
-
   return (
-
-    <div className={'feed-page'}>
-      {currentUser == null ? <Redirect to="/welcome" /> : null}
-      {/* <div className="create-post-intro" >
-        <CreateTopic />
-      </div> */}
+    <>
       <div className="feed-intro" >
         <Feed />
       </div>
-      {/* <div className="feedback-intro">
-        <Feedback />
-      </div> */}
-    </div>
+    </>
 
   )
 }

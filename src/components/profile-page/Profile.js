@@ -1,62 +1,103 @@
-import React, { useState , useEffect } from 'react'
-import './Profile.css'
-import Default from './../../assets/default.jpg'
-import General from './General'
-import Rewards from './Rewards'
-import Account from './Account'
-import {userdb} from './../../firebase'
-import {useAuth} from './../../contexts/AuthContext'
-import  {Redirect} from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { getFollowers, getUserData, getUserPosts } from '../../apis/User'
+import { auth } from '../../firebase'
+import { GetPost } from '../../apis/Post'
+import LoadingSpinner from '../UI/LoadingSpinner/LoadingSpinner'
+import UserView from '../UI/User/UserView'
+import { useHistory } from 'react-router-dom'
+import CustomModal from '../UI/Modal/Modal'
+import Button from '../UI/Button/Button'
+import classes from './Forms.module.css'
 export default function Profile() {
-    const[activeTab, setActiveTab] = useState('general')
-    const{currentUser} = useAuth();
-    const[user,setUser] = useState(null);
+    const user = useSelector(state => state.user)
+    const cache = useSelector(state => state.cache)
+    const history = useHistory()
+    const [data, dataUpdater] = useState(null)
+    const [postState, postStateUpdater] = useState(0)
+    const [isLoading, loadingStateUpdater] = useState(true)
+    const [isSignOut, signOutStateUpdater] = useState(false)
+    const getData = useCallback(async () => {
+        let following = []
+        for (let uid of user.following) {
+            let user = cache.authorData.find(user => user.id === uid)
+            if (!user) {
+                user = await getUserData(uid)
+                if (!user)
+                    continue
+            } else user = user.author
+            following.push({ data: user, id: uid })
+        }
+        let follower = []
+        if (!auth.currentUser)
+            return
+        const followerData = await getFollowers(auth.currentUser.uid)
+        for (let data of followerData) {
+            follower.push({ data: data.data(), id: data.id })
+        }
+        if (!auth.currentUser)
+            return
+        const recentActivity = await getUserPosts(auth.currentUser.uid)
+        let posts = []
+        for (let post of recentActivity) {
+            posts.push({ data: post.data(), id: post.id })
+        }
+        let saved = []
+        for (let post of user.saved) {
+            const postData = await GetPost(post)
+            if (!post)
+                continue;
+            saved.push({ data: postData, id: post })
+
+        }
+        let applied = []
+        for (let post of user.applied) {
+            const postData = await GetPost(post)
+            if (!post)
+                continue;
+            applied.push({ data: postData, id: post })
+
+        }
+        dataUpdater({ follower, following, saved, posts, applied })
+        loadingStateUpdater(false)
+    }, [cache, user])
     useEffect(() => {
-        GetUser();
-    }, [])
-
-    async function GetUser(){
-        try{
-          userdb.doc(currentUser.uid).onSnapshot(snap=>{
-              setUser(snap.data());
-          })
+        getData()
+    }, [getData])
+    if (isLoading)
+        return <div style={{ textAlign: "center" }}><LoadingSpinner /></div>
+    return <><UserView
+        {...user}
+        {...data}
+        setRecent={postStateUpdater.bind(this, 0)}
+        setSaved={postStateUpdater.bind(this, 1)}
+        setApplication={postStateUpdater.bind(this, 2)}
+        postState={postState}
+        posts={
+            postState === 0 ? data.posts : postState === 1 ? data.saved : data.applied
         }
-        catch{
-            console.log('error occured!')
-        }
-    }
-    const handleTab = (tab) =>{
-        setActiveTab(tab)
-    }
-    return (
-            <div className={'profile-page'} >
-                {currentUser==null ? <Redirect to="/welcome" /> : null}
-            <div className={'profile-page-section'} >
-           {user==null ? <div></div>
-           :
-            <div className={'profile-user-card'} >
-              <img src={user.profile_image==null ? Default : user.profile_image}/>
-              <div>
-                  <h3>{user.name}</h3>
-                  <text>Your Personal Account</text>
-              </div>  
-            </div>
+        btn1={
+            {
+                text: "Settings",
+                onClick: () => history.push('/profile/settings')
             }
-            <div className={'profile-tabs-section'} >
-                <div className={'tabs-options'} style={{backgroundColor:"#f1f4ff"}}>
-                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('general')} className={activeTab==='general'? 'active-tab':null}>General</text>
-                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('rewards')} className={activeTab==='rewards'? 'active-tab':null}>Rewards</text>
-                    <text style={{marginBottom : '5px'}} onClick={()=>handleTab('account')} className={activeTab==='account'? 'active-tab':null}>Account</text>
-                </div>
-                <div className={'active-tab-page'} style={{backgroundColor:"white"}}>
-                     {activeTab==='general'? <General/>:null}
-                     {activeTab==='rewards'? <Rewards/>:null}
-                     {activeTab==='account'? <Account/>:null}
-                </div>
+        }
+        btn2={{
+            text: "Sign Out",
+            onClick: signOutStateUpdater.bind(this, true)
+        }}
+    />
+        <CustomModal isOpen={isSignOut} className={classes.modal}>
+            <h2 className={classes.title}>Are you sure you want to <span>sign out?</span></h2>
+            <div className={classes.formActions}>
+                <Button onClick={signOutStateUpdater.bind(this, false)}>
+                    Cancel
+                </Button>
+                <Button onClick={() => auth.signOut()}>
+                    Sign Out
+                </Button>
+            </div>
+        </CustomModal>
 
-            </div>
-
-            </div>
-            </div>
-    )
+    </>
 }

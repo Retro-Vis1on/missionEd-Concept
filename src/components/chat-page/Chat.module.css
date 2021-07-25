@@ -1,0 +1,87 @@
+.messages {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  height: 100%;
+}
+.messageWindow {
+  height: calc(100vh - 170px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.partner {
+  border-bottom: 2px solid lightgray;
+}
+.backToMenu {
+  background-color: transparent;
+  border: none;
+  font-weight: 600 !important;
+  margin-bottom: 20px;
+}
+.backToMenu span {
+  color: orange;
+  font-size: 0.9rem;
+}
+.partner a {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.partner img {
+  border-radius: 50%;
+  background-color: lightgray;
+  width: 60px;
+  height: 60px;
+}
+.form {
+  display: flex;
+}
+.messages {
+  height: 100%;
+  overflow-y: auto;
+}
+.form input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  border-bottom: 3px solid lightgray;
+  transition: border-color 200ms ease-out;
+}
+.form input:hover,
+.form input:focus {
+  border-color: orange;
+}
+.invalid {
+  border-color: red !important;
+}
+.invalid:hover,
+.invalid:focus {
+  border-color: darkred !important;
+}
+.form button {
+  background-color: transparent;
+  border: 2px solid transparent;
+  font-size: 1.2rem;
+  color: orange;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+}
+.form button:hover,
+.form button:focus {
+  color: white;
+  background-color: orange;
+}
+@media (max-width: 670px) {
+  .messageWindow {
+    height: calc(100vh - 129px);
+  }
+}

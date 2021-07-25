@@ -1,88 +1,132 @@
 import React, { useEffect, useState } from 'react'
-import './Welcome.css'
-import { useAuth } from '../../contexts/AuthContext'
-import { Redirect } from 'react-router-dom'
+import classes from './Welcome.module.css'
 import Typewriter from "typewriter-effect";
-import learning from './../../assets/learning.jpg'
-import Feedback from './../Navigation/FeedBack'
 import { userdb } from '../../firebase';
-import PersonIcon from '@material-ui/icons/Person';
+import SignIn from './forms/SignIn'
+import SignUp from './forms/SignUp'
+import ForgotPassword from './forms/ForgotPassword'
+import Button from '../UI/Button/Button';
+import CompleteSignUp from './forms/CompleteSignUp';
+import CustomModal from '../UI/Modal/Modal';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+let form;
 
 const Welcome = (props) => {
-  const { currentUser } = useAuth()
-  const [userCount, setUserCount] = useState(0);
-
+  const [digits, digitsUpdater] = useState(null);
+  const [openModal, modalStateUpdater] = useState(-1)
+  const isLoggedIn = useSelector(state => state.user).isLoggedIn
+  if (openModal === 0)
+    form = <SignIn onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+  else if (openModal === 1)
+    form = <SignUp onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+  else if (openModal === 2)
+    form = <ForgotPassword onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+  else if (openModal === 3)
+    form = <CompleteSignUp />
   useEffect(() => {
     GetCount();
   }, [])
+  const dynamicText = <Typewriter
+
+    options={{
+      autoStart: true,
+      loop: true,
+      wrapperClassName: classes.typewriter,
+      cursorClassName: classes.typewriter
+    }}
+    onInit={(typewriter) => {
+      typewriter
+        .typeString("Experts")
+        .pauseFor(700)
+        .deleteAll()
+        .typeString("Friends")
+        .pauseFor(700)
+        .deleteAll()
+        .start();
+    }}
+  />
 
   async function GetCount() {
     try {
-      userdb.onSnapshot(snap => {
-        setUserCount(snap.docs.length);
-      })
+      let count = (await userdb.get()).docs.length
+      let newDigits = []
+      while (count) {
+        const digit = count % 10
+        const element = <div className={classes.digitContainer} key={digit}>
+          <span className={classes.digit}>{digit}</span>
+          <div className={classes.line} />
+        </div>
+        newDigits.unshift(element)
+        count = Number.parseInt(count / 10);
+      }
+      digitsUpdater(newDigits)
     }
     catch {
       console.log('error getting counts')
     }
   }
-
-
-  return (
-    <div>
-      <div className="bg_image">
-        {currentUser && <Redirect to='/' />}
-        <div className="left">
-          <Typewriter
-            options={{
-              autoStart: true,
-              loop: true,
-            }}
-            onInit={(typewriter) => {
-
-              typewriter
-
-                .typeString("Learn and Discuss with")
-
-                .pauseFor(10)
-                .deleteAll()
-                .typeString("Experts & Friends!!!")
-                .pauseFor(10)
-                .deleteAll()
-                .start();
-            }}
-          />
-          <img className='images' src={learning} alt='learning' />
+  if (isLoggedIn && openModal === -1)
+    return <Redirect to="/" />
+  return <>
+    <CustomModal isOpen={openModal !== -1} className={classes.modal}>
+      {form}
+    </CustomModal>
+    <div className={classes.welcome}>
+      <div className={classes.banner}>
+        <h1>Welcome to <span>MissionEd Forum</span></h1>
+        <div className={classes.dynamicText}>
+          <h3>Learn and Discuss with</h3>
+          {dynamicText}
 
         </div>
-        <div className="right">
+        <h3>Win Exciting Rewards</h3>
 
-          <h1>Welcome to MissionEd Forum!</h1>
-          <p className="para">Connect with potential recruiters<br />Collabrate with your friends<br /> Win exciting rewards!</p>
-          <div className='buttons'>
-            <label htmlFor='login-button' >
-              <text className='action-button'>Login</text>
-              {/* <Button variant="contained" color="primary" >LOGIN</Button>{'    '} */}
-            </label>
-            <label htmlFor='signup-button'>
-              <text className='action-button' >Join Now</text>
-              {/* <Button  variant="outlined"  color="primary" style={{ marginLeft: '.5rem'}}><span className="menu" >Join Now</span></Button> */}
-            </label>
-
+      </div>
+      <div className={classes.btn}>
+        <Button onClick={modalStateUpdater.bind(this, 0)}>Login</Button>
+        <Button onClick={modalStateUpdater.bind(this, 1)}>Join Now</Button>
+      </div>
+      <div className={classes.counter}>
+        <h3>Connect with friends and meet new people and opportunities</h3>
+        <div className={classes.digits}>
+          {digits}
+        </div>
+        <h3>Users &#38; Rising....</h3>
+      </div>
+      <div className={classes.testimonials}>
+        <div className={classes.partners}>
+          <h3>Our trusted partners</h3>
+          <div>
+            <img src="/images/partners/BIET.png" alt="BIET" />
+            <img src="/images/partners/Delhi-University.png" alt="Delhi University" />
+            <img src="/images/partners/Fampay.png" alt="Fampay" />
+            <img src="/images/partners/hyperXchange.png" alt="hyperXchange" />
           </div>
         </div>
-        <Feedback />
-      </div>
-      <div style={{ display: 'flex', marginTop: '200px', marginBottom: '100px', flexDirection: 'row', justifyContent: 'center' }}>
-        <div className={'user-number'} style={{
-          paddingBlock: '20px', paddingInline: '80px', boxShadow: '0px 0px 7px 0px rgba(0,0,0,0.75)', display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: '10px', backgroundColor: '#0cbaba', backgroundImage: 'linear-gradient(315deg, #eec0c6 0%, #7ee8fa 74%)',
-        }}>
-          <PersonIcon style={{ fontSize: '120px', color: '#436967' }} />
-          <text style={{ color: 'rgb(131, 131, 131)', fontSize: '40px', textShadow: "0px 0px 1px rgba(0,0,0,0.75)", fontWeight: '500' }}>USERS</text>
-          <h1>{userCount}</h1>
+        <div className={classes.numbers}>
+          <h3>We Catered To</h3>
+          <div>
+            <div>
+              <i className="fas fa-university"></i>
+              <p>50+ Colleges</p>
+            </div>
+            <div>
+              <i className="fas fa-school"></i>
+              <p>30+ Schools</p>
+            </div>
+            <div>
+              <i className="fas fa-chart-line"></i>
+              <p>2+ Startups</p>
+            </div>
+            <div>
+              <i className="fas fa-user-graduate"></i>
+              <p>5000+ Students</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  );
+  </>
 }
 export default Welcome;

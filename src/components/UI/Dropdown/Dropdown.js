@@ -7,9 +7,9 @@ const Dropdown = (props) => {
         <button className={classes.filterBtn}>
             {props.text}<span style={{ color: "orange" }}> v</span>
         </button>
-        <div className={classes.filters}>
-            {props.filters.map((filter) => <p onClick={selectHandler.bind(this, filter)} key={filter}>{filter}</p>)}
-        </div>
+        <ul className={classes.filters}>
+            {props.filters.map((filter) => <li onClick={selectHandler.bind(this, filter)} key={filter}>{filter}</li>)}
+        </ul>
     </div>
 }
 export default Dropdown

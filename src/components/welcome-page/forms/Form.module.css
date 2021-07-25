@@ -1,0 +1,89 @@
+.siblingFields,
+.formActions {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  justify-content: center;
+}
+
+.header > h3 {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+.header span {
+  color: orange;
+}
+.form {
+  row-gap: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.stateHandler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stateHandler > :first-child {
+  border-right: 1.25px solid rgb(173, 173, 173);
+}
+.singleBtn {
+  margin-top: 10px;
+  text-align: center;
+}
+.singleBtn button {
+  border-radius: 20px;
+  width: 40%;
+}
+.formActions {
+  margin-top: 10px;
+}
+.formActions button {
+  width: 40%;
+}
+.additionalActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.15rem;
+  flex-direction: column;
+  margin-top: 20px;
+  row-gap: 10px;
+}
+.additionalActions p {
+  margin: 0;
+
+  display: inline-block;
+}
+.google p {
+  margin-right: 5px;
+}
+.additionalActions i {
+  color: orange;
+  font-size: 1.45rem;
+  cursor: pointer;
+  transition: filter 200ms ease-out;
+}
+.siblingFields :first-child,
+.formActions :first-child {
+  border-radius: 20px 0 0 20px;
+}
+.siblingFields :last-child,
+.formActions :last-child {
+  border-radius: 0 20px 20px 0;
+}
+.btn {
+  background-color: transparent;
+  border: none;
+  color: orange;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: filter 200ms ease-out;
+}
+.btn:hover,
+.additionalActions i:hover {
+  filter: brightness(70%);
+}

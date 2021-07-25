@@ -1,6 +1,7 @@
 .post a {
   text-decoration: none;
   color: black;
+  transition: color 200ms ease-out;
 }
 .post * {
   white-space: nowrap;
@@ -29,12 +30,13 @@
   align-items: center;
   grid-template-columns: 60px calc(100% - 70px);
   column-gap: 10px;
-  transition: color 200ms ease-out;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.profile:hover {
+.post a:hover,
+.post a:hover .post h2 {
   color: orange;
 }
 .profile img {
@@ -47,6 +49,7 @@
 .postInfo {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .mobileView {
   display: grid;
@@ -65,18 +68,19 @@
   }
   .post h2 {
     margin-bottom: 30px;
+    font-size: 1.5rem;
+    text-align: center;
   }
   .profile {
-    font-size: 0.9rem;
-    grid-template-columns: 45px calc(100% - 55px);
+    font-size: 1rem;
+    grid-template-columns: 45px calc(100% - 65px);
   }
   .profile img {
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
   }
-  .post h2 {
-    font-size: 1.2rem;
-    text-align: center;
+  .profile p {
+    margin-left: 5px;
   }
 }
 @media (max-width: 320px) {
@@ -84,7 +88,7 @@
     padding: 10px 15px;
   }
   .likeTime {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   .profile {
     margin-left: 3px;
@@ -95,5 +99,8 @@
     width: 40px;
     height: 40px;
     object-fit: cover;
+  }
+  .post h2 {
+    font-size: 1.3rem;
   }
 }
