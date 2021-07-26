@@ -52,7 +52,7 @@ function Navbar() {
   return (
     <nav className={`${classes.nav} ${active ? classes.active : ''}`} >
       <div className={classes.brand}>
-        <img src="/images/MissionEd_logo.svg" alt="MissionEd Logo" />
+        <img src="/NavigationLogo.19c19c2f.svg" alt="MissionEd Logo" />
         <h1>MissionEd</h1>
       </div>
       <div className={classes.links}>

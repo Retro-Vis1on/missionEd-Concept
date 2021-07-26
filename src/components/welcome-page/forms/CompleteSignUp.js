@@ -25,7 +25,7 @@ const reducer = (state, action) => {
     return updatedState
 }
 let timer = null
-const CompleteSignUp = () => {
+const CompleteSignUp = (props) => {
     const [remCred, dispatcher] = useReducer(reducer, ObjCpy(completeSignUpState))
     const [isSending, sendingStateUpdater] = useState(false)
     const [error, errorStateUpdater] = useState(null)
@@ -60,12 +60,12 @@ const CompleteSignUp = () => {
         </header>
         <form onSubmit={formHandler} className={classes.form}>
             <div className={classes.siblingFields}>
-                <Input type="text" placeholder="Enter Name" name="name" onChange={inputChangeHandler} isValid={remCred.name.isSubmitted ? remCred.name.isValid : true} value={remCred.name.value} />
-                <Input type="text" placeholder="Enter Username" name="username" onChange={inputChangeHandler} isValid={remCred.username.isSubmitted ? remCred.username.isValid : true} value={remCred.username.value} />
+                <Input type="text" placeholder="Enter Name" name="name" onChange={inputChangeHandler} isValid={remCred.name.isSubmitted ? remCred.name.isValid : true} value={remCred.name.value} disabled={isSending || !props.isOpen} />
+                <Input type="text" placeholder="Enter Username" name="username" onChange={inputChangeHandler} isValid={remCred.username.isSubmitted ? remCred.username.isValid : true} value={remCred.username.value} disabled={isSending || !props.isOpen} />
             </div>
             {isSending ? <div style={{ textAlign: "center" }}> <LoadingSpinner /></div> :
                 <div className={classes.singleBtn}>
-                    <Button type="submit">Complete SignUp</Button>
+                    <Button type="submit" disabled={isSending || !props.isOpen}>Complete SignUp</Button>
                 </div>
             }
         </form>

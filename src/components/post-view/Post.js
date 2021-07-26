@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { GetPost, LikeUpdater, savePost } from "../../apis/Post"
+import { GetPost, LikeUpdater, savePost, updateApplication } from "../../apis/Post"
 import PostType from '../UI/PostType/PostType'
 import ObjCpy from '../../helpers/ObjCpy'
 import { getUserData } from '../../apis/User'
@@ -20,16 +20,15 @@ import DeletePost from "./DeletePost"
 import DefaultProfilePic from "../../helpers/DefaultProfilePic"
 import LoadingSpinner from "../UI/LoadingSpinner/LoadingSpinner"
 import LikeModal from "./LikeModal"
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-const window = (new JSDOM('')).window;
-const DOMPurify = createDOMPurify(window);
+import DOMPurify from "dompurify"
+import Button from "../UI/Button/Button"
 let isFirstRun = true
 const initialState = {
     post: null,
     author: null,
     isLiked: false,
-    isCached: -1
+    isCached: -1,
+    isApplied: false
 }
 const postReducer = (state, action) => {
     let updatedState = ObjCpy(state)
@@ -46,6 +45,8 @@ const postReducer = (state, action) => {
         updatedState.isLiked = !updatedState.isLiked
         updatedState.post.liked = action.likeArr
     }
+    else if (action.type === "applicationUpdate")
+        updatedState.isApplied = action.value
     return updatedState
 }
 let likeDelay = null
@@ -76,6 +77,9 @@ const Post = () => {
 
         }
     }, [postId])
+    useEffect(() => {
+        postDispatcher({ type: "applicationUpdate", value: user.applied.includes(postId) })
+    }, [user.applied, postId])
     let checkInCache = useCallback(async () => {
         try {
             let contentIndex = cache.posts.findIndex(post => post.id === postId)
@@ -129,7 +133,7 @@ const Post = () => {
             dispatch(UserActions.userDataUpdater({ ...(user), saved: saveArr }))
         }
         catch (err) {
-            console.log(err)
+            errorStateUpdater("Something went wrong!")
         }
 
     }
@@ -151,6 +155,21 @@ const Post = () => {
         }
         catch (err) {
             errorStateUpdater(err.message)
+        }
+    }
+    const applicationHandler = async () => {
+        const applied = ObjCpy(user.applied)
+        const isApplied = postData.isApplied
+        try {
+            if (isApplied)
+                applied.splice(applied.findIndex(post => post === postId), 1)
+            else applied.push(postId)
+            postDispatcher({ type: "applicationUpdate", value: !isApplied })
+            await updateApplication(applied)
+        }
+        catch (err) {
+            postDispatcher({ type: "applicationUpdate", value: isApplied })
+            errorStateUpdater("Something went wrong!")
         }
     }
     const componentDecorator = (href, text, key) => (
@@ -189,6 +208,7 @@ const Post = () => {
                     <div className={classes.postTitle}>
                         <h1>{postData.post.title}</h1>
                         <PostType tag={postData.post.tag} />
+                        {["Internship", "Placement"].includes(postData.post.tag) && <Button onClick={applicationHandler}>{postData.isApplied ? <><i className="fas fa-check"></i>Applied</> : "Apply"}</Button>}
                         <time>{timeDifference(new Date(postData.post.timestamp))}</time>
                     </div>
                 </header>

@@ -58,12 +58,7 @@ function App() {
         <Route path='/profile' component={Profile} exact />
         <Route path='/profile/settings' component={Account} exact />
         <Route path='/messages' render={(props) => <Messages {...props} />} exact />
-        {/* 
-            <Route path='/saved-post' component={Home} exact />
-            <Route path='/my-post' component={Home} />
-          <Route path='/store' component={Store} /> */}
         <Route path='/post/:id' component={Post} />
-
         <Route path='/notifications' component={Notification} />
       </Layout>
     </Switch>

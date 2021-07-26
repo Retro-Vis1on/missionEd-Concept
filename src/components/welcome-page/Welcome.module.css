@@ -157,18 +157,12 @@
   width: 130px;
   filter: brightness(120%);
 }
-@media (max-width: 300px) {
-  .banner h1 {
-    font-size: 2.6rem;
-  }
-}
-@media (max-width: 520px) {
+@media (max-width: 810px) {
   .modal {
-    width: calc(97% - 40px);
-    padding: 20px 26px;
+    width: 76% !important;
+    padding: 20px 26px !important;
   }
 }
-
 @media (max-width: 670px) {
   .dynamicText {
     text-align: center;
@@ -181,10 +175,14 @@
   .btn {
     width: 90%;
   }
-}
-@media (max-width: 810px) {
   .modal {
-    width: 76%;
-    padding: 20px 26px;
+    width: calc(96% - 52px) !important;
+    padding: 20px 26px !important;
+  }
+}
+
+@media (max-width: 300px) {
+  .banner h1 {
+    font-size: 2.6rem;
   }
 }

@@ -66,12 +66,13 @@ const Chat = (props) => {
         dispatch({ type: "update", value: e.target.value })
     }
     useEffect(() => {
-        if (props.id !== -1 && !props.unsub)
+        if (props.id !== -1 && !props.unsub) {
             activateListener(props.id)
+        }
     }, [props.id, props.unsub, activateListener])
     return <>
-        <Alert error={error} onClose={errorStateUpdater(this, null)} />
-        <button onClick={props.backToMenu} className={classes.backToMenu}><span>&lt;</span> Back to chats</button>
+        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+        {props.backToMenu && <button onClick={props.backToMenu} className={classes.backToMenu}><span>&lt;</span> Back to chats</button>}
         <div className={classes.messageWindow}>
             <div className={classes.partner}>
                 <Link to={`/user/${props.partner.id}`}>

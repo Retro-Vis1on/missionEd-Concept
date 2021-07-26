@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import { CommentLikeUpdater } from "../../apis/Post";
 import { auth } from "../../firebase";
 import timeDifference from "../../helpers/DateChange";
+import DefaultProfilePic from "../../helpers/DefaultProfilePic";
 import Alert from "../UI/Alert/Alert";
-import Default from './../../assets/default.jpg'
 import classes from './Comment.module.css'
 import LikeModal from "./LikeModal";
 import Replies from './Replies'
@@ -36,7 +36,7 @@ const Comment = (props) => {
         <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
         <div className={classes.comment}>
             <div className={classes.userInfo}>
-                <img src={author.profile_image ? author.profile_image : Default} alt={author.username} />
+                <img src={author.profile_image ? author.profile_image : DefaultProfilePic(author.username)} alt={author.username} />
                 <div>
                     <Link to={authorLink}>
                         <p>{author.username}</p>

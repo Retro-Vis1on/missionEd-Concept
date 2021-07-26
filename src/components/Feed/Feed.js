@@ -59,7 +59,7 @@ export default function Feed() {
     <>
       <CreatePost isOpen={openNewPost} onClose={openStateUpdater.bind(this, false)} />
       <div className={classes.feedControls}>
-        <Dropdown text="Filter by Categ." filters={["Show All", "General", "Internship", "Experience", "Placement", "Question"]} onClick={tagUpdaterHandler} />
+        <Dropdown text="Filter by Categ." filters={["Show All", "General", "Internship", "Project", "Placement", "Question"]} onClick={tagUpdaterHandler} />
         <button className={classes.createBtn} onClick={openStateUpdater.bind(this, true)}>
           <div className={classes.Create}>
             <div className={classes.add}>+</div>

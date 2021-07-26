@@ -18,12 +18,12 @@
 .backToMenu {
   background-color: transparent;
   border: none;
+  font-size: 1.2rem;
   font-weight: 600 !important;
   margin-bottom: 20px;
 }
 .backToMenu span {
   color: orange;
-  font-size: 0.9rem;
 }
 .partner a {
   display: flex;
@@ -82,6 +82,6 @@
 }
 @media (max-width: 670px) {
   .messageWindow {
-    height: calc(100vh - 129px);
+    height: calc(100vh - 169px);
   }
 }

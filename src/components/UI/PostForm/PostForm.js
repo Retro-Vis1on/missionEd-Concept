@@ -7,10 +7,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 import CustomModal from "../Modal/Modal"
 import Select from "../Select/Select"
 import classes from './PostForm.module.css'
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-const window = (new JSDOM('')).window;
-const DOMPurify = createDOMPurify(window);
+import DOMPurify from "dompurify"
 const InitialState = {
     title: {
         value: "",
@@ -63,7 +60,7 @@ const reducer = (state, action) => {
 let timer = null
 const PostForm = (props) => {
     const [formData, dispatch] = useReducer(reducer, InitialState)
-    const [isLoading, loadingStateUpdater] = useState(false)
+    const [isSending, sendingStateUpdater] = useState(false)
     const inputChangeHandler = (event) => {
         dispatch({ type: "update", field: event.target.name, value: event.target.value })
     }
@@ -77,13 +74,13 @@ const PostForm = (props) => {
     const submitHandler = async (e) => {
         try {
             e.preventDefault();
-            loadingStateUpdater(true)
+            sendingStateUpdater(true)
             dispatch({ type: "submit" })
             for (let field in formData) {
                 if (!formData[field].isValid) {
                     clearTimeout(timer)
                     timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
-                    return loadingStateUpdater(false)
+                    return sendingStateUpdater(false)
                 }
             }
             const data = {
@@ -96,7 +93,7 @@ const PostForm = (props) => {
             props.onClose()
         }
         catch (err) {
-            loadingStateUpdater(false)
+            sendingStateUpdater(false)
             console.log(err)
         }
 
@@ -107,8 +104,8 @@ const PostForm = (props) => {
         </h2>
         <form onSubmit={submitHandler} className={classes.form}>
             <div className={classes.vanillaInput}>
-                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" />
-                <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true}>
+                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen} />
+                <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true} disabled={isSending || !props.isOpen}>
                     <option value="">Choose a tag</option>
                     <option>General</option>
                     <option>Internship</option>
@@ -122,14 +119,13 @@ const PostForm = (props) => {
                     onChange={textAreaHandler}
                     tabIndex={1}
                     value={formData.description.value}
-                    config={config}
-
+                    config={{ ...config, readonly: isSending || !props.isOpen }}
                 />
             </div>
-            {isLoading ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> :
+            {isSending ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> :
                 <div className={classes.formActions}>
-                    <Button onClick={props.onClose}>Cancel</Button>
-                    <Button type="submit">Save</Button>
+                    <Button disabled={isSending || !props.isOpen} onClick={props.onClose}>Cancel</Button>
+                    <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
                 </div>
             }
         </form>

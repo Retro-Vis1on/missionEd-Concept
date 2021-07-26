@@ -61,7 +61,7 @@ const Feedback = (props) => {
     }
     for (let i = 1; i <= 5; i++) {
         stars.push(
-            <button onClick={() => { prevStarUpdater(i); starUpdater(i) }} className={` ${classes.star} ${i <= star ? classes.activeStar : ''} ${unMarked ? classes.unMarked : ''}`} onFocus={() => starUpdater(i)} onMouseOver={() => { starUpdater(i) }} onMouseLeave={() => { starUpdater(prevStar) }} key={i} disabled={isSending}>
+            <button disabled={isSending || !props.isOpen} onClick={() => { prevStarUpdater(i); starUpdater(i) }} className={` ${classes.star} ${i <= star ? classes.activeStar : ''} ${unMarked ? classes.unMarked : ''}`} onFocus={() => starUpdater(i)} onMouseOver={() => { starUpdater(i) }} onMouseLeave={() => { starUpdater(prevStar) }} key={i} >
                 <i className={`fas fa-star `} key={`${i}thStar`}></i>
             </button >
         )
@@ -108,15 +108,15 @@ const Feedback = (props) => {
                             {stars}
                         </div>
                         <div className={classes.credentials}>
-                            <Input type="text" placeholder="Name" name="name" onChange={inputChangeHandler} value={feedback.name.value} isValid={feedback.name.isSubmitted ? feedback.name.isValid : true} />
-                            <Input type="email" placeholder="Email" name="email" onChange={inputChangeHandler} value={feedback.email.value} isValid={feedback.email.isSubmitted ? feedback.email.isValid : true} />
+                            <Input type="text" placeholder="Name" name="name" onChange={inputChangeHandler} value={feedback.name.value} isValid={feedback.name.isSubmitted ? feedback.name.isValid : true} disabled={isSending || !props.isOpen} />
+                            <Input type="email" placeholder="Email" name="email" onChange={inputChangeHandler} value={feedback.email.value} isValid={feedback.email.isSubmitted ? feedback.email.isValid : true} disabled={isSending || !props.isOpen} />
                         </div>
-                        <Input type="text" placeholder="Subject" name="subject" onChange={inputChangeHandler} value={feedback.subject.value} isValid={feedback.subject.isSubmitted ? feedback.subject.isValid : true} />
-                        <Textarea placeholder="Description" name="description" onChange={inputChangeHandler} value={feedback.description.value} isValid={(feedback.description.isSubmitted ? feedback.description.isValid : true)} />
+                        <Input type="text" placeholder="Subject" name="subject" onChange={inputChangeHandler} value={feedback.subject.value} isValid={feedback.subject.isSubmitted ? feedback.subject.isValid : true} disabled={isSending || !props.isOpen} />
+                        <Textarea placeholder="Description" name="description" onChange={inputChangeHandler} value={feedback.description.value} isValid={(feedback.description.isSubmitted ? feedback.description.isValid : true)} disabled={isSending || !props.isOpen} />
                         <div className={classes.formActions}>
                             {isSending ? <LoadingSpinner /> :
-                                <>                   <Button onClick={props.onClose}>Discard</Button>
-                                    <Button type="submit">Submit</Button></>
+                                <>                   <Button disabled={isSending || !props.isOpen} onClick={props.onClose}>Discard</Button>
+                                    <Button type="submit" disabled={isSending || !props.isOpen}>Submit</Button></>
                             }
                         </div>
                     </form></>}

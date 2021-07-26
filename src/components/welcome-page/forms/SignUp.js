@@ -71,18 +71,18 @@ const SignUp = (props) => {
         </header>
         <form onSubmit={formHandler} className={classes.form}>
             <div className={classes.siblingFields}>
-                <Input type="text" placeholder="Enter Name" name="name" onChange={inputChangeHandler} isValid={signupCred.name.isSubmitted ? signupCred.name.isValid : true} value={signupCred.name.value} />
-                <Input type="text" placeholder="Enter Username" name="username" onChange={inputChangeHandler} isValid={signupCred.username.isSubmitted ? signupCred.username.isValid : true} value={signupCred.username.value} />
+                <Input type="text" placeholder="Enter Name" name="name" onChange={inputChangeHandler} isValid={signupCred.name.isSubmitted ? signupCred.name.isValid : true} value={signupCred.name.value} disabled={isSending || !props.isOpen} />
+                <Input type="text" placeholder="Enter Username" name="username" onChange={inputChangeHandler} isValid={signupCred.username.isSubmitted ? signupCred.username.isValid : true} value={signupCred.username.value} disabled={isSending || !props.isOpen} />
             </div>
-            <Input type="email" placeholder="Email" name="email" onChange={inputChangeHandler} isValid={signupCred.email.isSubmitted ? signupCred.email.isValid : true} value={signupCred.email.value} />
+            <Input type="email" placeholder="Email" name="email" onChange={inputChangeHandler} isValid={signupCred.email.isSubmitted ? signupCred.email.isValid : true} value={signupCred.email.value} disabled={isSending || !props.isOpen} />
             <div className={classes.siblingFields}>
-                <Input type="password" placeholder="Password" name="password" onChange={inputChangeHandler} isValid={signupCred.password.isSubmitted ? signupCred.password.isValid : true} value={signupCred.password.value} />
-                <Input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={inputChangeHandler} isValid={signupCred.confirmPassword.isSubmitted ? signupCred.confirmPassword.isValid : true} value={signupCred.confirmPassword.value} />
+                <Input type="password" placeholder="Password" name="password" onChange={inputChangeHandler} isValid={signupCred.password.isSubmitted ? signupCred.password.isValid : true} value={signupCred.password.value} disabled={isSending || !props.isOpen} />
+                <Input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={inputChangeHandler} isValid={signupCred.confirmPassword.isSubmitted ? signupCred.confirmPassword.isValid : true} value={signupCred.confirmPassword.value} disabled={isSending || !props.isOpen} />
             </div>
             {isSending ? <div style={{ textAlign: "center" }}> <LoadingSpinner /></div> :
                 <div className={classes.formActions}>
-                    <Button onClick={props.onClose}>Cancel</Button>
-                    <Button type="submit">Sign Up</Button>
+                    <Button onClick={props.onClose} disabled={isSending || !props.isOpen}>Cancel</Button>
+                    <Button type="submit" disabled={isSending || !props.isOpen}>Sign Up</Button>
                 </div>
             }
         </form>
@@ -90,9 +90,9 @@ const SignUp = (props) => {
             !isSending &&
             <div className={classes.additionalActions}>
                 <div className={classes.google}>
-                    <p>Continue with <i className="fab fa-google" onClick={googleHandler}></i></p>
+                    <p>Continue with <i className="fab fa-google" onClick={() => { if (props.isOpen) googleHandler() }}></i></p>
                 </div>
-                <p>Already have an account? <button onClick={props.changeState.bind(this, 0)} className={classes.btn}>Sign in</button></p>
+                <p>Already have an account? <button onClick={props.changeState.bind(this, 0)} disabled={isSending || !props.isOpen} className={classes.btn}>Sign in</button></p>
             </div>
         }
     </>

@@ -46,8 +46,15 @@
 }
 .article * {
   overflow-wrap: break-word;
+  min-width: auto !important;
 }
-
+.postTitle button {
+  width: 120px !important;
+  margin-right: 5px;
+}
+.postTitle i {
+  margin-right: 5px;
+}
 .article table *,
 .article table,
 .article tbody {

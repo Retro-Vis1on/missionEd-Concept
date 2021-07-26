@@ -12,18 +12,18 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 let form;
 
-const Welcome = (props) => {
+const Welcome = () => {
   const [digits, digitsUpdater] = useState(null);
   const [openModal, modalStateUpdater] = useState(-1)
   const isLoggedIn = useSelector(state => state.user).isLoggedIn
   if (openModal === 0)
-    form = <SignIn onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+    form = <SignIn onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} isOpen={openModal !== -1} />
   else if (openModal === 1)
-    form = <SignUp onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+    form = <SignUp onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} isOpen={openModal !== -1} />
   else if (openModal === 2)
-    form = <ForgotPassword onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} />
+    form = <ForgotPassword onClose={modalStateUpdater.bind(this, -1)} changeState={modalStateUpdater} isOpen={openModal !== -1} />
   else if (openModal === 3)
-    form = <CompleteSignUp />
+    form = <CompleteSignUp isOpen={openModal !== -1} />
   useEffect(() => {
     GetCount();
   }, [])

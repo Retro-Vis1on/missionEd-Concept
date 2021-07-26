@@ -51,6 +51,7 @@
   flex-direction: column;
   margin-top: 20px;
   row-gap: 10px;
+  text-align: center;
 }
 .additionalActions p {
   margin: 0;

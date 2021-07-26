@@ -5,7 +5,7 @@
   padding: 35px 35px;
   border-radius: 7px;
   left: 50%;
-  top: 100%;
+  top: 0%;
   opacity: 0;
   animation: open 250ms ease-out forwards;
   transform: translate(calc(-50% + 0.5px), calc(-50% + 0.5px));
@@ -61,7 +61,7 @@
     opacity: 1;
   }
   100% {
-    top: 100%;
+    top: 0%;
     opacity: 0;
   }
 }

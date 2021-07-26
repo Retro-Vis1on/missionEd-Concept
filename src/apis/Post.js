@@ -1,4 +1,4 @@
-import { auth, db } from "../firebase"
+import { auth, db, userdb } from "../firebase"
 import { getUserData } from "./User"
 import ObjCpy from '../helpers/ObjCpy'
 import firebase from "firebase"
@@ -198,6 +198,14 @@ export const getLikeUsers = async (likers, dispatcher, cache, updater) => {
         }
         updater(users)
         dispatcher(CachingActions.updaterAuthors({ freshData }))
+    }
+    catch (err) {
+        throw err
+    }
+}
+export const updateApplication = async (applied) => {
+    try {
+        await userdb.doc(auth.currentUser.uid).update({ applied })
     }
     catch (err) {
         throw err

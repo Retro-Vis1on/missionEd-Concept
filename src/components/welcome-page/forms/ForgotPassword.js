@@ -39,21 +39,21 @@ const ForgotPassword = (props) => {
             <i className="fas fa-user-lock"></i>
             <h2>Type in your registered email id and we will send you a locksmith</h2>
             <form onSubmit={formHandler} className={classes.form} noValidate>
-                <Input type="email" placeholder="Your registered email" isValid={isValid} value={email} onChange={inputChangeHandler} />
+                <Input type="email" placeholder="Your registered email" isValid={isValid} value={email} onChange={inputChangeHandler} disabled={isWaiting || !props.isOpen} />
                 <div className={commonClasses.formActions}>
                     <Button type="submit" >Send One</Button>
                 </div>
             </form>
             <div className={commonClasses.additionalActions}>
-                <button className={commonClasses.btn} onClick={props.changeState.bind(this, 0)}>Wait! I found my keys!</button>
+                <button className={commonClasses.btn} onClick={props.changeState.bind(this, 0)} disabled={!props.isOpen}>Wait! I found my keys!</button>
             </div>
         </div> :
             <div className={classes.waiting}>
                 <LoadingSpinner />
                 <h2>{sendAgain ? "Apologies. We have sent another one." : "Check your inbox. We have sent the locksmith."}</h2>
                 <div className={classes.standbyActions}>
-                    <Button disabled={standby} onClick={resendHandler}>{standby ? "Patience" : "No one came"}</Button>
-                    <Button onClick={props.foundPassword}>I have a new key</Button>
+                    <Button disabled={standby || !props.isOpen} onClick={resendHandler}>{standby ? "Patience" : "No one came"}</Button>
+                    <Button onClick={props.foundPassword} disabled={!props.isOpen}>I have a new key</Button>
                 </div>
             </div>
         }
