@@ -44,7 +44,7 @@ const Footer = () => {
             <div className={classes.content}>
                 <div className={classes.info}>
                     <div className={classes.name}>
-                        <h2>missionED</h2>
+                        <h2>MissionEd</h2>
                         <p>Affiliated with Atal Incubation Center</p>
                         <p>Goa Institute of Management</p>
                         <p>India</p>
@@ -68,7 +68,7 @@ const Footer = () => {
                     <Button onClick={() => showStateUpdater(true)}>Got a Suggestion?</Button>
                 </div>
             </div>
-            <p>© Copyright MissionED. All Rights Reserved</p>
+            <p>© Copyright MissionEd. All Rights Reserved</p>
         </footer>
     </>
 }
