@@ -16,14 +16,19 @@ export const getUsers = (updater, cache, allocator, prevState, newUser) => {
         }
         let chats = (snap.docs.map(data => { return { id: data.id, data: data.data() } }));
         let messages = ObjCpy(prevState)
+        let cleanChats = []
         for (let chat of chats) {
             let curPair = chat.data.users
             let partner = curPair[0] !== auth.currentUser.uid ? curPair[0] : curPair[1]
             let userData = cache.find(user => user.id === partner)
             if (!userData) {
                 userData = messages.find(chat => chat.partner.id === partner)
-                if (!userData)
+                if (!userData) {
                     userData = await getUserData(partner)
+                    if (!userData) {
+                        continue;
+                    }
+                }
                 else userData = userData.partner.userData
             }
             else
@@ -31,15 +36,16 @@ export const getUsers = (updater, cache, allocator, prevState, newUser) => {
             chat.partner = { userData, id: partner }
             if (!messages.find(message => message.id === chat.id))
                 messages.unshift({ id: chat.id, partner: { userData, id: partner } })
+            cleanChats.push(chat)
         }
         if (newPartner) {
-            let isExist = chats.find(chat => chat.partner.id === newPartner.id)
+            let isExist = cleanChats.find(chat => chat.partner.id === newPartner.id)
             if (!isExist)
-                chats.unshift({ id: -1, partner: { ...newPartner } })
+                cleanChats.unshift({ id: -1, partner: { ...newPartner } })
             newPartner = null
         }
         allocator(messages)
-        updater(chats)
+        updater(cleanChats)
     })
 }
 export const connectChat = (id, updater) => {
