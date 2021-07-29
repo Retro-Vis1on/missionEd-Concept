@@ -119,7 +119,7 @@ const PostForm = (props) => {
                     onChange={textAreaHandler}
                     tabIndex={1}
                     value={formData.description.value}
-                    config={{ ...config, readonly: isSending || !props.isOpen }}
+                    config={config}
                 />
             </div>
             {isSending ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> :
