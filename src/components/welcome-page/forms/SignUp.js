@@ -1,33 +1,17 @@
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
-import { useReducer, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import ObjCpy from '../../../helpers/ObjCpy'
-import emailValidator from '../../../helpers/emailValidator'
 import classes from './Form.module.css'
-import { signUpState } from './IntialStates'
+import { reducer, signUpState } from './IntialStates'
 import { createUser, loginWithGoogle, signUpWithEmail } from '../../../apis/User'
 import { useHistory } from 'react-router-dom'
 import LoadingSpinner from '../../UI/LoadingSpinner/LoadingSpinner'
 import Alert from '../../UI/Alert/Alert'
-const reducer = (state, action) => {
-    const updatedState = ObjCpy(state)
-    if (action.type === "update") {
-        updatedState[action.field].value = action.value
-        updatedState[action.field].isValid = action.field === "email" ? emailValidator(action.value) : action.value.trim().length > 0
-        if (action.field === "confirmPassword")
-            updatedState[action.field].isValid = action.value.trim().length > 0 && action.value === updatedState.password.value
-    }
-    else if (action.type === "submit") {
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = true
-    }
-    else if (action.type === "resetValid")
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = false
-    return updatedState
-}
+import ReactGa from 'react-ga'
 let timer = null
 const SignUp = (props) => {
+    useEffect(() => ReactGa.modalview(`New Sign Up`), [])
     const [signupCred, dispatcher] = useReducer(reducer, ObjCpy(signUpState))
     const [error, errorStateUpdater] = useState(null)
     const history = useHistory()

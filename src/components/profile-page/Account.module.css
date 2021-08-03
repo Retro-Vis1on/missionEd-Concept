@@ -40,6 +40,8 @@
   width: 140px;
   height: 140px;
   background-color: lightgray;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .identity h2 {
   margin: 0;

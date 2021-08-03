@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: 30% 65%;
   column-gap: 10px;
-  height: calc(100vh - 170px);
+  height: calc(100vh - 100px);
 }
 .chats {
   list-style: none;
   padding: 0;
-  max-height: calc(100vh - 141px);
+  max-height: calc(100vh - 170px);
   overflow-y: auto;
 }
 .user {
@@ -48,7 +48,10 @@
 }
 @media (max-width: 670px) {
   .chatsDiv {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 65px);
     border-right: none;
+  }
+  .chats {
+    max-height: calc(100vh - 135px);
   }
 }

@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { GetPost, LikeUpdater, savePost, updateApplication } from "../../apis/Post"
 import PostType from '../UI/PostType/PostType'
-import ObjCpy from '../../helpers/ObjCpy'
-import { getUserData } from '../../apis/User'
 import classes from './Post.module.css'
 import Dropdown from '../UI/Dropdown/Dropdown'
 import Linkify from 'react-linkify';
@@ -12,44 +9,17 @@ import { auth } from "../../firebase"
 import parser from 'html-react-parser'
 import { Link } from "react-router-dom"
 import timeDifference from "../../helpers/DateChange"
-import { CachingActions } from "../../redux/CachingSlice"
-import EditPost from './EditPost'
-import Comments from './Comments'
-import { UserActions } from "../../redux/UserSlice"
-import DeletePost from "./DeletePost"
+import EditPost from './PostActions/EditPost'
+import Comments from './Comments/Comments'
+import DeletePost from "./PostActions/DeletePost"
 import DefaultProfilePic from "../../helpers/DefaultProfilePic"
 import LoadingSpinner from "../UI/LoadingSpinner/LoadingSpinner"
-import LikeModal from "./LikeModal"
+import LikeModal from "./PostActions/LikeModal"
 import DOMPurify from "dompurify"
 import Button from "../UI/Button/Button"
+import ReactGa from 'react-ga'
+import { applicationFunction, CacheHandler, initialState, PostLike, postReducer, saveUpdater } from "./PostHelpers"
 let isFirstRun = true
-const initialState = {
-    post: null,
-    author: null,
-    isLiked: false,
-    isCached: -1,
-    isApplied: false
-}
-const postReducer = (state, action) => {
-    let updatedState = ObjCpy(state)
-    if (action.type === "freshLoad") {
-        updatedState.post = action.post
-        updatedState.author = action.author
-        updatedState.isLiked = action.isLiked
-        updatedState.isCached = action.isCached
-    }
-    else if (action.type === "update") {
-        updatedState.post = { ...(updatedState.post), ...(action.data) }
-    }
-    else if (action.type === "liked") {
-        updatedState.isLiked = !updatedState.isLiked
-        updatedState.post.liked = action.likeArr
-    }
-    else if (action.type === "applicationUpdate")
-        updatedState.isApplied = action.value
-    return updatedState
-}
-let likeDelay = null
 const Post = () => {
     const postId = useParams().id
     const [postData, postDispatcher] = useReducer(postReducer, { ...initialState })
@@ -61,56 +31,24 @@ const Post = () => {
     const dispatch = useDispatch()
     const user = (useSelector(state => state.user))
     const cache = (useSelector(state => state.cache))
-    useEffect(() => { return () => isFirstRun = true }, [])
-    const getPost = useCallback(async () => {
-        try {
-            const post = await GetPost(postId)
-            if (!post)
-                throw new Error("This post doesnt exist")
-            post.timestamp = (new Date(post.timestamp.seconds * 1000)).getTime()
-            if (!post.liked)
-                post.liked = []
-            return post
-        }
-        catch (err) {
-            throw err
-
-        }
-    }, [postId])
+    useEffect(() => {
+        ReactGa.pageview(window.location.pathname)
+        return () => isFirstRun = true
+    }, [])
     useEffect(() => {
         postDispatcher({ type: "applicationUpdate", value: user.applied.includes(postId) })
     }, [user.applied, postId])
     let checkInCache = useCallback(async () => {
         try {
-            let contentIndex = cache.posts.findIndex(post => post.id === postId)
-            let post = null
-            let isCached = -1
-            if (contentIndex === -1)
-                post = await getPost();
-            else {
-                post = cache.posts[contentIndex].post
-                isCached = contentIndex
-            }
-            let author = null
-            if (isCached !== -1)
-                author = cache.authorData[cache.posts[contentIndex].authorIndex].author
-            else {
-                let authorIndi = cache.authorData.findIndex(author => author.id === post.user)
-                if (authorIndi === -1)
-                    author = await getUserData(post.user)
-                else
-                    author = cache.authorData[authorIndi].author
-            }
-            postDispatcher({ type: "freshLoad", post, author, isLiked: post.liked.includes(auth.currentUser.uid), isCached })
+            await CacheHandler(cache, postId, auth.currentUser.uid, postDispatcher)
         }
         catch (err) {
             errorStateUpdater(err.message)
         }
-    }, [cache, postId, getPost])
+    }, [cache, postId])
     useEffect(() => {
-        if (!isFirstRun)
-            return
-        checkInCache()
+        if (isFirstRun)
+            checkInCache()
         isFirstRun = false
     }, [checkInCache])
     const dropDownHandler = (option) => {
@@ -122,15 +60,8 @@ const Post = () => {
             deleteModalState(true)
     }
     const saveHandler = async () => {
-        let saveArr = [...user.saved];
-        let postIndex = saveArr.findIndex(id => id === postId)
-        if (postIndex !== -1)
-            saveArr.splice(postIndex, 1)
-        else
-            saveArr.push(postId)
         try {
-            await savePost(saveArr)
-            dispatch(UserActions.userDataUpdater({ ...(user), saved: saveArr }))
+            saveUpdater(user, postId, auth.currentUser.uid, dispatch)
         }
         catch (err) {
             errorStateUpdater("Something went wrong!")
@@ -138,34 +69,17 @@ const Post = () => {
 
     }
     const likeHandler = async () => {
-        let likeArr = [...postData.post.liked]
-        if (!postData.isLiked)
-            likeArr.unshift(auth.currentUser.uid)
-        else
-            likeArr.splice(likeArr.indexOf(auth.currentUser.uid), 1)
         try {
-            postDispatcher({ type: "liked", likeArr })
-            clearTimeout(likeDelay)
-            likeDelay = setTimeout(async () => {
-                await LikeUpdater(postId, likeArr)
-                if (postData.isCached !== -1)
-                    dispatch(CachingActions.postUpdate({ index: postData.isCached, data: { ...postData.post, liked: likeArr } }))
-
-            }, 500)
+            await PostLike(postData, postId, auth.currentUser.uid, postDispatcher, dispatch)
         }
         catch (err) {
             errorStateUpdater(err.message)
         }
     }
     const applicationHandler = async () => {
-        const applied = ObjCpy(user.applied)
         const isApplied = postData.isApplied
         try {
-            if (isApplied)
-                applied.splice(applied.findIndex(post => post === postId), 1)
-            else applied.push(postId)
-            postDispatcher({ type: "applicationUpdate", value: !isApplied })
-            await updateApplication(applied)
+            await applicationFunction(postData, user.applied, postId, postDispatcher, auth.currentUser.uid)
         }
         catch (err) {
             postDispatcher({ type: "applicationUpdate", value: isApplied })
@@ -189,7 +103,7 @@ const Post = () => {
     else
         filters = [...filters, "Remove from Saved"]
     return <>
-        <LikeModal likes={postData.post.liked} isOpen={isOpenLike} onClose={likeModalStateUpdater.bind(this, false)} />
+        <LikeModal likes={postData.post.liked} isOpen={isOpenLike} onClose={likeModalStateUpdater.bind(this, false)} postId={postId} />
         <Link to="/" className={classes.goHome}><span>&lt;</span> Back to feed</Link>
         <DeletePost open={isDelete} onClose={deleteModalState.bind(this, false)} saveHandler={saveHandler} tag={postData.post.tag} isCached={postData.isCached} />
         <EditPost onClose={editStateUpdater.bind(this, false)} isOpen={isEdit} post={postData.post} isCached={postData.isCached} postDispatcher={postDispatcher} />
@@ -199,7 +113,7 @@ const Post = () => {
                     <Link className={classes.author} to={{
                         pathname: `/user/${postData.post.user}`,
                         state: {
-                            user: postData.author
+                            user: postData.author.isDeleted ? null : postData.author
                         }
                     }}>
                         <img src={postData.author.profile_image ? postData.author.profile_image : DefaultProfilePic(postData.author.username)} alt={postData.author.username} />

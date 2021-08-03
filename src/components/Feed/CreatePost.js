@@ -5,8 +5,8 @@ import { CachingActions } from "../../redux/CachingSlice"
 import PostForm from "../UI/PostForm/PostForm"
 import Alert from '../UI/Alert/Alert'
 import { auth } from "../../firebase"
-import { UpdateCoins } from "../../apis/API"
 import { UpdateNotificationForCoins } from "../../apis/NotificationApi"
+import ReactGa from 'react-ga'
 const CreatePost = (props) => {
     const [error, errorStateUpdater] = useState(null)
     const dispatch = useDispatch()
@@ -19,8 +19,15 @@ const CreatePost = (props) => {
             data.user = auth.currentUser.uid
             const id = await createNewPost(data)
             data.timestamp = (data.timestamp).getTime()
-            UpdateCoins(auth.currentUser.uid, 10);
-            UpdateNotificationForCoins(auth.currentUser.uid, 10, 'creating post !!');
+            UpdateNotificationForCoins("creating post", user.coins)
+            ReactGa.event({
+                category: 'Post',
+                action: 'Created Post',
+                value: {
+                    uid: auth.currentUser.uid,
+                    postId: id
+                }
+            })
             dispatch(CachingActions.newPost({ data, id, user }))
             dispatch(CachingActions.netPostsUpdater({ type: "newPost", tag: data.tag }))
         }

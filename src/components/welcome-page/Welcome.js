@@ -10,8 +10,8 @@ import CompleteSignUp from './forms/CompleteSignUp';
 import CustomModal from '../UI/Modal/Modal';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import ReactGa from 'react-ga'
 let form;
-
 const Welcome = () => {
   const [digits, digitsUpdater] = useState(null);
   const [openModal, modalStateUpdater] = useState(-1)
@@ -26,6 +26,7 @@ const Welcome = () => {
     form = <CompleteSignUp isOpen={openModal !== -1} />
   useEffect(() => {
     GetCount();
+    ReactGa.pageview(window.location.pathname)
   }, [])
   const dynamicText = <Typewriter
 

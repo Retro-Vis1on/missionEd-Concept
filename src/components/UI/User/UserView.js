@@ -1,17 +1,33 @@
 import Button from "../Button/Button"
 import classes from './UserView.module.css'
 import PostItem from './PostItem'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UsersList from "../UserModal/UsersList"
 import useWindowDimensions from "../../../hooks/useWindowDimensions"
 import DefaultProfilePic from "../../../helpers/DefaultProfilePic"
 import { useLocation } from "react-use"
 import AboutMe from "./AboutMe"
+import ReactGa from 'react-ga'
+import { useParams } from "react-router-dom"
 let list = []
 const UserView = (props) => {
     const isCurUser = useLocation().pathname === "/profile"
+    const uid = useParams().uid
+    useEffect(() => {
+        if (!isCurUser)
+            ReactGa.pageview(window.location.pathname)
+    }, [isCurUser])
     const [showModal, modalStateUpdater] = useState(0)
     const [aboutMe, aboutMeState] = useState(false)
+    const networkHandler = (state) => {
+        if (!isCurUser) {
+            if (state === 1)
+                ReactGa.modalview(`${uid}:Followers`)
+            else if (state === 2)
+                ReactGa.modalview(`${uid}:Following`)
+        }
+        modalStateUpdater(state)
+    }
     const { width } = useWindowDimensions()
     if (showModal === 1)
         list = props.follower
@@ -58,8 +74,8 @@ const UserView = (props) => {
 
             <div className={classes.actions}>
                 <div className={classes.network}>
-                    <button className={classes.btn} onClick={modalStateUpdater.bind(this, 1)}><span className={classes.count}>{props.follower.length}</span><span className={classes.text}>Follower{props.follower.length === 1 ? "" : "s"}</span></button>
-                    <button className={classes.btn} onClick={modalStateUpdater.bind(this, 2)}><span className={classes.count}>{props.following.length}</span><span className={classes.text}>Following</span></button>
+                    <button className={classes.btn} onClick={networkHandler.bind(this, 1)}><span className={classes.count}>{props.follower.length}</span><span className={classes.text}>Follower{props.follower.length === 1 ? "" : "s"}</span></button>
+                    <button className={classes.btn} onClick={networkHandler.bind(this, 2)}><span className={classes.count}>{props.following.length}</span><span className={classes.text}>Following</span></button>
                 </div>
                 <div className={`${classes.interact} ${!props.bio && classes.noAbout}`}>
                     <Button onClick={props.btn1.onClick}>{props.btn1.text}</Button>
@@ -71,7 +87,13 @@ const UserView = (props) => {
         </>
     return <>
         <AboutMe {...props} isOpen={aboutMe} onClose={aboutMeState.bind(this, false)} />
-        <UsersList list={list} onClose={modalStateUpdater.bind(this, 0)} isOpen={showModal !== 0} isFollower={showModal === 1} username={props.username} />
+        <UsersList
+            list={list}
+            onClose={modalStateUpdater.bind(this, 0)}
+            isOpen={showModal !== 0}
+            isFollower={showModal === 1}
+            username={props.username}
+        />
         <div className={classes.profile} itemScope itemType="https://schema.org/Person">
             <div className={classes.backgroundImage}></div>
             <header className={classes.header}>

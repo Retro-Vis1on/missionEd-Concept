@@ -33,7 +33,7 @@ const config = {
     "askBeforePasteHTML": false,
     "askBeforePasteFromWord": false,
     placeholder: "Let's talk about this...",
-    buttons: ["source", "bold", "italic", "underline", "strikethrough", "superscript", "subscript", "ul", "ol", "image", "video", "table", "link"]
+    buttons: ["source", "bold", "italic", "underline", "strikethrough", "superscript", "subscript", "ul", "ol", "image", "video", "link"]
 };
 const reducer = (state, action) => {
     const updatedState = ObjCpy(state)

@@ -26,6 +26,8 @@
   height: 60px;
   border-radius: 50%;
   background-color: lightgray;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .user a:hover {
   color: orange;

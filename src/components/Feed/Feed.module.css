@@ -57,6 +57,7 @@
 .loadMore {
   text-align: center;
   padding: 10px 0;
+  margin-bottom: 25px;
 }
 .loadMore button {
   width: 70%;

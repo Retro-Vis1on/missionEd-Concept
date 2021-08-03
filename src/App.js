@@ -17,6 +17,8 @@ import CenteredLoader from './components/UI/LoadingSpinner/CenteredLoader';
 import User from './components/user-view/User'
 // import Store from './components/profile-page/Store'
 import Notification from './components/notification-page/Notification'
+import ReactGA from 'react-ga';
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS_ID);
 let userUnsub = null
 let isSubbed = false
 function App() {
@@ -27,12 +29,20 @@ function App() {
         userUnsub()
     }
   }, [])
+  const cachedAuthors = useSelector(state => state.cache).authorData
   const isLoggedIn = useSelector(state => state.user).isLoggedIn
   auth.onAuthStateChanged(user => {
     if (user) {
       if (!isSubbed) {
         isSubbed = true
-        userUnsub = userProfile(user.uid, dispatch)
+        userUnsub = userProfile(user.uid, dispatch, cachedAuthors)
+        ReactGA.event({
+          category: 'User',
+          action: 'Login',
+          value: {
+            uid: user.uid,
+          }
+        })
       }
     }
     else {

@@ -1,31 +1,18 @@
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
-import { useReducer, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import ObjCpy from '../../../helpers/ObjCpy'
 import classes from './Form.module.css'
-import { completeSignUpState } from './IntialStates'
+import { completeSignUpState, reducer } from './IntialStates'
 import { createUser } from '../../../apis/User'
 import LoadingSpinner from '../../UI/LoadingSpinner/LoadingSpinner'
 import { useHistory } from 'react-router-dom'
 import Alert from '../../UI/Alert/Alert'
-const reducer = (state, action) => {
-    const updatedState = ObjCpy(state)
-    if (action.type === "update") {
-        updatedState[action.field].value = action.value
-        updatedState[action.field].isValid = action.value.trim().length > 0
-        updatedState[action.field].isSubmitted = false
-    }
-    else if (action.type === "submit") {
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = true
-    }
-    else if (action.type === "resetValid")
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = false
-    return updatedState
-}
+import ReactGa from 'react-ga'
 let timer = null
+
 const CompleteSignUp = (props) => {
+    useEffect(() => ReactGa.modalview(`Complete Sign Up`), [])
     const [remCred, dispatcher] = useReducer(reducer, ObjCpy(completeSignUpState))
     const [isSending, sendingStateUpdater] = useState(false)
     const [error, errorStateUpdater] = useState(null)
@@ -46,7 +33,8 @@ const CompleteSignUp = (props) => {
                 }
             const data = { username: remCred.username.value, name: remCred.name.value }
             await createUser(data)
-            history.replaceState('/')
+            if (history.location.pathname === "/welcome")
+                history.replace('/')
         }
         catch (err) {
             sendingStateUpdater(false)

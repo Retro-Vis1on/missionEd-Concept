@@ -1,7 +1,6 @@
 .footer {
   background-color: rgb(49, 49, 49);
   padding: 30px 80px;
-  margin-top: 35px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;

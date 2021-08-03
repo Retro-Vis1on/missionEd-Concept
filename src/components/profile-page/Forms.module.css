@@ -32,7 +32,6 @@
   .modal {
     padding: 20px;
     width: calc(98% - 40px);
-    height: calc(98% - 170px);
     display: flex;
     align-items: center;
     flex-direction: column;

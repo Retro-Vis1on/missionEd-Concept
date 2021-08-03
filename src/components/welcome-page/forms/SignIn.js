@@ -1,32 +1,17 @@
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
 import classes from './Form.module.css'
-import { useReducer, useState } from 'react'
-import { signInState } from './IntialStates'
+import { useEffect, useReducer, useState } from 'react'
+import { reducer, signInState } from './IntialStates'
 import ObjCpy from '../../../helpers/ObjCpy'
-import emailValidator from '../../../helpers/emailValidator'
 import LoadingSpinner from '../../UI/LoadingSpinner/LoadingSpinner'
 import { useHistory } from 'react-router-dom'
 import { Login, loginWithGoogle } from '../../../apis/User'
 import Alert from '../../UI/Alert/Alert'
-const reducer = (state, action) => {
-    const updatedState = ObjCpy(state)
-    if (action.type === "update") {
-        updatedState[action.field].value = action.value
-        updatedState[action.field].isValid = action.field === "email" ? emailValidator(action.value) : action.value.trim().length > 0
-        updatedState[action.field].isSubmitted = false
-    }
-    else if (action.type === "submit") {
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = true
-    }
-    else if (action.type === "resetValid")
-        for (let field in updatedState)
-            updatedState[field].isSubmitted = false
-    return updatedState
-}
+import ReactGa from 'react-ga'
 let timer = null
 const SignIn = (props) => {
+    useEffect(() => ReactGa.modalview(`Sign In`), [])
     const [signinCred, dispatcher] = useReducer(reducer, ObjCpy(signInState))
     const [isSending, sendingStateUpdater] = useState(false)
     const [error, errorStateUpdater] = useState(null)

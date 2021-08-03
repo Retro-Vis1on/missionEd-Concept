@@ -1,5 +1,7 @@
-import firebase from 'firebase'
-
+import firebase from 'firebase/app'
+import 'firebase/firebase-auth'
+import 'firebase/firebase-firestore'
+import 'firebase/firebase-storage'
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -11,11 +13,10 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics
 const db = firebase.firestore();
-const userdb = firebase.firestore().collection('users');
+const userdb = db.collection('users');
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage();
-export { auth, userdb, db, storage, provider }
+export { auth, userdb, db, storage, provider, firebase }
 export default app;

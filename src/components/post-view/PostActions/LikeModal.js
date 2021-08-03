@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getLikeUsers } from "../../apis/Post"
-import UsersList from "../UI/UserModal/UsersList"
-
+import { getLikeUsers } from "../../../apis/Post"
+import UsersList from "../../UI/UserModal/UsersList"
+import ReactGA from 'react-ga'
 const LikeModal = (props) => {
     const [likers, likersStateUpdater] = useState(null)
     const [isLoading, loadingStateUpdater] = useState(true)
@@ -14,9 +14,11 @@ const LikeModal = (props) => {
         loadingStateUpdater(false)
     }, [props.likes, cacheUsers, dispatch])
     useEffect(() => {
-        if (!likers && props.isOpen)
+        if (!likers && props.isOpen) {
             getLikers()
-    }, [props.isOpen, getLikers, likers])
+            ReactGA.modalview(`${props.postId}:Like`)
+        }
+    }, [props.isOpen, getLikers, likers, props.postId])
     return <UsersList list={likers ? likers : []} isLoading={isLoading} isOpen={props.isOpen} onClose={props.onClose} isLikes={true} />
 }
 export default LikeModal

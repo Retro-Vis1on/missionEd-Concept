@@ -1,6 +1,5 @@
 import { CachingActions } from "../redux/CachingSlice"
-import { db } from "../firebase"
-import firebase from "firebase"
+import { db, firebase } from "../firebase"
 import { getUserData } from "./User"
 const pageContents = 10
 export const getFeed = async (tag, changeFilter, dispatch, cache) => {
@@ -25,9 +24,9 @@ export const getFeed = async (tag, changeFilter, dispatch, cache) => {
 
             for (let i = 0; i < newData.length; i++) {
                 const authorUid = newData[i].post.user
-                let authIndi = cache.authorData.map(function (author) { return author.id; }).indexOf(authorUid)
+                let authIndi = cache.authorData.findIndex(author => author.id === authorUid)
                 if (authIndi === -1) {
-                    authIndi = authors.map(function (author) { return author.id; }).indexOf(authorUid)
+                    authIndi = authors.findIndex(author => author.id === authorUid)
                     if (authIndi === -1) {
                         const author = await getUserData(authorUid)
                         authors.push({ author, id: authorUid })

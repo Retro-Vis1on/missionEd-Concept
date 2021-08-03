@@ -2,7 +2,7 @@
   list-style: none;
   padding: 0;
 }
-.content h2 {
+.content h3 {
   font-weight: 500;
   margin-bottom: 5px;
 }
@@ -16,6 +16,9 @@
   height: 50px;
   border-radius: 50%;
   background-color: lightgray;
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .empty {
   padding: 18px 20px;
@@ -39,14 +42,14 @@
   color: darkgray;
 }
 .message a:hover {
-  color: orange;
+  color: orange !important;
 }
 .message {
   display: flex;
   align-items: center;
   column-gap: 5px;
 }
-.new h2,
+.new h3,
 .new a {
   color: black !important;
 }

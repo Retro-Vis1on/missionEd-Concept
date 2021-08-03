@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import ObjCpy from "../helpers/ObjCpy";
 const InitialNotificationsState = {
     notifications: [],
-    unseen: []
+    unseen: [],
+    isLoading: true
 }
 const notificationsSlice = createSlice({
     name: 'notifications',
@@ -14,9 +15,12 @@ const notificationsSlice = createSlice({
             state.notifications = notifications
             let unseen = notifications.filter(notification => notification.data.seen === false)
             state.unseen = unseen
+            state.isLoading = false
         },
         userLogout(state, action) {
             state.notifications = []
+            state.unseen = []
+            state.isLoading = false
         },
     }
 })

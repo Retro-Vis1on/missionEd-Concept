@@ -1,7 +1,6 @@
-import { auth, db, userdb } from "../firebase"
+import { auth, db, userdb, firebase } from "../firebase"
 import { getUserData } from "./User"
 import ObjCpy from '../helpers/ObjCpy'
-import firebase from "firebase"
 import { CachingActions } from "../redux/CachingSlice"
 export const GetPost = async (id) => {
     try {
@@ -191,6 +190,8 @@ export const getLikeUsers = async (likers, dispatcher, cache, updater) => {
             let user = cache.find(user => user.id === id)
             if (!user) {
                 user = await getUserData(id)
+                if (!user)
+                    user = { username: "Deleted", isDeleted: true }
                 freshData.push({ author: user, id })
             }
             else user = user.author

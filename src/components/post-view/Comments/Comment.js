@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom"
-import { CommentLikeUpdater } from "../../apis/Post";
-import { auth } from "../../firebase";
-import timeDifference from "../../helpers/DateChange";
-import DefaultProfilePic from "../../helpers/DefaultProfilePic";
-import Alert from "../UI/Alert/Alert";
+import { CommentLikeUpdater } from "../../../apis/Post";
+import { auth } from "../../../firebase";
+import timeDifference from "../../../helpers/DateChange";
+import DefaultProfilePic from "../../../helpers/DefaultProfilePic";
+import Alert from "../../UI/Alert/Alert";
 import classes from './Comment.module.css'
-import LikeModal from "./LikeModal";
-import Replies from './Replies'
+import LikeModal from "../PostActions/LikeModal";
+import Replies from './Replies/Replies'
 const Comment = (props) => {
     const [openReplies, replyStateUpdater] = useState(false)
     const [error, errorStateUpdater] = useState(null)
@@ -34,11 +34,18 @@ const Comment = (props) => {
     return <>
         <LikeModal likes={props.comment.data.liked} isOpen={isOpenLike} onClose={likeModalStateUpdater.bind(this, false)} />
         <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
-        <div className={classes.comment}>
+        <li className={classes.comment}>
             <div className={classes.userInfo}>
                 <img src={author.profile_image ? author.profile_image : DefaultProfilePic(author.username)} alt={author.username} />
                 <div>
-                    <Link to={authorLink}>
+                    <Link to={
+                        {
+                            pathname: authorLink,
+                            state: {
+                                user: author.isDeleted ? null : author
+                            }
+                        }
+                    }>
                         <p>{author.username}</p>
                     </Link>
                     <time>{time}</time>
@@ -53,7 +60,7 @@ const Comment = (props) => {
                 </div>
             </div>
             <Replies commentID={props} isOpen={openReplies} />
-        </div>
+        </li>
     </>
 }
 export default Comment

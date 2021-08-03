@@ -2,8 +2,7 @@
   display: flex;
 }
 .comment {
-  padding: 10px 10px 20px 15px;
-  margin-bottom: 10px;
+  padding: 20px 15px;
   box-shadow: 0px 2px 3px lightgray;
   border-radius: 7px;
 }
@@ -35,9 +34,7 @@
   margin: 0;
   margin-left: 10px;
 }
-.commentActions {
-  padding-bottom: 10px;
-}
+
 .commentActions button {
   border: none;
   background-color: transparent;

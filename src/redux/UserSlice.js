@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ObjCpy from "../helpers/ObjCpy";
 const InitialUserState = {
+    isLoading: true,
     bio: null,
     coins: 0,
     education: null,
@@ -29,12 +30,14 @@ const userSlice = createSlice({
                 if (action.payload[field])
                     state[field] = action.payload[field]
             }
+            state.isLoading = false
         },
         userLogout(state, action) {
             const freshState = ObjCpy(InitialUserState)
             for (let field in state) {
                 state[field] = freshState[field]
             }
+            state.isLoading = true
             state.isLoggedIn = false
         },
         userDataUpdater(state, action) {

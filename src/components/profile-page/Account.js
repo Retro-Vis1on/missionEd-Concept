@@ -8,12 +8,16 @@ import LoadingSpinner from "../UI/LoadingSpinner/LoadingSpinner";
 import classes from './Account.module.css'
 import UpdateInfo from "./UpdateInfo";
 import UpdatePasssword from './UpdatePassword'
+import ReactGa from 'react-ga'
 let file = null
 const Account = () => {
     const user = useSelector(state => state.user)
     const [profilePic, profilePicUpdater] = useState(null)
     const [isLoading, loadingStateUpdater] = useState(0)
     const [modalState, modalStateUpdater] = useState(0)
+    useEffect(() => {
+        ReactGa.pageview(window.location.pathname)
+    }, [])
     useEffect(() => {
         profilePicUpdater(user.profile_image)
         return () => file = null

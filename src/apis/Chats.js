@@ -1,7 +1,6 @@
-import { auth, db } from "../firebase";
+import { auth, db, firebase } from "../firebase";
 import ObjCpy from "../helpers/ObjCpy";
 import { getUserData } from "./User";
-import firebase from "firebase";
 export const getUsers = (updater, cache, allocator, prevState, newUser) => {
     let newPartner = ObjCpy(newUser)
     db.collection('chats').where('users', 'array-contains-any', [auth.currentUser.uid]).onSnapshot(async snap => {
@@ -26,7 +25,7 @@ export const getUsers = (updater, cache, allocator, prevState, newUser) => {
                 if (!userData) {
                     userData = await getUserData(partner)
                     if (!userData) {
-                        continue;
+                        userData = { username: "Deleted", isDeleted: true }
                     }
                 }
                 else userData = userData.partner.userData

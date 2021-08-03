@@ -3,8 +3,8 @@ import ObjCpy from "../helpers/ObjCpy"
 import { NotificationsActions } from "../redux/NotificationSlice"
 import { UserActions } from "../redux/UserSlice"
 import { UpdateNotificationForCoins } from "./NotificationApi"
-
-export const userProfile = (uid, dispatch) => {
+import ReactGa from 'react-ga'
+export const userProfile = (uid, dispatch, cache) => {
     try {
         dispatch(UserActions.onLoad())
         let unsubscribeUser = db.collection('users').doc(uid).onSnapshot({ includeMetadataChanges: true }, async (snap) => {
@@ -18,15 +18,23 @@ export const userProfile = (uid, dispatch) => {
                 let users = []
                 for (let notification of snap.docs) {
                     let curNot = ObjCpy(notification.data())
-                    curNot.timestamp = (new Date(curNot.timestamp.seconds * 1000)).getTime()
+                    if (curNot.timestamp)
+                        curNot.timestamp = (new Date(curNot.timestamp.seconds * 1000)).getTime()
                     if (curNot.follower) {
                         const uid = curNot.follower
-                        let user = users.find(cur => cur.uid === uid)
+
+                        let user = cache.find(cur => cur.id === uid)
                         if (!user) {
-                            user = await getUserData(uid)
-                            users.push({ user, uid })
+                            users.find(cur => cur.uid === uid)
+                            if (!user) {
+                                user = await getUserData(uid)
+                                users.push({ user, uid })
+                            }
+                            else user = user.user
                         }
-                        else user = user.user
+                        else {
+                            user = user.author
+                        }
                         curNot.follower = ObjCpy({ user, uid })
                     }
                     notifications.push({ data: curNot, id: notification.id })
@@ -47,7 +55,7 @@ export const userProfile = (uid, dispatch) => {
 
 export const updateProfile = async (data) => {
     try {
-        await db.collection('users').doc(auth.currentUser.uid).update(...data)
+        await db.collection('users').doc(auth.currentUser.uid).update({ ...data })
     }
     catch (err) {
         throw err
@@ -188,7 +196,14 @@ export const createUser = async (data) => {
         await auth.currentUser.updateProfile({
             displayName: data.username
         })
-        UpdateNotificationForCoins(data.user.uid, 5, 'SignUp !!');
+        ReactGa.event({
+            category: 'User',
+            action: 'New User',
+            value: {
+                uid: auth.currentUser.uid,
+            }
+        })
+        UpdateNotificationForCoins('sign up');
     }
     catch (err) {
         throw err

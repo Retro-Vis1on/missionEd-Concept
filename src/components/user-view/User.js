@@ -4,7 +4,7 @@ import { followingUpdater, getFollowers, getUserData, getUserPosts } from "../..
 import { auth } from "../../firebase"
 import ObjCpy from "../../helpers/ObjCpy"
 import LoadingSpinner from "../UI/LoadingSpinner/LoadingSpinner"
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory, useParams } from 'react-router-dom'
 import UserView from "../UI/User/UserView"
 const initialState = {
     bio: null,
@@ -32,10 +32,8 @@ const reducer = (state, action) => {
     return updatedState
 }
 const User = (props) => {
-    const uid = props.match.params.uid
+    const uid = useParams().uid
     const history = useHistory()
-    if (uid === auth.currentUser.uid)
-        history.replace('/profile')
     const [profile, profileDispatcher] = useReducer(reducer, ObjCpy(initialState))
     const [isLoading, loadingStateUpdater] = useState(false)
     const [error, errorUpdater] = useState(null)
@@ -95,7 +93,7 @@ const User = (props) => {
                     if (!user) {
                         user = await getUserData(following)
                         if (!user)
-                            continue
+                            continue;
                     }
                     else user = user.author
                     followingList.push({ data: user, id: following })
@@ -126,8 +124,11 @@ const User = (props) => {
         }
     }, [uid, props.location.state, cacheAuthors])
     useEffect(() => {
-        getProfile()
-    }, [getProfile])
+        if (uid !== auth.currentUser.uid)
+            getProfile()
+    }, [getProfile, uid])
+    if (uid === auth.currentUser.uid)
+        return <Redirect to="/profile" />
     if (error)
         return <p style={{ color: "darkgray", textAlign: "center", fontWeight: "600", fontSize: "1.7rem" }}>{error}</p>
     if (!profile.username || isLoading)

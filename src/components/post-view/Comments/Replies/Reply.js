@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link, useParams } from "react-router-dom"
-import { auth } from '../../firebase'
-import { ReplyLikeUpdater } from '../../apis/Post'
-import timeDifference from "../../helpers/DateChange";
-import classes from './Comment.module.css'
-import Alert from '../UI/Alert/Alert';
-import LikeModal from './LikeModal';
-import DefaultProfilePic from '../../helpers/DefaultProfilePic';
+import { auth } from '../../../../firebase'
+import { ReplyLikeUpdater } from '../../../../apis/Post'
+import timeDifference from "../../../../helpers/DateChange";
+import classes from '../Comment.module.css'
+import Alert from '../../../UI/Alert/Alert';
+import LikeModal from '../../PostActions/LikeModal';
+import DefaultProfilePic from '../../../../helpers/DefaultProfilePic';
 
 const Reply = (props) => {
     const [error, errorStateUpdater] = useState(null)
@@ -38,7 +38,14 @@ const Reply = (props) => {
             <div className={classes.userInfo}>
                 <img src={author.profile_image ? author.profile_image : DefaultProfilePic(author.username)} alt={author.username} />
                 <div>
-                    <Link to={authorLink}>
+                    <Link to={
+                        {
+                            pathname: authorLink,
+                            state: {
+                                user: author.isDeleted ? null : author
+                            }
+                        }
+                    }>
                         <p>{author.username}</p>
                     </Link>
                     <time>{time}</time>

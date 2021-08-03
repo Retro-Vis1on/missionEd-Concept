@@ -75,7 +75,13 @@ const Chat = (props) => {
         {props.backToMenu && <button onClick={props.backToMenu} className={classes.backToMenu}><span>&lt;</span> Back to chats</button>}
         <div className={classes.messageWindow}>
             <div className={classes.partner}>
-                <Link to={`/user/${props.partner.id}`}>
+                <Link to={{
+                    pathname: `/user/${props.partner.id}`,
+                    state: {
+                        user: props.partner.userData.isDeleted ? null : props.partner.userData
+                    }
+                }}
+                >
                     <img src={props.partner.userData.profile_image ? props.partner.userData.profile_image : DefaultProfilePic(props.partner.userData.username)} alt={props.partner.userData.username} />
                     <h2>{props.partner.userData.username}</h2>
                 </Link>
@@ -84,10 +90,10 @@ const Chat = (props) => {
             <ul className={classes.messages}>
                 {props.messages && props.messages.map((message, index) => <MessageBubble key={message.id} message={message.data.message} isUser={message.data.sender === auth.currentUser.uid} index={index} />)}
             </ul>
-            <form className={classes.form} onSubmit={sendReply}>
+            {props.partner.userData.isDeleted ? <p className={classes.deleted}>You cannot reply to this conversation</p> : <form className={classes.form} onSubmit={sendReply}>
                 <input type="text" placeholder="Enter a message" className={`${message.isSubmitted && !message.isValid ? classes.invalid : ''}`} message={message.value ? message.value : ""} onChange={inputChangeHandler} disabled={isSending} />
                 <button disabled={isSending}><i className="fas fa-paper-plane"></i></button>
-            </form>
+            </form>}
         </div></>
 }
 export default Chat

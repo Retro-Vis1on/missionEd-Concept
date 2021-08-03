@@ -28,12 +28,16 @@ const User = (props) => {
         }
     }
     return <li className={classes.user}>
-        <Link to={{
-            pathname: `/user/${props.id}`,
-            state: {
-                user: props.user
+        <Link
+            to={
+                {
+                    pathname: `/user/${props.id}`,
+                    state: {
+                        user: props.user.isDeleted ? null : props.user
+                    }
+                }
             }
-        }} onClick={props.onClose}>
+            onClick={props.onClose}>
             <img src={props.user.profile_image ? props.user.profile_image : DefaultProfilePic(props.user.username)} alt={props.user.username} />
             <p>{props.user.username}</p>
         </Link>
