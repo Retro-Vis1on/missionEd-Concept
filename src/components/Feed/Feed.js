@@ -9,6 +9,7 @@ import Dropdown from '../UI/Dropdown/Dropdown';
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 import Button from '../UI/Button/Button';
 import CreatePost from './CreatePost';
+import Banner from '../Banner/Banner';
 let firstRun = true
 let isSwitch = false
 export default function Feed() {
@@ -53,6 +54,7 @@ export default function Feed() {
     tagUpdater(newTag)
     await getPageData(true, newTag)
   }
+
   if (firstRun)
     return null
   return (
@@ -67,6 +69,7 @@ export default function Feed() {
           </div>
         </button>
       </div>
+      <Banner />
       {isLoading && isSwitch ? <div style={{ textAlign: "center", padding: "10px 0" }}><LoadingSpinner /></div> : <>
         {
           cache.posts.length ?
