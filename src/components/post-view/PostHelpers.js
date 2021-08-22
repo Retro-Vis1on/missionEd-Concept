@@ -11,7 +11,7 @@ export const CacheHandler = async (cache, postId, uid, dispatcher) => {
     let post = null
     let isCached = -1
     if (contentIndex === -1)
-        post = await PostFetch();
+        post = await PostFetch(postId);
     else {
         post = cache.posts[contentIndex].post
         isCached = contentIndex

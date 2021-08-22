@@ -32,6 +32,7 @@ const config = {
     "showXPathInStatusbar": false,
     "askBeforePasteHTML": false,
     "askBeforePasteFromWord": false,
+    "maxHeight": 300,
     placeholder: "Let's talk about this...",
     buttons: ["source", "bold", "italic", "underline", "strikethrough", "superscript", "subscript", "ul", "ol", "image", "video", "link"]
 };
@@ -93,8 +94,11 @@ const PostForm = (props) => {
             props.onClose()
         }
         catch (err) {
-            sendingStateUpdater(false)
+
             console.log(err)
+        }
+        finally {
+            sendingStateUpdater(false)
         }
 
     }
