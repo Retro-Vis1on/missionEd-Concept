@@ -1,12 +1,7 @@
 import Welcome from './components/welcome-page/Welcome'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import Home from './components/home-page/Home'
+import { Suspense, lazy } from 'react';
 import Layout from './components/layout/Layout';
-import Network from './components/network/Network'
-import Profile from './components/profile-page/Profile'
-import Account from './components/profile-page/Account'
-import Messages from './components/chat-page/Messages'
-import Post from './components/post-view/Post'
 import ScrollToTop from './hooks/useScrollToTop'
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,10 +9,17 @@ import { userProfile } from './apis/User';
 import { UserActions } from './redux/UserSlice';
 import { useEffect } from 'react';
 import CenteredLoader from './components/UI/LoadingSpinner/CenteredLoader';
-import User from './components/user-view/User'
 // import Store from './components/profile-page/Store'
-import Notification from './components/notification-page/Notification'
 import ReactGA from 'react-ga';
+import LoadingSpinner from './components/UI/LoadingSpinner/LoadingSpinner';
+const Home = lazy(() => import('./components/home-page/Home'))
+const User = lazy(() => import('./components/user-view/User'))
+const Network = lazy(() => import('./components/network/Network'))
+const Profile = lazy(() => import('./components/profile-page/Profile'))
+const Account = lazy(() => import('./components/profile-page/Account'))
+const Messages = lazy(() => import('./components/chat-page/Messages'))
+const Post = lazy(() => import('./components/post-view/Post'))
+const Notification = lazy(() => import('./components/notification-page/Notification'))
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS_ID);
 let userUnsub = null
 let isSubbed = false
@@ -60,16 +62,18 @@ function App() {
   return (<ScrollToTop>
     <Switch>
       <Layout>
-        <Route path='/welcome' component={Welcome} exact />
-        {isLoggedIn === false ? <Redirect to="/welcome" /> : null}
-        <Route path='/' component={Home} exact />
-        <Route path='/network' component={Network} exact />
-        <Route path='/user/:uid' render={(props) => <User {...props} />} />
-        <Route path='/profile' component={Profile} exact />
-        <Route path='/profile/settings' component={Account} exact />
-        <Route path='/messages' render={(props) => <Messages {...props} />} exact />
-        <Route path='/post/:id' component={Post} />
-        <Route path='/notifications' component={Notification} />
+        <Suspense fallback={<div style={{ textAlign: "center" }}><LoadingSpinner /></div>}>
+          <Route path='/welcome' component={Welcome} exact />
+          {isLoggedIn === false ? <Redirect to="/welcome" /> : null}
+          <Route path='/' component={Home} exact />
+          <Route path='/network' component={Network} exact />
+          <Route path='/user/:uid' render={(props) => <User {...props} />} />
+          <Route path='/profile' component={Profile} exact />
+          <Route path='/profile/settings' component={Account} exact />
+          <Route path='/messages' render={(props) => <Messages {...props} />} exact />
+          <Route path='/post/:id' component={Post} />
+          <Route path='/notifications' component={Notification} />
+        </Suspense>
       </Layout>
     </Switch>
   </ScrollToTop>
