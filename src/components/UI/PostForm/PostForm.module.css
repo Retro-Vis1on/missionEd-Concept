@@ -11,6 +11,20 @@
 .title span {
   color: orange;
 }
+.spam{
+  color: rgb(255, 75, 62);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;  
+}
+.success{
+  color: rgb(123, 253, 63);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;  
+}
 .vanillaInput {
   display: grid;
   grid-template-columns: 73% 25%;

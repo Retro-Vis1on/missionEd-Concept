@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { CommentLikeUpdater } from "../../../apis/Post";
+import { deleteComment } from "../../../apis/Post";
 import { auth } from "../../../firebase";
 import timeDifference from "../../../helpers/DateChange";
 import DefaultProfilePic from "../../../helpers/DefaultProfilePic";
@@ -11,6 +12,7 @@ import Replies from './Replies/Replies'
 const Comment = (props) => {
     const [openReplies, replyStateUpdater] = useState(false)
     const [error, errorStateUpdater] = useState(null)
+    const [isSubmit, submitStateUpdater] = useState(false)
     const [isOpenLike, likeModalStateUpdater] = useState(false)
     const author = props.author;
     const authorLink = `/user/${props.comment.data.user}`
@@ -30,6 +32,23 @@ const Comment = (props) => {
             console.log(err)
         }
     }
+    const deleteHandler = async (event) => {
+        console.log(props.commentId)
+        event.preventDefault();
+        
+        try {
+          submitStateUpdater(true)
+          await deleteComment(props.postId,props.comment.id);
+          
+        }
+        catch (err) {
+          errorStateUpdater("Sorry! Something went wrong on our end.")
+        }
+        finally {
+          submitStateUpdater(false)
+        }
+    
+      }
 
     return <>
         <LikeModal likes={props.comment.data.liked} isOpen={isOpenLike} onClose={likeModalStateUpdater.bind(this, false)} />
@@ -57,6 +76,7 @@ const Comment = (props) => {
                 <div className={classes.likes}>
                     <button className={`${classes.btn} ${props.comment.isLiked ? classes.active : ''}`} onClick={updateLike} ><i className='fas fa-thumbs-up'></i> Like</button>
                     <button className={`${classes.btn} ${openReplies ? classes.active : ''}`} onClick={() => replyStateUpdater(prevState => !prevState)}><i className='fas fa-comments'></i> View Replies</button>
+                    {auth.currentUser.uid===props.comment.data.user?<div className={classes.delete} onClick={deleteHandler}><i className='fas fa-trash'></i> Delete </div>:''}
                 </div>
             </div>
             <Replies commentID={props} isOpen={openReplies} />

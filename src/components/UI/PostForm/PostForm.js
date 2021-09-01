@@ -62,6 +62,8 @@ let timer = null
 const PostForm = (props) => {
     const [formData, dispatch] = useReducer(reducer, InitialState)
     const [isSending, sendingStateUpdater] = useState(false)
+    const [isSpam, setIsSpam] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
     const inputChangeHandler = (event) => {
         dispatch({ type: "update", field: event.target.name, value: event.target.value })
     }
@@ -76,22 +78,35 @@ const PostForm = (props) => {
         try {
             e.preventDefault();
             sendingStateUpdater(true)
-            dispatch({ type: "submit" })
-            for (let field in formData) {
-                if (!formData[field].isValid) {
-                    clearTimeout(timer)
-                    timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
-                    return sendingStateUpdater(false)
+            var titlespaces = formData.title.value.match(/\S+/g);
+            var descspaces = formData.description.value.match(/\S+/g);
+            var titleword = (titlespaces?titlespaces.length:0);
+            var descword = (descspaces?descspaces.length:0);
+            if (titleword<=1 || descword<=1) {
+                setIsSpam(true)
+            }
+            else{
+                dispatch({ type: "submit" })
+                for (let field in formData) {
+                    if (!formData[field].isValid) {
+                        clearTimeout(timer)
+                        timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
+                        return sendingStateUpdater(false)
+                    }
                 }
+                const data = {
+                    title: formData.title.value,
+                    tag: formData.tag.value,
+                    description: DOMPurify.sanitize(formData.description.value)
+    
+                }
+                await props.sendRequest(data)
+                
+                setIsSpam(false)
+                setIsSuccess(true)
+                props.onClose()
             }
-            const data = {
-                title: formData.title.value,
-                tag: formData.tag.value,
-                description: DOMPurify.sanitize(formData.description.value)
-
-            }
-            await props.sendRequest(data)
-            props.onClose()
+            
         }
         catch (err) {
 
@@ -103,12 +118,13 @@ const PostForm = (props) => {
 
     }
     return <CustomModal isOpen={props.isOpen} className={classes.modal} >
+        
         <h2 className={classes.title}>
             {props.post ? "Edit " : "Create New "}<span>Post</span>
         </h2>
         <form onSubmit={submitHandler} className={classes.form}>
             <div className={classes.vanillaInput}>
-                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen} />
+                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen}/>
                 <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true} disabled={isSending || !props.isOpen}>
                     <option value="">Choose a tag</option>
                     <option>General</option>
@@ -132,6 +148,9 @@ const PostForm = (props) => {
                     <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
                 </div>
             }
+            {isSpam?<div className={classes.spam} >Don't try to spam post 😡 , Post Valid Data !!</div>:''}
+            {isSuccess?<div className={classes.success } >successfully Posted 😊</div>:''}
+                
         </form>
 
     </CustomModal>

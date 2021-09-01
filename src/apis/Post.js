@@ -52,6 +52,14 @@ export const deletePost = async (id, tag) => {
         throw err
     }
 }
+export const deleteComment = async (id,commentid) => {
+    try {
+        await db.collection(`posts/${id}/comments`).doc(commentid).delete();
+    }
+    catch (err) {
+        throw err
+    }
+}
 export const getCommentsHandler = (id, commentsData, dispatcher, stopLoad) => {
     let unsubscribe = db.collection(`posts/${id}/comments`).orderBy('timestamp', 'desc').onSnapshot({ includeMetadataChanges: true }, async (snap) => {
 

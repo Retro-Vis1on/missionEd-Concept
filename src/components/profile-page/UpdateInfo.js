@@ -14,6 +14,11 @@ const initialState = {
         isValid: false,
         isSubmitted: false,
     },
+    username: {
+        value: "",
+        isValid: false,
+        isSubmitted: false,
+    },
     name: {
         value: "",
         isValid: false,
@@ -33,7 +38,7 @@ const initialState = {
 const reducer = (state, action) => {
     const updatedState = ObjCpy(state)
     if (action.type === "mount") {
-        const { bio, name, education, location } = action
+        const { bio,username , name, education, location } = action
         if (bio) {
             updatedState.bio.value = bio
             updatedState.bio.isValid = true
@@ -41,6 +46,10 @@ const reducer = (state, action) => {
         if (name) {
             updatedState.name.value = name
             updatedState.name.isValid = true
+        }
+        if (username) {
+            updatedState.username.value = username
+            updatedState.username.isValid = true
         }
         if (education) {
             updatedState.education.value = education
@@ -88,6 +97,7 @@ const UpdateInfo = (props) => {
 
                 }
             const data = {
+                username : info.username.value,
                 bio: info.bio.value,
                 name: info.name.value,
                 education: info.education.value,
@@ -111,6 +121,7 @@ const UpdateInfo = (props) => {
             {isSending === 2 ? <h2 className={classes.title}>Profile successfully <span>updated!</span> 😄</h2> : <>
                 <h2 className={classes.title}><span>Update</span> Profile</h2>
                 <form onSubmit={formHandler} className={classes.form}>
+                    <Input placeholder="UserName" name="username" onChange={inputChangeHandler} value={info.username.value} isValid={info.username.isSubmitted ? info.username.isValid : true} />
                     <Input placeholder="Name" name="name" onChange={inputChangeHandler} value={info.name.value} isValid={info.name.isSubmitted ? info.name.isValid : true} />
                     <Textarea placeholder="Bio" name="bio" onChange={inputChangeHandler} value={info.bio.value} isValid={info.bio.isSubmitted ? info.bio.isValid : true} />
                     <Input placeholder="Education" name="education" onChange={inputChangeHandler} value={info.education.value} isValid={info.education.isSubmitted ? info.education.isValid : true} />
