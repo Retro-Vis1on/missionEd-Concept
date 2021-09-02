@@ -33,7 +33,6 @@ const Comment = (props) => {
         }
     }
     const deleteHandler = async (event) => {
-        console.log(props.commentId)
         event.preventDefault();
         
         try {

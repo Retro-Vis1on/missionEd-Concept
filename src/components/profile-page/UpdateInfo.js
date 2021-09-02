@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react"
-import { updateProfile } from "../../apis/User"
+import { updateProfile} from "../../apis/User"
 import ObjCpy from "../../helpers/ObjCpy"
 import Alert from "../UI/Alert/Alert"
 import Button from "../UI/Button/Button"
@@ -108,12 +108,21 @@ const UpdateInfo = (props) => {
             setTimeout(() => {
                 props.onClose()
             }, 2000)
+            setTimeout(() => {
+                sendingStateUpdater(0)
+            }, 2000)
+            
         }
         catch (err) {
             sendingStateUpdater(false)
             errorStateUpdater(err.message)
+            props.onClose();
         }
+        
+        
     }
+
+    
 
     return <>
         <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
@@ -121,7 +130,7 @@ const UpdateInfo = (props) => {
             {isSending === 2 ? <h2 className={classes.title}>Profile successfully <span>updated!</span> 😄</h2> : <>
                 <h2 className={classes.title}><span>Update</span> Profile</h2>
                 <form onSubmit={formHandler} className={classes.form}>
-                    <Input placeholder="UserName" name="username" onChange={inputChangeHandler} value={info.username.value} isValid={info.username.isSubmitted ? info.username.isValid : true} />
+                    <Input placeholder="UserName" name="username" onChange={inputChangeHandler} value={info.username.value} isValid={info.username.isSubmitted ? info.username.isValid : true} id="user_name" />
                     <Input placeholder="Name" name="name" onChange={inputChangeHandler} value={info.name.value} isValid={info.name.isSubmitted ? info.name.isValid : true} />
                     <Textarea placeholder="Bio" name="bio" onChange={inputChangeHandler} value={info.bio.value} isValid={info.bio.isSubmitted ? info.bio.isValid : true} />
                     <Input placeholder="Education" name="education" onChange={inputChangeHandler} value={info.education.value} isValid={info.education.isSubmitted ? info.education.isValid : true} />

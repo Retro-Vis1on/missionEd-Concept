@@ -1,6 +1,7 @@
 import JoditEditor from "jodit-react"
 import { useEffect, useReducer, useState } from "react"
 import ObjCpy from "../../../helpers/ObjCpy"
+import Alert from "../Alert/Alert"
 import Button from "../Button/Button"
 import Input from "../Input/Input"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
@@ -41,7 +42,7 @@ const reducer = (state, action) => {
     if (action.type === "update") {
         const { field, value } = action
         updatedState[field].value = value
-        updatedState[field].isValid = value.trim().length > 0
+        updatedState[field].isValid = value.trim().length > 1
     }
     else if (action.type === "mount") {
         for (let field in updatedState) {
@@ -62,8 +63,7 @@ let timer = null
 const PostForm = (props) => {
     const [formData, dispatch] = useReducer(reducer, InitialState)
     const [isSending, sendingStateUpdater] = useState(false)
-    const [isSpam, setIsSpam] = useState(false)
-    const [isSuccess, setIsSuccess] = useState(false)
+    const [error, errorStateUpdater] = useState(null)
     const inputChangeHandler = (event) => {
         dispatch({ type: "update", field: event.target.name, value: event.target.value })
     }
@@ -78,12 +78,11 @@ const PostForm = (props) => {
         try {
             e.preventDefault();
             sendingStateUpdater(true)
-            var titlespaces = formData.title.value.match(/\S+/g);
-            var descspaces = formData.description.value.match(/\S+/g);
-            var titleword = (titlespaces?titlespaces.length:0);
-            var descword = (descspaces?descspaces.length:0);
+            var titleword = formData.title.value.split(" ").length;
+            var descword = formData.description.value.split(" ").length;
             if (titleword<=1 || descword<=1) {
-                setIsSpam(true)
+                errorStateUpdater("Don't try to spam post 😡 , Post Valid Data !!")
+                props.onClose();
             }
             else{
                 dispatch({ type: "submit" })
@@ -101,9 +100,6 @@ const PostForm = (props) => {
     
                 }
                 await props.sendRequest(data)
-                
-                setIsSpam(false)
-                setIsSuccess(true)
                 props.onClose()
             }
             
@@ -117,7 +113,9 @@ const PostForm = (props) => {
         }
 
     }
-    return <CustomModal isOpen={props.isOpen} className={classes.modal} >
+    return <>
+    <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+    <CustomModal isOpen={props.isOpen} className={classes.modal} >
         
         <h2 className={classes.title}>
             {props.post ? "Edit " : "Create New "}<span>Post</span>
@@ -148,11 +146,10 @@ const PostForm = (props) => {
                     <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
                 </div>
             }
-            {isSpam?<div className={classes.spam} >Don't try to spam post 😡 , Post Valid Data !!</div>:''}
-            {isSuccess?<div className={classes.success } >successfully Posted 😊</div>:''}
                 
         </form>
 
     </CustomModal>
+    </>
 }
 export default PostForm
