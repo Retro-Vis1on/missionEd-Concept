@@ -111,7 +111,7 @@ const PostForm = (props) => {
     return <>
     
     <CustomModal isOpen={props.isOpen} className={classes.modal} >
-        
+        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
         <h2 className={classes.title}>
             {props.post ? "Edit " : "Create New "}<span>Post</span>
         </h2>
@@ -145,7 +145,7 @@ const PostForm = (props) => {
         </form>
 
     </CustomModal>
-    <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+    
     </>
 }
 export default PostForm
