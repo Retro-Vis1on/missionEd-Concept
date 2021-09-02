@@ -9,7 +9,7 @@
   opacity: 0;
   animation: open 250ms ease-out forwards;
   transform: translate(calc(-50% + 0.5px), calc(-50% + 0.5px));
-  z-index: 101;
+  z-index: 2001;
   overflow: auto;
   max-height: calc(100vh - 70px);
 }

@@ -55,7 +55,13 @@ export const userProfile = (uid, dispatch, cache) => {
 
 export const updateProfile = async (data) => {
     try {
-        await db.collection('users').doc(auth.currentUser.uid).update({ ...data })
+        const user = await userdb.where('username', '==', data.username).get()
+        if (!user.empty){
+            throw new Error('This username already exists!')
+        }
+        else{
+            await db.collection('users').doc(auth.currentUser.uid).update({ ...data })
+        }
     }
     catch (err) {
         throw err

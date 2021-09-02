@@ -1,6 +1,7 @@
 import JoditEditor from "jodit-react"
 import { useEffect, useReducer, useState } from "react"
 import ObjCpy from "../../../helpers/ObjCpy"
+import Alert from "../Alert/Alert"
 import Button from "../Button/Button"
 import Input from "../Input/Input"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
@@ -41,7 +42,7 @@ const reducer = (state, action) => {
     if (action.type === "update") {
         const { field, value } = action
         updatedState[field].value = value
-        updatedState[field].isValid = value.trim().length > 0
+        updatedState[field].isValid = value.trim().length > 1
     }
     else if (action.type === "mount") {
         for (let field in updatedState) {
@@ -62,6 +63,7 @@ let timer = null
 const PostForm = (props) => {
     const [formData, dispatch] = useReducer(reducer, InitialState)
     const [isSending, sendingStateUpdater] = useState(false)
+    const [error, errorStateUpdater] = useState(null)
     const inputChangeHandler = (event) => {
         dispatch({ type: "update", field: event.target.name, value: event.target.value })
     }
@@ -76,22 +78,26 @@ const PostForm = (props) => {
         try {
             e.preventDefault();
             sendingStateUpdater(true)
-            dispatch({ type: "submit" })
-            for (let field in formData) {
-                if (!formData[field].isValid) {
-                    clearTimeout(timer)
-                    timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
-                    return sendingStateUpdater(false)
+            
+                dispatch({ type: "submit" })
+                for (let field in formData) {
+                    if (!formData[field].isValid) {
+                        clearTimeout(timer)
+                        timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
+                        errorStateUpdater("Don't try to spam post 😡 , Post Valid Data !!")
+                        return sendingStateUpdater(false)
+                    }
                 }
-            }
-            const data = {
-                title: formData.title.value,
-                tag: formData.tag.value,
-                description: DOMPurify.sanitize(formData.description.value)
-
-            }
-            await props.sendRequest(data)
-            props.onClose()
+                const data = {
+                    title: formData.title.value,
+                    tag: formData.tag.value,
+                    description: DOMPurify.sanitize(formData.description.value)
+    
+                }
+                await props.sendRequest(data)
+                props.onClose()
+            
+            
         }
         catch (err) {
 
@@ -102,13 +108,16 @@ const PostForm = (props) => {
         }
 
     }
-    return <CustomModal isOpen={props.isOpen} className={classes.modal} >
+    return <>
+    
+    <CustomModal isOpen={props.isOpen} className={classes.modal} >
+        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
         <h2 className={classes.title}>
             {props.post ? "Edit " : "Create New "}<span>Post</span>
         </h2>
         <form onSubmit={submitHandler} className={classes.form}>
             <div className={classes.vanillaInput}>
-                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen} />
+                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen}/>
                 <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true} disabled={isSending || !props.isOpen}>
                     <option value="">Choose a tag</option>
                     <option>General</option>
@@ -132,8 +141,11 @@ const PostForm = (props) => {
                     <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
                 </div>
             }
+                
         </form>
 
     </CustomModal>
+    
+    </>
 }
 export default PostForm
