@@ -116,7 +116,7 @@ const UpdateInfo = (props) => {
         catch (err) {
             sendingStateUpdater(false)
             errorStateUpdater(err.message)
-            props.onClose();
+            
         }
         
         
@@ -125,7 +125,7 @@ const UpdateInfo = (props) => {
     
 
     return <>
-        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+        
         <CustomModal isOpen={props.isOpen} className={classes.modal}>
             {isSending === 2 ? <h2 className={classes.title}>Profile successfully <span>updated!</span> 😄</h2> : <>
                 <h2 className={classes.title}><span>Update</span> Profile</h2>
@@ -142,6 +142,8 @@ const UpdateInfo = (props) => {
                         </div>
                     }
                 </form></>}
-        </CustomModal></>
+        </CustomModal>
+        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+        </>
 }
 export default UpdateInfo

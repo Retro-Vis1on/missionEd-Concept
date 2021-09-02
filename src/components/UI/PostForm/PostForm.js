@@ -78,18 +78,13 @@ const PostForm = (props) => {
         try {
             e.preventDefault();
             sendingStateUpdater(true)
-            var titleword = formData.title.value.split(" ").length;
-            var descword = formData.description.value.split(" ").length;
-            if (titleword<=1 || descword<=1) {
-                errorStateUpdater("Don't try to spam post 😡 , Post Valid Data !!")
-                props.onClose();
-            }
-            else{
+            
                 dispatch({ type: "submit" })
                 for (let field in formData) {
                     if (!formData[field].isValid) {
                         clearTimeout(timer)
                         timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
+                        errorStateUpdater("Don't try to spam post 😡 , Post Valid Data !!")
                         return sendingStateUpdater(false)
                     }
                 }
@@ -101,7 +96,7 @@ const PostForm = (props) => {
                 }
                 await props.sendRequest(data)
                 props.onClose()
-            }
+            
             
         }
         catch (err) {
@@ -114,7 +109,7 @@ const PostForm = (props) => {
 
     }
     return <>
-    <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+    
     <CustomModal isOpen={props.isOpen} className={classes.modal} >
         
         <h2 className={classes.title}>
@@ -150,6 +145,7 @@ const PostForm = (props) => {
         </form>
 
     </CustomModal>
+    <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
     </>
 }
 export default PostForm

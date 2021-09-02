@@ -1,4 +1,6 @@
-
+.modal{
+  z-index: 2002;
+}
 .alert h2 {
   font-weight: 400;
 }

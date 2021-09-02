@@ -58,7 +58,6 @@ export const updateProfile = async (data) => {
         const user = await userdb.where('username', '==', data.username).get()
         if (!user.empty){
             throw new Error('This username already exists!')
-            console.log("Already")
         }
         else{
             await db.collection('users').doc(auth.currentUser.uid).update({ ...data })
