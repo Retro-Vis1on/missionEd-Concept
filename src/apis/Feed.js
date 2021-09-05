@@ -49,7 +49,6 @@ export const getFeed = async (tag, changeFilter, dispatch, cache) => {
             else
                 dispatch(CachingActions.updateCache({ posts: newData, authors }))
         }
-
     }
     catch (err) {
         throw err

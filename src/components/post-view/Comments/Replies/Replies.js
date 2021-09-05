@@ -34,8 +34,8 @@ const Replies = (props) => {
   const coins = useSelector(state => state.user).coins
   const getReplies = useCallback(() => {
     loadingStateUpdater(true)
-    unsubscribe = getRepliesHandler(postId, props.commentID.comment.id, repliesData, dispatcher, loadingStateUpdater.bind(this, false))
-  }, [postId, repliesData, props.commentID.comment.id])
+    unsubscribe = getRepliesHandler(postId, props.commentId, repliesData, dispatcher, loadingStateUpdater.bind(this, false))
+  }, [postId, repliesData, props.commentId])
   useEffect(() => {
     return () => {
       firstLoad = true
@@ -60,7 +60,7 @@ const Replies = (props) => {
     }
     try {
       submitStateUpdater(true)
-      await sendReply(postId, props.commentID.comment.id, newComment);
+      await sendReply(postId, props.commentId, newComment);
       ReactGA.event({
         category: 'User',
         action: 'Commented',
@@ -85,10 +85,10 @@ const Replies = (props) => {
   return <>
     <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
     <form onSubmit={submitHandler} className={classes.replyForm}>
-      <input type="text" name="comment" ref={comment} placeholder="Add a reply" className={`${classes.input} ${!isValid ? classes.invalid : ''}`} />
+      <input type="text" name="comment" ref={comment} placeholder="Leave a reply" className={`${classes.input} ${!isValid ? classes.invalid : ''}`} />
       <button disabled={isSubmit}><i className="fas fa-paper-plane"></i></button>
     </form>
-    {isLoading || repliesData.commments === null ? <div style={{ textAlign: "center", padding: "35px 0" }}><LoadingSpinner /></div> : <ul className={classes.comments}>{repliesData.comments !== null && repliesData.comments.length > 0 ? repliesData.comments.map(commentData => <Reply commentId={props.commentID.comment.id} comment={commentData} author={repliesData.authors[commentData.authorIndex].author} key={commentData.id} />) : <p className={classes.noComments}>There are no replies.</p>}</ul>}
+    {isLoading || repliesData.commments === null ? <div style={{ textAlign: "center", padding: "35px 0" }}><LoadingSpinner /></div> : <ul className={classes.comments}>{repliesData.comments !== null && repliesData.comments.length > 0 ? repliesData.comments.map(commentData => <Reply commentId={props.commentId} comment={commentData} author={repliesData.authors[commentData.authorIndex].author} key={commentData.id} />) : <p className={classes.noComments}>There are no replies.</p>}</ul>}
   </>
 }
 export default Replies

@@ -85,10 +85,10 @@ const Comments = (props) => {
   return <>
     <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
     <form onSubmit={submitHandler} className={classes.commentForm}>
-      <input type="text" name="comment" ref={comment} placeholder="Write a comment" className={`${classes.input} ${!isValid ? classes.invalid : ''}`} disabled={isSubmit} />
+      <input type="text" name="comment" ref={comment} placeholder="Leave a comment" className={`${classes.input} ${!isValid ? classes.invalid : ''}`} disabled={isSubmit} />
       <button disabled={isSubmit}><i className="fas fa-paper-plane"></i></button>
     </form>
-    {isLoading || commentsData.commments === null ? <div style={{ textAlign: "center", padding: "35px 0" }}><LoadingSpinner /></div> : <ul className={classes.comments}>{commentsData.comments !== null && commentsData.comments.length > 0 ? commentsData.comments.map(commentData => <> <Comment comment={commentData} author={commentsData.authors[commentData.authorIndex].author} key={commentData.id} postId={postId}/> </> ) : <p className={classes.noComments}>There are no comments</p>}</ul>}
+    {isLoading || commentsData.commments === null ? <div style={{ textAlign: "center", padding: "35px 0" }}><LoadingSpinner /></div> : <ul className={classes.comments}>{commentsData.comments !== null && commentsData.comments.length > 0 ? commentsData.comments.map(commentData => <Comment comment={commentData} author={commentsData.authors[commentData.authorIndex].author} key={commentData.id} postId={postId} />) : <p className={classes.noComments}>Be the first one to comment</p>}</ul>}
   </>
 }
 export default Comments

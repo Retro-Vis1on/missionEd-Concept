@@ -52,9 +52,17 @@ export const deletePost = async (id, tag) => {
         throw err
     }
 }
-export const deleteComment = async (id,commentid) => {
+export const deleteComment = async (id, commentid) => {
     try {
         await db.collection(`posts/${id}/comments`).doc(commentid).delete();
+    }
+    catch (err) {
+        throw err
+    }
+}
+export const deleteReply = async (id, commentid, replyid) => {
+    try {
+        await db.collection(`posts/${id}/comments/${commentid}/reply`).doc(replyid).delete();
     }
     catch (err) {
         throw err

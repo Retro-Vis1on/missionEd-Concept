@@ -42,7 +42,7 @@ const reducer = (state, action) => {
     if (action.type === "update") {
         const { field, value } = action
         updatedState[field].value = value
-        updatedState[field].isValid = value.trim().length > 1
+        updatedState[field].isValid = field !== "tag" ? value.trim().split(" ").length > 1 : value.length > 0
     }
     else if (action.type === "mount") {
         for (let field in updatedState) {
@@ -78,74 +78,67 @@ const PostForm = (props) => {
         try {
             e.preventDefault();
             sendingStateUpdater(true)
-            
-                dispatch({ type: "submit" })
-                for (let field in formData) {
-                    if (!formData[field].isValid) {
-                        clearTimeout(timer)
-                        timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
-                        errorStateUpdater("Don't try to spam post 😡 , Post Valid Data !!")
-                        return sendingStateUpdater(false)
-                    }
+            dispatch({ type: "submit" })
+            for (let field in formData) {
+                if (!formData[field].isValid) {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => dispatch({ type: "resetValid" }), 3000)
+                    if (formData[field].value.trim().split(" ").length === 1 && field !== "tag")
+                        errorStateUpdater("Don't try to spam post 😡, Post Valid Data !!")
+                    return sendingStateUpdater(false)
                 }
-                const data = {
-                    title: formData.title.value,
-                    tag: formData.tag.value,
-                    description: DOMPurify.sanitize(formData.description.value)
-    
-                }
-                await props.sendRequest(data)
-                props.onClose()
-            
-            
+            }
+            const data = {
+                title: formData.title.value,
+                tag: formData.tag.value,
+                description: DOMPurify.sanitize(formData.description.value)
+
+            }
+            await props.sendRequest(data)
+            props.onClose()
         }
         catch (err) {
-
             console.log(err)
         }
         finally {
             sendingStateUpdater(false)
         }
-
     }
     return <>
-    
-    <CustomModal isOpen={props.isOpen} className={classes.modal} >
-        <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
-        <h2 className={classes.title}>
-            {props.post ? "Edit " : "Create New "}<span>Post</span>
-        </h2>
-        <form onSubmit={submitHandler} className={classes.form}>
-            <div className={classes.vanillaInput}>
-                <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen}/>
-                <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true} disabled={isSending || !props.isOpen}>
-                    <option value="">Choose a tag</option>
-                    <option>General</option>
-                    <option>Internship</option>
-                    <option>Question</option>
-                    <option>Placement</option>
-                    <option>Project</option>
-                </Select>
-            </div>
-            <div className={`${classes.textarea} ${(formData.description.isSubmitted && !formData.description.isValid) ? classes.invalid : ''}`}>
-                <JoditEditor
-                    onChange={textAreaHandler}
-                    tabIndex={1}
-                    value={formData.description.value}
-                    config={config}
-                />
-            </div>
-            {isSending ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> :
-                <div className={classes.formActions}>
-                    <Button disabled={isSending || !props.isOpen} onClick={props.onClose}>Cancel</Button>
-                    <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
+        <CustomModal isOpen={props.isOpen} className={classes.modal} >
+            <Alert error={error} onClose={errorStateUpdater.bind(this, null)} />
+            <h2 className={classes.title}>
+                {props.post ? "Edit " : "Create New "}<span>Post</span>
+            </h2>
+            <form onSubmit={submitHandler} className={classes.form}>
+                <div className={classes.vanillaInput}>
+                    <Input name="title" value={formData.title.value} onChange={inputChangeHandler} isValid={formData.title.isSubmitted ? formData.title.isValid : true} placeholder="Title" disabled={isSending || !props.isOpen} />
+                    <Select name="tag" value={formData.tag.value} onChange={inputChangeHandler} isValid={formData.tag.isSubmitted ? formData.tag.isValid : true} disabled={isSending || !props.isOpen}>
+                        <option value="">Choose a tag</option>
+                        <option>General</option>
+                        <option>Internship</option>
+                        <option>Question</option>
+                        <option>Placement</option>
+                        <option>Project</option>
+                    </Select>
                 </div>
-            }
-                
-        </form>
+                <div className={`${classes.textarea} ${(formData.description.isSubmitted && !formData.description.isValid) ? classes.invalid : ''} `}>
+                    <JoditEditor
+                        onChange={textAreaHandler}
+                        tabIndex={1}
+                        value={formData.description.value}
+                        config={config}
+                    />
+                </div>
+                {isSending ? <div style={{ textAlign: "center" }}><LoadingSpinner /></div> :
+                    <div className={classes.formActions}>
+                        <Button disabled={isSending || !props.isOpen} onClick={props.onClose}>Cancel</Button>
+                        <Button disabled={isSending || !props.isOpen} type="submit">Save</Button>
+                    </div>
+                }
 
-    </CustomModal>
-    
+            </form>
+        </CustomModal>
     </>
 }
 export default PostForm
